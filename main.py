@@ -100,9 +100,39 @@ def build_matches_keyboard(matches):
     builder.adjust(1)
     return builder.as_markup()
 
+# Словарь перевода исходов с английского на русский
+OUTCOME_TRANSLATE = {
+    "Home Win": "Победа хозяев",
+    "home win": "Победа хозяев",
+    "home_win": "Победа хозяев",
+    "Away Win": "Победа гостей",
+    "away win": "Победа гостей",
+    "away_win": "Победа гостей",
+    "Draw": "Ничья",
+    "draw": "Ничья",
+}
+
+def translate_outcome(text):
+    """Переводит исход с английского на русский."""
+    if not text:
+        return "Нет данных"
+    # Прямое совпадение
+    if text in OUTCOME_TRANSLATE:
+        return OUTCOME_TRANSLATE[text]
+    # Частичное совпадение
+    text_lower = text.lower()
+    if "home" in text_lower and "win" in text_lower:
+        return "Победа хозяев"
+    if "away" in text_lower and "win" in text_lower:
+        return "Победа гостей"
+    if "draw" in text_lower or "ничья" in text_lower:
+        return "Ничья"
+    return text
+
 def format_final_report(home_team, away_team, stats_result, scout_result, arbitrator_result):
     """Форматирует финальный отчёт для Telegram."""
-    verdict = arbitrator_result.get("recommended_outcome", "Нет данных")
+    verdict_raw = arbitrator_result.get("recommended_outcome", "Нет данных")
+    verdict = translate_outcome(verdict_raw)
     confidence = arbitrator_result.get("final_confidence_percent", 0)
     stake = arbitrator_result.get("recommended_stake_percent", 0)
     odds = arbitrator_result.get("bookmaker_odds", 0)
