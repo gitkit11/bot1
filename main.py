@@ -272,6 +272,24 @@ def conf_icon(c):
 
 # --- 6. Клавиатуры ---
 
+def build_cs2_matches_keyboard():
+    """Клавиатура для выбора матчей CS2 (Mock-данные)."""
+    builder = InlineKeyboardBuilder()
+    # В будущем здесь будет парсинг через The Odds API (esports_csgo)
+    mock_matches = [
+        {"home": "Natus Vincere", "away": "Team Vitality", "time": "20:00"},
+        {"home": "FaZe Clan", "away": "G2 Esports", "time": "22:30"},
+        {"home": "Team Spirit", "away": "MOUZ", "time": "18:00"}
+    ]
+    for i, m in enumerate(mock_matches):
+        builder.button(
+            text=f"🎮 {m['home']} vs {m['away']} [{m['time']}]",
+            callback_data=f"cs2_m_{i}"
+        )
+    builder.button(text="⬅️ Назад", callback_data="back_to_main")
+    builder.adjust(1)
+    return builder.as_markup()
+
 def build_main_keyboard():
     """Строит главную клавиатуру с секциями спорта."""
     kb = [
@@ -731,6 +749,81 @@ _{best_bet}_
 # --- 8. Хендлеры Telegram ---
 dp = Dispatcher()
 
+from cs2_math_model import calculate_map_winrate_prob, format_cs2_math_report, MOCK_TEAMS_STATS
+from cs2_agents import run_cs2_analyst_agent, build_cs2_ensemble
+
+@dp.callback_query(lambda c: c.data.startswith('cs2_m_'))
+async def handle_cs2_match_analysis(call: types.CallbackQuery):
+    match_idx = int(call.data.split('_')[2])
+    mock_matches = [
+        ("Natus Vincere", "Team Vitality"),
+        ("FaZe Clan", "G2 Esports"),
+        ("Team Spirit", "MOUZ")
+    ]
+    home_team, away_team = mock_matches[match_idx]
+    
+    await call.message.edit_text(
+        f"⏳ *Запускаю глубокий анализ CS2...*\n\n"
+        f"🎮 {home_team} vs {away_team}\n\n"
+        f"🗺 Анализ Map Pool... 🔄\n"
+        f"🧠 GPT-4o (Стратег)... 🔄\n"
+        f"🤖 Llama 3.3 (Тактик)... 🔄",
+        parse_mode="Markdown"
+    )
+    
+    # 1. Математика
+    h_stats = MOCK_TEAMS_STATS.get(home_team, {"elo": 1500})
+    a_stats = MOCK_TEAMS_STATS.get(away_team, {"elo": 1500})
+    prob_h, prob_a = calculate_map_winrate_prob(h_stats, a_stats)
+    math_report = format_cs2_math_report(home_team, away_team, prob_h, prob_a)
+    
+    # 2. AI Агенты (Mock)
+    gpt_analysis = run_cs2_analyst_agent(home_team, away_team, h_stats, {}, "gpt-4o")
+    llama_analysis = run_cs2_analyst_agent(home_team, away_team, h_stats, {}, "llama-3.3")
+    
+    # 3. Ансамбль
+    final_h, final_a = build_cs2_ensemble((prob_h, prob_a), [(0.6, 0.4), (0.55, 0.45)])
+    
+    final_report = (
+        f"🎮 *CHIMERA AI CS2 — АНАЛИЗ МАТЧА*\n"
+        f"━━━━━━━━━━━━━━━━━━━━━━━━━\n\n"
+        f"⚔️ *{home_team} vs {away_team}*\n\n"
+        f"{math_report}\n"
+        f"━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+        f"{gpt_analysis}\n\n"
+        f"{llama_analysis}\n"
+        f"━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+        f"🏆 *ИТОГОВЫЙ ВЕРДИКТ АНСАМБЛЯ:*\n"
+        f"🔥 Победа {home_team if final_h > final_a else away_team}\n"
+        f"📈 Вероятность: {int(max(final_h, final_a)*100)}%\n"
+    )
+    
+    builder = InlineKeyboardBuilder()
+    builder.button(text="⬅️ К списку матчей", callback_data="back_to_cs2")
+    
+    await call.message.edit_text(final_report, parse_mode="Markdown", reply_markup=builder.as_markup())
+
+@dp.callback_query(lambda c: c.data == "back_to_cs2")
+async def back_to_cs2(call: types.CallbackQuery):
+    await call.message.edit_text(
+        "🎮 *Киберспорт CS2 — Анализ матчей*\n\n"
+        "Выберите матч для анализа:",
+        parse_mode="Markdown",
+        reply_markup=build_cs2_matches_keyboard()
+    )
+
+@dp.callback_query(lambda c: c.data == "back_to_main")
+async def back_to_main_callback(call: types.CallbackQuery):
+    name = call.from_user.first_name or "друг"
+    await call.message.edit_text(
+        f"🔮 *CHIMERA AI v4.3* — Искусственный Интеллект для ставок\n"
+        f"━━━━━━━━━━━━━━━━━━━━━━━━━\n\n"
+        f"Привет, *{name}*! 👋\n\n"
+        f"Выбери спорт:",
+        parse_mode="Markdown",
+        reply_markup=build_main_keyboard()
+    )
+
 @dp.message(Command("start"))
 async def send_welcome(message: types.Message):
     get_matches()
@@ -774,10 +867,16 @@ async def handle_text(message: types.Message):
 
     elif text == "🎮 Киберспорт CS2":
         await message.answer(
-            "🎮 *Киберспорт CS2*\n\n"
-            "⏳ Раздел в разработке...\n\n"
-            "Скоро здесь появится анализ матчей Major, ESL и др.",
-            parse_mode="Markdown"
+            "🎮 *Киберспорт CS2 — Анализ матчей*\n\n"
+            "Выберите турнир или матч для анализа:",
+            parse_mode="Markdown",
+            reply_markup=build_cs2_matches_keyboard()
+        )
+    
+    elif text == "⬅️ Назад":
+        await message.answer(
+            "Главное меню:",
+            reply_markup=build_main_keyboard()
         )
 
     elif text == "📊 Статистика":
