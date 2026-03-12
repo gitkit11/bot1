@@ -1300,11 +1300,73 @@ async def cmd_results(message: types.Message):
 
     await message.answer(text, parse_mode="Markdown")
 
-# --- 10. Запуск бота ---
+# --- 10. Авто-перекалибровка ELO каждую неделю ---
+async def auto_elo_recalibration_task():
+    """
+    Автоматически пересчитывает ELO рейтинги по результатам сезона 2024/25.
+    Запускается каждый понедельник в 3:00 ночи.
+    """
+    import importlib
+    from datetime import datetime, timedelta
+    global _elo_ratings, _team_form
+
+    # Ждём до следующего понедельника 03:00
+    while True:
+        now = datetime.now()
+        # Следующий понедельник
+        days_until_monday = (7 - now.weekday()) % 7
+        if days_until_monday == 0 and now.hour >= 3:
+            days_until_monday = 7  # Уже был сегодня, ждём следующий
+        next_run = now.replace(hour=3, minute=0, second=0, microsecond=0) + timedelta(days=days_until_monday)
+        wait_seconds = (next_run - now).total_seconds()
+        print(f"[ELO-Авто] Следующая перекалибровка: {next_run.strftime('%d.%m.%Y %H:%M')} (через {wait_seconds/3600:.1f} ч)")
+        await asyncio.sleep(wait_seconds)
+
+        # Запускаем перекалибровку
+        try:
+            print("[ELO-Авто] Начинаю еженедельную перекалибровку ELO...")
+            import elo_calibrate as ec
+            # Загружаем все результаты
+            all_matches = []
+            for league_key, info in ec.LEAGUE_SOURCES.items():
+                matches = ec.fetch_league_results(info["url"])
+                for m in matches:
+                    ft = m.get("score", {}).get("ft", [])
+                    if len(ft) == 2:
+                        all_matches.append({
+                            "date": m.get("date", ""),
+                            "home": ec.normalize_name(m.get("team1", "")),
+                            "away": ec.normalize_name(m.get("team2", "")),
+                            "home_goals": ft[0],
+                            "away_goals": ft[1],
+                        })
+            all_matches.sort(key=lambda x: x["date"])
+
+            # Пересчитываем ELO
+            new_ratings = {}
+            for m in all_matches:
+                new_ratings = ec.update_elo_single(new_ratings, m["home"], m["away"], m["home_goals"], m["away_goals"])
+
+            # Строим форму
+            new_form = ec.build_form_tracker(all_matches)
+
+            # Сохраняем
+            ec.save_calibrated_elo(new_ratings, new_form)
+
+            # Обновляем глобальные переменные в памяти
+            _elo_ratings = new_ratings
+            _team_form = new_form
+            print(f"[ELO-Авто] ✅ Перекалибровка завершена: {len(new_ratings)} команд, {len(all_matches)} матчей")
+        except Exception as e:
+            print(f"[ELO-Авто] Ошибка перекалибровки: {e}")
+
+
+# --- 11. Запуск бота ---
 async def main():
     bot = Bot(token=TELEGRAM_TOKEN)
-    print("🚀 Chimera AI v4.2: Бот запущен! (Трекер результатов + ELO авто-обновление)")
+    print("🚀 Chimera AI v4.3: Бот запущен! (Реальный ELO + Форма + Травмы)")
     asyncio.create_task(check_results_task(bot))
+    asyncio.create_task(auto_elo_recalibration_task())
     await dp.start_polling(bot)
 
 if __name__ == '__main__':
