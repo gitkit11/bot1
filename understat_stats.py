@@ -156,6 +156,49 @@ def get_team_xg_stats(team_name: str, season: str = '2024') -> dict | None:
         return None
 
 
+def get_xg_with_fallback(team_name: str, is_home: bool = True, season: str = '2024') -> dict | None:
+    """
+    Получает xG статистику с fallback на api_football.py если Understat недоступен.
+    Возвращает словарь в формате get_team_xg_stats() или None.
+    """
+    # Сначала пробуем Understat
+    stats = get_team_xg_stats(team_name, season)
+    if stats:
+        stats['source'] = 'understat'
+        return stats
+
+    # Fallback: api_football.py (реальные голы как прокси xG)
+    try:
+        from api_football import get_team_stats
+        api_stats = get_team_stats(team_name)
+        if api_stats:
+            if is_home:
+                xg_approx = float(api_stats.get('goals_for_home_avg', 1.3))
+                xga_approx = float(api_stats.get('goals_against_home_avg', 1.2))
+            else:
+                xg_approx = float(api_stats.get('goals_for_away_avg', 1.1))
+                xga_approx = float(api_stats.get('goals_against_away_avg', 1.3))
+
+            form_str = api_stats.get('form_last5', '?????')
+            logger.info(f"[Understat-Fallback] {team_name}: использую api_football (xG≈{xg_approx:.2f})")
+            return {
+                'team': team_name,
+                'avg_xg_last5': round(xg_approx, 2),
+                'avg_xga_last5': round(xga_approx, 2),
+                'avg_xg_season': round(xg_approx, 2),
+                'avg_xga_season': round(xga_approx, 2),
+                'goals_scored_avg': round(xg_approx, 2),
+                'goals_conceded_avg': round(xga_approx, 2),
+                'form_last5': form_str,
+                'matches_played': 0,
+                'source': 'api_football_fallback',
+            }
+    except Exception as e:
+        logger.warning(f"[Understat-Fallback] api_football тоже недоступен для {team_name}: {e}")
+
+    return None  # Пуассон будет использовать дефолт 1.35/1.10
+
+
 def format_xg_stats(home_team: str, away_team: str, season: str = '2024') -> str:
     """
     Форматирует xG статистику для двух команд в текстовый блок для AI агентов.

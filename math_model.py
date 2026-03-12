@@ -204,21 +204,39 @@ def poisson_prob(lam: float, k: int) -> float:
     return (math.exp(-lam) * (lam ** k)) / math.factorial(k)
 
 
+def dc_correction(h: int, a: int, lam_h: float, lam_a: float, rho: float = -0.1) -> float:
+    """
+    Поправка Dixon-Coles для малых счётов (0:0, 1:0, 0:1, 1:1).
+    Стандартный Пуассон недооценивает вероятность этих счётов.
+    rho=-0.1 — оптимальное значение для футбола (по Dixon & Coles, 1997).
+    """
+    if h == 0 and a == 0:
+        return 1 - lam_h * lam_a * rho
+    elif h == 1 and a == 0:
+        return 1 + lam_a * rho
+    elif h == 0 and a == 1:
+        return 1 + lam_h * rho
+    elif h == 1 and a == 1:
+        return 1 - rho
+    return 1.0
+
+
 def poisson_match_probabilities(home_xg: float, away_xg: float,
                                  max_goals: int = 7) -> dict:
     """
-    Рассчитать вероятности исходов матча через распределение Пуассона.
+    Рассчитать вероятности исходов матча через распределение Пуассона + поправка Dixon-Coles.
 
     home_xg: ожидаемые голы хозяев (их xG атаки vs xGA гостей)
     away_xg: ожидаемые голы гостей
 
     Возвращает вероятности П1, Х, П2, тоталов и обе забьют.
     """
-    # Матрица вероятностей счётов
+    # Матрица вероятностей счётов с поправкой Dixon-Coles
     score_matrix = {}
     for h in range(max_goals + 1):
         for a in range(max_goals + 1):
             p = poisson_prob(home_xg, h) * poisson_prob(away_xg, a)
+            p *= dc_correction(h, a, home_xg, away_xg)  # Dixon-Coles поправка
             score_matrix[(h, a)] = p
 
     # Нормализуем (на случай обрезки)

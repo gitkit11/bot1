@@ -12,3 +12,4 @@ maestro_result.json
 
 # Игнорируем локальные конфигурации
 config.py
+.env

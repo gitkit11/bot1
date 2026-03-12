@@ -52,11 +52,12 @@ except ImportError:
     def get_team_xg_stats(t, s='2024'): return None
 from database import init_db, save_prediction, get_statistics, get_pending_predictions, update_result, get_recent_predictions
 try:
-    from injuries import get_match_injuries
+    from injuries import get_match_injuries, get_match_injuries_async
     INJURIES_AVAILABLE = True
 except ImportError:
     INJURIES_AVAILABLE = False
     def get_match_injuries(h, a): return {}, {}, ""
+    async def get_match_injuries_async(h, a): return {}, {}, ""
 
 # --- 1. Настройка логирования ---
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
@@ -920,7 +921,7 @@ async def handle_callback(call: types.CallbackQuery):
         away_injuries = {}
         injuries_block = ""
         try:
-            home_injuries, away_injuries, injuries_block = get_match_injuries(home_team, away_team)
+            home_injuries, away_injuries, injuries_block = await get_match_injuries_async(home_team, away_team)
             # Добавляем данные о травмах в контекст для AI агентов
             if injuries_block:
                 injuries_context = (

@@ -226,10 +226,25 @@ def format_injuries_block(home_team: str, away_team: str,
 
 def get_match_injuries(home_team: str, away_team: str) -> tuple:
     """
-    Получает данные о травмах для обоих команд параллельно.
+    Получает данные о травмах для обоих команд последовательно.
+    Для параллельного запуска используй get_match_injuries_async().
     Возвращает (home_injuries, away_injuries, formatted_block).
     """
     home_injuries = get_team_injuries(home_team)
     away_injuries = get_team_injuries(away_team)
+    block = format_injuries_block(home_team, away_team, home_injuries, away_injuries)
+    return home_injuries, away_injuries, block
+
+
+async def get_match_injuries_async(home_team: str, away_team: str) -> tuple:
+    """
+    Асинхронная версия: запрашивает травмы для обоих команд параллельно.
+    Сокращает время с ~20 сек до ~10 сек.
+    """
+    import asyncio
+    home_injuries, away_injuries = await asyncio.gather(
+        asyncio.to_thread(get_team_injuries, home_team),
+        asyncio.to_thread(get_team_injuries, away_team)
+    )
     block = format_injuries_block(home_team, away_team, home_injuries, away_injuries)
     return home_injuries, away_injuries, block

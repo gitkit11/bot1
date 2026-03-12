@@ -354,11 +354,12 @@ def run_handicap_market_agent(home_team, away_team, prophet_data, bookmaker_odds
 def run_mixtral_agent(home_team, away_team, prophet_data, news_summary, bookmaker_odds,
                       team_stats_text=None, poisson_data=None, elo_data=None):
     """
-    Mixtral-8x7b через Groq — тактический анализ и паттерны.
+    Gemma2-9b-it через Groq — тактический анализ и паттерны.
     Третий независимый агент для более надёжного консенсуса.
+    (mixtral-8x7b-32768 удалён из Groq, заменён на gemma2-9b-it)
     """
     if not groq_client:
-        print("[Mixtral] Groq недоступен, пропускаю Mixtral агента.")
+        print("[Gemma2] Groq недоступен, пропускаю третий агент.")  
         return {"error": "Groq недоступен"}
 
     poisson_block = ""
@@ -414,8 +415,8 @@ def run_mixtral_agent(home_team, away_team, prophet_data, news_summary, bookmake
   "key_tactical_factors": ["фактор 1", "фактор 2", "фактор 3"]
 }}
 """
-    result = call_ai(prompt, groq_client, "mixtral-8x7b-32768")
-    print(f"[Mixtral] Результат: {str(result)[:100]}...")
+    result = call_ai(prompt, groq_client, "gemma2-9b-it")
+    print(f"[Gemma2] Результат: {str(result)[:100]}...")
     return result
 
 
@@ -527,9 +528,16 @@ def build_math_ensemble(prophet_data, poisson_probs, elo_probs,
 
 def calculate_value_bets(ensemble_probs, bookmaker_odds):
     """
-    Находит ставки с положительным ожидаемым значением (EV > 5%).
-    Возвращает список рекомендаций.
+    Находит ставки с положительным ожидаемым значением.
+    Пороги (профессиональные):
+    - EV > 10% (не 5% — слишком много ложных сигналов)
+    - Коэффициент >= 1.55 (не брать очевидных фаворитов)
+    - Наша уверенность >= 52%
     """
+    MIN_EV = 0.10       # минимум 10% EV
+    MIN_ODDS = 1.55     # не брать очевидных фаворитов
+    MIN_PROB = 0.52     # наша уверенность минимум 52%
+
     recommendations = []
 
     outcome_map = {
@@ -543,7 +551,7 @@ def calculate_value_bets(ensemble_probs, bookmaker_odds):
             continue
         our_prob = ensemble_probs.get(key, 0)
         ev = our_prob * odds - 1
-        if ev > 0.05:
+        if ev > MIN_EV and odds >= MIN_ODDS and our_prob >= MIN_PROB:
             b = odds - 1
             q = 1 - our_prob
             kelly = max(0, min((our_prob * b - q) / b, 0.20))  # Макс 20% банка

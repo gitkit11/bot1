@@ -1,9 +1,15 @@
-aiogram
-tensorflow
+# Chimera AI v4.3
+aiogram>=3.0
+openai>=1.0
+numpy
 pandas
 scikit-learn
+tensorflow
+understatapi
 gnews
 transformers
 torch
 requests
+aiohttp
+python-dotenv
 kagglehub
