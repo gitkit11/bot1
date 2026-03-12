@@ -10,12 +10,17 @@ import numpy as np
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 from config import TELEGRAM_TOKEN, THE_ODDS_API_KEY
+try:
+    from config import API_FOOTBALL_KEY
+except ImportError:
+    API_FOOTBALL_KEY = None
 from oracle_ai import oracle_analyze
 from agents import (
     run_statistician_agent, run_scout_agent, run_arbitrator_agent,
     run_llama_agent, run_goals_market_agent,
     run_corners_market_agent, run_cards_market_agent, run_handicap_market_agent
 )
+from api_football import get_match_stats
 from database import init_db, save_prediction, get_statistics, get_pending_predictions, update_result, get_recent_predictions
 
 # --- 1. Настройка логирования ---
@@ -622,7 +627,15 @@ async def handle_callback(call: types.CallbackQuery):
         )
 
         bookmaker_odds = get_bookmaker_odds(match)
-        stats_result = run_statistician_agent(prophet_data)
+
+        # Получаем реальную статистику команд из API-Football
+        team_stats_text = get_match_stats(home_team, away_team)
+        if team_stats_text:
+            print(f"[API-Football] Статистика получена для {home_team} vs {away_team}")
+        else:
+            print(f"[API-Football] Статистика недоступна для {home_team} vs {away_team}")
+
+        stats_result = run_statistician_agent(prophet_data, team_stats_text)
         scout_result = run_scout_agent(home_team, away_team, news_summary)
         gpt_result = run_arbitrator_agent(stats_result, scout_result, bookmaker_odds)
 
@@ -636,7 +649,7 @@ async def handle_callback(call: types.CallbackQuery):
             parse_mode="Markdown"
         )
 
-        llama_result = run_llama_agent(home_team, away_team, prophet_data, news_summary, bookmaker_odds)
+        llama_result = run_llama_agent(home_team, away_team, prophet_data, news_summary, bookmaker_odds, team_stats_text)
 
         # Сохраняем в кэш для повторного использования при выборе рынков
         analysis_cache[match_index] = {
@@ -648,7 +661,8 @@ async def handle_callback(call: types.CallbackQuery):
             "llama_result": llama_result,
             "home_team": home_team,
             "away_team": away_team,
-            "match": match
+            "match": match,
+            "team_stats_text": team_stats_text
         }
 
         # Сохранение в базу данных

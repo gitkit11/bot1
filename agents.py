@@ -55,17 +55,22 @@ def call_ai(prompt, client_instance, model):
 
 # --- 3. Специализированные ИИ-агенты (основной анализ) ---
 
-def run_statistician_agent(prophet_data):
+def run_statistician_agent(prophet_data, team_stats_text=None):
     """Агент-Статистик: анализирует только цифры."""
+    stats_block = f"""
+    Дополнительная статистика сезона:
+    {team_stats_text}
+    """ if team_stats_text else ""
     prompt = f"""
     Ты — лучший в мире футбольный статистик. Анализируй только числовые данные.
 
-    Данные нейросети Пророк (обучена на 66,000+ матчах):
+    Данные нейросети Пророк (обучена на 10 сезонах АПЛ):
     - Вероятность победы хозяев (П1): {prophet_data[1]:.2%}
     - Вероятность ничьей (Х): {prophet_data[0]:.2%}
     - Вероятность победы гостей (П2): {prophet_data[2]:.2%}
-
-    Задача: дай статистическую оценку. Какой исход наиболее вероятен? Насколько равный матч?
+    {stats_block}
+    Задача: дай статистическую оценку с учётом ВСЕХ данных. Какой исход наиболее вероятен? Насколько равный матч?
+    Если есть данные по форме и голам — обязательно используй их в анализе.
 
     Формат ответа (только JSON):
     {{
@@ -143,25 +148,30 @@ def run_arbitrator_agent(stats_result, scout_result, bookmaker_odds):
 
 # --- 4. Llama Агент (независимое мнение) ---
 
-def run_llama_agent(home_team, away_team, prophet_data, news_summary, bookmaker_odds):
+def run_llama_agent(home_team, away_team, prophet_data, news_summary, bookmaker_odds, team_stats_text=None):
     """Агент на базе Llama 3.3 70B через Groq: даёт второе независимое мнение."""
     if not groq_client:
         print("[Llama] Агент Llama недоступен, использую GPT как запасной вариант.")
         return run_llama_via_gpt(home_team, away_team, prophet_data, news_summary, bookmaker_odds)
+
+    stats_block = f"""
+    4. Статистика сезона (API-Football):
+    {team_stats_text}
+    """ if team_stats_text else ""
 
     prompt = f"""
     Ты — независимый футбольный аналитик. Дай СВОЙ прогноз, не копируй чужие выводы.
     Матч: {home_team} (хозяева) vs {away_team} (гости)
 
     Данные:
-    1. Нейросеть (66,000+ матчей): П1={prophet_data[1]:.2%}, Х={prophet_data[0]:.2%}, П2={prophet_data[2]:.2%}
+    1. Нейросеть (10 сезонов АПЛ): П1={prophet_data[1]:.2%}, Х={prophet_data[0]:.2%}, П2={prophet_data[2]:.2%}
     2. Новостной фон: {news_summary}
     3. Коэффициенты: П1={bookmaker_odds.get('home_win', 0)}, X={bookmaker_odds.get('draw', 0)}, П2={bookmaker_odds.get('away_win', 0)}
-
+    {stats_block}
     Твои задачи:
     1. Дай НЕЗАВИСИМЫЙ прогноз на исход (П1/Х/П2) со своими вероятностями
-    2. Прогноз тотала голов: Больше 2.5 или Меньше 2.5 — с обоснованием
-    3. Прогноз "Обе забьют": Да или Нет — с обоснованием
+    2. Прогноз тотала голов: Больше 2.5 или Меньше 2.5 — с обоснованием (используй среднее голов из статистики если есть)
+    3. Прогноз "Обе забьют": Да или Нет — с обоснованием (учитывай сухие матчи из статистики если есть)
     4. Оцени уверенность в своём прогнозе от 0 до 100%
     5. Напиши краткое резюме своего анализа
 
