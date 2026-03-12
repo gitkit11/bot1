@@ -23,10 +23,13 @@ from agents import (
 )
 from math_model import (
     load_elo_ratings, save_elo_ratings, update_elo, elo_win_probabilities,
+    load_team_form, get_form_string, get_form_bonus,
     poisson_match_probabilities, calculate_expected_goals, format_math_report
 )
-# Загружаем ELO рейтинги при старте
+# Загружаем ELO рейтинги и форму при старте
 _elo_ratings = load_elo_ratings()
+_team_form = load_team_form()
+print(f"[ELO] Загружено {len(_elo_ratings)} команд | Форма: {len(_team_form)} команд")
 
 def update_elo_after_match(home_team: str, away_team: str, home_score: int, away_score: int):
     """Обновляет ELO рейтинги после матча и сохраняет на диск."""
@@ -48,6 +51,12 @@ except ImportError:
     def format_xg_stats(h, a, s='2024'): return ""
     def get_team_xg_stats(t, s='2024'): return None
 from database import init_db, save_prediction, get_statistics, get_pending_predictions, update_result, get_recent_predictions
+try:
+    from injuries import get_match_injuries
+    INJURIES_AVAILABLE = True
+except ImportError:
+    INJURIES_AVAILABLE = False
+    def get_match_injuries(h, a): return {}, {}, ""
 
 # --- 1. Настройка логирования ---
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
@@ -271,7 +280,7 @@ def build_back_to_markets_keyboard(match_index):
 
 def format_main_report(home_team, away_team, prophet_data, oracle_results, gpt_result, llama_result,
                        mixtral_result=None, poisson_probs=None, elo_probs=None, ensemble_probs=None,
-                       home_xg_stats=None, away_xg_stats=None, value_bets=None):
+                       home_xg_stats=None, away_xg_stats=None, value_bets=None, injuries_block=None):
     """Форматирует главный отчёт анализа матча с полным математическим анализом."""
 
     home_prob = prophet_data[1] * 100
@@ -383,9 +392,18 @@ def format_main_report(home_team, away_team, prophet_data, oracle_results, gpt_r
     # ELO блок
     elo_block = ""
     if elo_probs:
+        h_form = elo_probs.get('home_form', '')
+        a_form = elo_probs.get('away_form', '')
+        h_bonus = elo_probs.get('home_form_bonus', 0)
+        a_bonus = elo_probs.get('away_form_bonus', 0)
+        h_bonus_str = f" ({h_bonus:+.0f})" if h_bonus != 0 else ""
+        a_bonus_str = f" ({a_bonus:+.0f})" if a_bonus != 0 else ""
+        form_line = ""
+        if h_form and h_form != '?????':
+            form_line = f"\n Форма: {home_team}: {h_form}{h_bonus_str} | {away_team}: {a_form}{a_bonus_str}"
         elo_block = (
-            f"⚡ *ELO РЕЙТИНГ:*\n"
-            f" {home_team}: {elo_probs.get('home_elo',1500)} | {away_team}: {elo_probs.get('away_elo',1500)}\n"
+            f"⚡ *ELO РЕЙТИНГ + ФОРМА:*\n"
+            f" {home_team}: {elo_probs.get('home_elo',1500)} | {away_team}: {elo_probs.get('away_elo',1500)}{form_line}\n"
             f" ELO П1: {round(elo_probs.get('home',0)*100)}% | Х: {round(elo_probs.get('draw',0)*100)}% | П2: {round(elo_probs.get('away',0)*100)}%"
         )
 
@@ -442,6 +460,7 @@ def format_main_report(home_team, away_team, prophet_data, oracle_results, gpt_r
 🗣 *ОРАКУЛ (новостной фон):*
  {home_team}: {home_sentiment_label}
  {away_team}: {away_sentiment_label}
+{(chr(10) + injuries_block) if injuries_block else ""}
 {(chr(10) + math_section) if math_section else ""}
 ━━━━━━━━━━━━━━━━━━━━━━━━━
 🧠 *GPT-4o (Маэстро):*
@@ -756,6 +775,7 @@ async def handle_callback(call: types.CallbackQuery):
                 home_xg_stats=cached.get("home_xg_stats"),
                 away_xg_stats=cached.get("away_xg_stats"),
                 value_bets=cached.get("value_bets"),
+                injuries_block=cached.get("injuries_block"),
             )
             await call.message.edit_text(report, parse_mode="Markdown", reply_markup=build_markets_keyboard(match_index))
 
@@ -831,9 +851,10 @@ async def handle_callback(call: types.CallbackQuery):
         poisson_probs = None
         elo_probs = None
         try:
-            # ELO рейтинги
-            elo_probs = elo_win_probabilities(home_team, away_team, _elo_ratings)
-            print(f"[ELO] {home_team}={elo_probs['home_elo']} vs {away_team}={elo_probs['away_elo']}")
+            # ELO рейтинги + форма
+            elo_probs = elo_win_probabilities(home_team, away_team, _elo_ratings, _team_form)
+            print(f"[ELO] {home_team}={elo_probs['home_elo']}({elo_probs.get('home_form','?')}) vs {away_team}={elo_probs['away_elo']}({elo_probs.get('away_form','?')})")
+            print(f"[ELO] Форма-бонус: {home_team}={elo_probs.get('home_form_bonus',0):+.0f} | {away_team}={elo_probs.get('away_form_bonus',0):+.0f}")
         except Exception as _ee:
             print(f"[ELO] Ошибка: {_ee}")
 
@@ -869,6 +890,24 @@ async def handle_callback(call: types.CallbackQuery):
             print(f"[Пуассон] xG хозяев={home_exp:.2f}, гостей={away_exp:.2f} (источник: {xg_data_source})")
         except Exception as _pe:
             print(f"[Пуассон] Ошибка: {_pe}")
+
+        # Травмы и дисквалификации
+        home_injuries = {}
+        away_injuries = {}
+        injuries_block = ""
+        try:
+            home_injuries, away_injuries, injuries_block = get_match_injuries(home_team, away_team)
+            # Добавляем данные о травмах в контекст для AI агентов
+            if injuries_block:
+                injuries_context = (
+                    f"\n\n{injuries_block.replace('*', '')}"
+                )
+                if team_stats_text:
+                    team_stats_text = team_stats_text + injuries_context
+                else:
+                    team_stats_text = injuries_context
+        except Exception as _inj_e:
+            print(f"[Травмы] Ошибка: {_inj_e}")
 
         stats_result = run_statistician_agent(prophet_data, team_stats_text)
         scout_result = run_scout_agent(home_team, away_team, news_summary)
@@ -934,7 +973,10 @@ async def handle_callback(call: types.CallbackQuery):
             "home_team": home_team,
             "away_team": away_team,
             "match": match,
-            "team_stats_text": team_stats_text
+            "team_stats_text": team_stats_text,
+            "injuries_block": injuries_block,
+            "home_injuries": home_injuries,
+            "away_injuries": away_injuries,
         }
 
         # Сохранение в базу данных
@@ -984,6 +1026,7 @@ async def handle_callback(call: types.CallbackQuery):
             home_xg_stats=home_xg_stats,
             away_xg_stats=away_xg_stats,
             value_bets=value_bets,
+            injuries_block=injuries_block,
         )
 
         await call.message.edit_text(

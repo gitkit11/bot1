@@ -1,0 +1,674 @@
+{
+  "Athletic Club": [
+    "W",
+    "D",
+    "W",
+    "W",
+    "W"
+  ],
+  "Getafe": [
+    "L",
+    "L",
+    "L",
+    "L",
+    "W"
+  ],
+  "Real Betis": [
+    "W",
+    "W",
+    "D",
+    "D",
+    "L"
+  ],
+  "Girona": [
+    "D",
+    "W",
+    "L",
+    "W",
+    "L"
+  ],
+  "Manchester United": [
+    "D",
+    "L",
+    "L",
+    "L",
+    "W"
+  ],
+  "Fulham": [
+    "W",
+    "L",
+    "L",
+    "W",
+    "L"
+  ],
+  "Celta Vigo": [
+    "W",
+    "L",
+    "W",
+    "W",
+    "L"
+  ],
+  "Alaves": [
+    "W",
+    "D",
+    "L",
+    "W",
+    "W"
+  ],
+  "Las Palmas": [
+    "L",
+    "L",
+    "L",
+    "L",
+    "L"
+  ],
+  "Sevilla": [
+    "L",
+    "D",
+    "L",
+    "W",
+    "L"
+  ],
+  "Le Havre": [
+    "L",
+    "D",
+    "W",
+    "L",
+    "W"
+  ],
+  "Paris Saint-Germain": [
+    "D",
+    "L",
+    "L",
+    "W",
+    "W"
+  ],
+  "Ipswich Town": [
+    "L",
+    "D",
+    "L",
+    "L",
+    "L"
+  ],
+  "Liverpool": [
+    "W",
+    "L",
+    "D",
+    "L",
+    "D"
+  ],
+  "Arsenal": [
+    "D",
+    "L",
+    "D",
+    "W",
+    "W"
+  ],
+  "Wolverhampton Wanderers": [
+    "W",
+    "L",
+    "L",
+    "L",
+    "D"
+  ],
+  "Everton": [
+    "L",
+    "D",
+    "W",
+    "W",
+    "W"
+  ],
+  "Brighton and Hove Albion": [
+    "W",
+    "D",
+    "W",
+    "W",
+    "W"
+  ],
+  "Newcastle United": [
+    "W",
+    "D",
+    "W",
+    "L",
+    "L"
+  ],
+  "Southampton": [
+    "L",
+    "L",
+    "D",
+    "L",
+    "L"
+  ],
+  "Nottingham Forest": [
+    "L",
+    "D",
+    "D",
+    "W",
+    "L"
+  ],
+  "Bournemouth": [
+    "D",
+    "W",
+    "L",
+    "L",
+    "W"
+  ],
+  "West Ham United": [
+    "L",
+    "D",
+    "W",
+    "L",
+    "W"
+  ],
+  "Aston Villa": [
+    "L",
+    "W",
+    "W",
+    "W",
+    "L"
+  ],
+  "Osasuna": [
+    "W",
+    "L",
+    "D",
+    "W",
+    "W"
+  ],
+  "Leganes": [
+    "D",
+    "D",
+    "W",
+    "L",
+    "W"
+  ],
+  "Valencia": [
+    "D",
+    "W",
+    "W",
+    "L",
+    "L"
+  ],
+  "Barcelona": [
+    "W",
+    "W",
+    "W",
+    "W",
+    "L"
+  ],
+  "Genoa": [
+    "L",
+    "L",
+    "L",
+    "D",
+    "L"
+  ],
+  "Inter Milan": [
+    "L",
+    "L",
+    "W",
+    "W",
+    "D"
+  ],
+  "Parma": [
+    "W",
+    "D",
+    "L",
+    "L",
+    "D"
+  ],
+  "Fiorentina": [
+    "W",
+    "W",
+    "L",
+    "L",
+    "W"
+  ],
+  "Empoli": [
+    "D",
+    "L",
+    "L",
+    "W",
+    "W"
+  ],
+  "Monza": [
+    "L",
+    "L",
+    "L",
+    "W",
+    "L"
+  ],
+  "AC Milan": [
+    "L",
+    "W",
+    "W",
+    "W",
+    "L"
+  ],
+  "Torino": [
+    "W",
+    "L",
+    "D",
+    "L",
+    "L"
+  ],
+  "Brest": [
+    "L",
+    "L",
+    "W",
+    "W",
+    "L"
+  ],
+  "Marseille": [
+    "W",
+    "W",
+    "D",
+    "W",
+    "W"
+  ],
+  "Reims": [
+    "W",
+    "D",
+    "L",
+    "L",
+    "L"
+  ],
+  "Lille": [
+    "W",
+    "W",
+    "D",
+    "L",
+    "W"
+  ],
+  "Monaco": [
+    "D",
+    "D",
+    "W",
+    "W",
+    "L"
+  ],
+  "AS Saint-Étienne": [
+    "W",
+    "L",
+    "L",
+    "W",
+    "L"
+  ],
+  "Brentford": [
+    "W",
+    "W",
+    "W",
+    "L",
+    "D"
+  ],
+  "Crystal Palace": [
+    "D",
+    "D",
+    "W",
+    "W",
+    "D"
+  ],
+  "Chelsea": [
+    "W",
+    "W",
+    "L",
+    "W",
+    "W"
+  ],
+  "Manchester City": [
+    "W",
+    "W",
+    "D",
+    "W",
+    "W"
+  ],
+  "Real Sociedad": [
+    "L",
+    "D",
+    "L",
+    "L",
+    "W"
+  ],
+  "Rayo Vallecano": [
+    "L",
+    "W",
+    "W",
+    "D",
+    "W"
+  ],
+  "Mallorca": [
+    "L",
+    "L",
+    "W",
+    "L",
+    "L"
+  ],
+  "Real Madrid": [
+    "W",
+    "W",
+    "L",
+    "W",
+    "W"
+  ],
+  "Bologna": [
+    "W",
+    "D",
+    "D",
+    "L",
+    "L"
+  ],
+  "Udinese": [
+    "L",
+    "D",
+    "W",
+    "L",
+    "L"
+  ],
+  "Hellas Verona": [
+    "L",
+    "L",
+    "L",
+    "D",
+    "D"
+  ],
+  "Napoli": [
+    "W",
+    "W",
+    "W",
+    "D",
+    "D"
+  ],
+  "Cagliari": [
+    "L",
+    "W",
+    "L",
+    "L",
+    "W"
+  ],
+  "AS Roma": [
+    "W",
+    "W",
+    "W",
+    "L",
+    "W"
+  ],
+  "Lazio": [
+    "W",
+    "D",
+    "W",
+    "D",
+    "D"
+  ],
+  "Venezia": [
+    "D",
+    "L",
+    "D",
+    "W",
+    "L"
+  ],
+  "Auxerre": [
+    "L",
+    "W",
+    "L",
+    "D",
+    "L"
+  ],
+  "Nice": [
+    "W",
+    "W",
+    "W",
+    "L",
+    "W"
+  ],
+  "Montpellier": [
+    "L",
+    "D",
+    "L",
+    "L",
+    "L"
+  ],
+  "Strasbourg": [
+    "D",
+    "W",
+    "W",
+    "L",
+    "L"
+  ],
+  "Toulouse": [
+    "L",
+    "D",
+    "W",
+    "D",
+    "W"
+  ],
+  "Nantes": [
+    "D",
+    "D",
+    "L",
+    "D",
+    "W"
+  ],
+  "Angers": [
+    "L",
+    "L",
+    "W",
+    "W",
+    "L"
+  ],
+  "Racing Club de Lens": [
+    "W",
+    "L",
+    "W",
+    "D",
+    "W"
+  ],
+  "Rennes": [
+    "W",
+    "L",
+    "L",
+    "W",
+    "L"
+  ],
+  "Lyon": [
+    "L",
+    "W",
+    "L",
+    "L",
+    "W"
+  ],
+  "Leicester City": [
+    "L",
+    "W",
+    "D",
+    "W",
+    "L"
+  ],
+  "Tottenham Hotspur": [
+    "L",
+    "D",
+    "L",
+    "L",
+    "L"
+  ],
+  "Valladolid": [
+    "L",
+    "L",
+    "L",
+    "L",
+    "L"
+  ],
+  "Espanyol": [
+    "L",
+    "L",
+    "L",
+    "L",
+    "L"
+  ],
+  "Villarreal": [
+    "W",
+    "W",
+    "W",
+    "W",
+    "W"
+  ],
+  "Club Atlético de Madrid": [
+    "W",
+    "D",
+    "W",
+    "L",
+    "W"
+  ],
+  "Lecce": [
+    "L",
+    "D",
+    "L",
+    "D",
+    "W"
+  ],
+  "Atalanta": [
+    "W",
+    "D",
+    "W",
+    "W",
+    "W"
+  ],
+  "Juventus": [
+    "L",
+    "W",
+    "D",
+    "D",
+    "W"
+  ],
+  "Como": [
+    "W",
+    "W",
+    "W",
+    "W",
+    "D"
+  ],
+  "Borussia Monchengladbach": [
+    "L",
+    "L",
+    "D",
+    "L",
+    "L"
+  ],
+  "Bayer Leverkusen": [
+    "D",
+    "W",
+    "D",
+    "L",
+    "D"
+  ],
+  "RB Leipzig": [
+    "D",
+    "L",
+    "D",
+    "D",
+    "L"
+  ],
+  "Bochum": [
+    "L",
+    "D",
+    "D",
+    "L",
+    "W"
+  ],
+  "Hoffenheim": [
+    "L",
+    "L",
+    "D",
+    "D",
+    "L"
+  ],
+  "Holstein Kiel": [
+    "D",
+    "W",
+    "W",
+    "L",
+    "L"
+  ],
+  "Freiburg": [
+    "W",
+    "W",
+    "D",
+    "W",
+    "L"
+  ],
+  "Stuttgart": [
+    "D",
+    "L",
+    "W",
+    "W",
+    "W"
+  ],
+  "Augsburg": [
+    "D",
+    "L",
+    "L",
+    "L",
+    "L"
+  ],
+  "SV Werder Bremen": [
+    "W",
+    "D",
+    "D",
+    "D",
+    "W"
+  ],
+  "Mainz 05": [
+    "D",
+    "L",
+    "D",
+    "W",
+    "D"
+  ],
+  "Union Berlin": [
+    "D",
+    "D",
+    "D",
+    "L",
+    "W"
+  ],
+  "Borussia Dortmund": [
+    "W",
+    "W",
+    "W",
+    "W",
+    "W"
+  ],
+  "Eintracht Frankfurt": [
+    "D",
+    "W",
+    "D",
+    "D",
+    "W"
+  ],
+  "Wolfsburg": [
+    "D",
+    "L",
+    "L",
+    "D",
+    "W"
+  ],
+  "Bayern Munich": [
+    "W",
+    "W",
+    "D",
+    "W",
+    "W"
+  ],
+  "FC St. Pauli 1910": [
+    "D",
+    "D",
+    "L",
+    "D",
+    "L"
+  ],
+  "Heidenheim": [
+    "L",
+    "W",
+    "D",
+    "W",
+    "L"
+  ]
+}

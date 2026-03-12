@@ -19,6 +19,7 @@ logger = logging.getLogger(__name__)
 # ─── ELO РЕЙТИНГ ────────────────────────────────────────────────────────────
 
 ELO_FILE = "elo_ratings.json"
+FORM_FILE = "team_form.json"
 DEFAULT_ELO = 1500
 K_FACTOR = 32  # Чувствительность к результатам
 
@@ -62,6 +63,44 @@ def load_elo_ratings() -> dict:
         except Exception:
             pass
     return dict(INITIAL_ELO)
+
+
+def load_team_form() -> dict:
+    """Загружает форму команд из файла. Возвращает dict {team: ['W','D','L',...]}"""
+    if os.path.exists(FORM_FILE):
+        try:
+            with open(FORM_FILE, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except Exception:
+            pass
+    return {}
+
+
+def get_form_bonus(team: str, form_data: dict) -> float:
+    """
+    Считает бонус/штраф к ELO на основе формы последних 5 матчей.
+    W=+8, D=0, L=-8 (максимум ±40 очков).
+    Последние матчи важнее (веса 0.6 → 1.4).
+    """
+    results = form_data.get(team, [])
+    if not results:
+        return 0.0
+    last5 = results[-5:]
+    weights = [0.6, 0.8, 1.0, 1.2, 1.4]
+    bonus = 0.0
+    for i, res in enumerate(last5):
+        w = weights[i] if i < len(weights) else 1.0
+        if res == 'W':
+            bonus += 8 * w
+        elif res == 'L':
+            bonus -= 8 * w
+    return round(bonus, 1)
+
+
+def get_form_string(team: str, form_data: dict) -> str:
+    """Возвращает строку формы последних 5 матчей, например 'WWDLW'."""
+    results = form_data.get(team, [])
+    return ''.join(results[-5:]) if results else '?????'
 
 
 def save_elo_ratings(ratings: dict):
@@ -114,18 +153,28 @@ def update_elo(home_team: str, away_team: str, home_goals: int, away_goals: int,
     return new_ratings
 
 
-def elo_win_probabilities(home_team: str, away_team: str, ratings: dict) -> dict:
+def elo_win_probabilities(home_team: str, away_team: str, ratings: dict,
+                          form_data: dict = None) -> dict:
     """
-    Рассчитать вероятности победы на основе ELO.
-    Возвращает {'home': float, 'draw': float, 'away': float}
+    Рассчитать вероятности победы на основе ELO + форма последних 5 матчей.
+    Возвращает {'home': float, 'draw': float, 'away': float, ...}
     """
-    elo_home = get_elo(home_team, ratings) + 100  # домашнее преимущество
-    elo_away = get_elo(away_team, ratings)
+    base_home_elo = get_elo(home_team, ratings)
+    base_away_elo = get_elo(away_team, ratings)
+
+    # Форма-бонус (если есть данные)
+    home_form_bonus = get_form_bonus(home_team, form_data) if form_data else 0.0
+    away_form_bonus = get_form_bonus(away_team, form_data) if form_data else 0.0
+    home_form_str = get_form_string(home_team, form_data) if form_data else '?????'
+    away_form_str = get_form_string(away_team, form_data) if form_data else '?????'
+
+    # ELO + домашнее преимущество + форма
+    elo_home = base_home_elo + 100 + home_form_bonus
+    elo_away = base_away_elo + away_form_bonus
 
     exp_home = expected_score(elo_home, elo_away)
 
     # Конвертируем ELO вероятность в трёхисходную
-    # Ничья ≈ 25-30% в среднем в АПЛ
     draw_prob = 0.25 - abs(exp_home - 0.5) * 0.1
     draw_prob = max(0.15, min(0.35, draw_prob))
 
@@ -137,8 +186,12 @@ def elo_win_probabilities(home_team: str, away_team: str, ratings: dict) -> dict
         'home': round(home_prob / total, 4),
         'draw': round(draw_prob / total, 4),
         'away': round(away_prob / total, 4),
-        'home_elo': get_elo(home_team, ratings),
-        'away_elo': get_elo(away_team, ratings),
+        'home_elo': base_home_elo,
+        'away_elo': base_away_elo,
+        'home_form': home_form_str,
+        'away_form': away_form_str,
+        'home_form_bonus': home_form_bonus,
+        'away_form_bonus': away_form_bonus,
     }
 
 
