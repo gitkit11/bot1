@@ -16,7 +16,7 @@ from agents import (
     run_llama_agent, run_goals_market_agent,
     run_corners_market_agent, run_cards_market_agent, run_handicap_market_agent
 )
-from database import init_db, save_prediction, get_statistics
+from database import init_db, save_prediction, get_statistics, get_pending_predictions, update_result, get_recent_predictions
 
 # --- 1. Настройка логирования ---
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
@@ -439,9 +439,17 @@ async def handle_text(message: types.Message):
 
     elif text == "📊 Статистика":
         stats = get_statistics()
-        total = stats['total_predictions']
-        correct = stats['correct_predictions']
-        accuracy = stats['accuracy_percent']
+        total = stats['total']
+        checked = stats['checked']
+        pending = stats['pending']
+        correct = stats['correct']
+        winner_acc = stats['winner_accuracy']
+        goals_acc = stats['goals_accuracy']
+        btts_acc = stats['btts_accuracy']
+        goals_checked = stats['goals_checked']
+        btts_checked = stats['btts_checked']
+        recent = stats['recent']
+        monthly = stats['monthly']
 
         if total == 0:
             stats_text = (
@@ -450,14 +458,42 @@ async def handle_text(message: types.Message):
                 "Сделайте первый анализ матча!"
             )
         else:
-            acc_icon = "🟢" if accuracy >= 60 else ("🟡" if accuracy >= 50 else "🔴")
+            acc_icon = "🟢" if winner_acc >= 60 else ("🟡" if winner_acc >= 50 else "🔴")
             stats_text = (
-                f"📊 *Статистика прогнозов Chimera AI*\n\n"
+                f"📊 *Статистика прогнозов Chimera AI*\n"
+                f"━━━━━━━━━━━━━━━━━━━━━━━━━\n\n"
                 f"📋 Всего прогнозов: *{total}*\n"
-                f"✅ Угадано: *{correct}*\n"
-                f"{acc_icon} Точность: *{accuracy:.1f}%*\n\n"
-                f"_Статистика обновляется по мере проверки результатов матчей._"
+                f"✅ Проверено: *{checked}* | ⏳ Ожидают: *{pending}*\n\n"
+                f"🏆 *Победитель матча:*\n"
+                f"{acc_icon} Угадано: *{correct}/{checked}* — *{winner_acc:.1f}%*\n\n"
             )
+            if goals_checked > 0:
+                g_icon = "🟢" if goals_acc >= 60 else ("🟡" if goals_acc >= 50 else "🔴")
+                stats_text += f"⚽ *Тотал голов:* {g_icon} *{goals_acc:.1f}%* ({goals_checked} проверено)\n"
+            if btts_checked > 0:
+                b_icon = "🟢" if btts_acc >= 60 else ("🟡" if btts_acc >= 50 else "🔴")
+                stats_text += f"🥅 *Обе забьют:* {b_icon} *{btts_acc:.1f}%* ({btts_checked} проверено)\n"
+
+            # Последние результаты
+            if recent:
+                stats_text += "\n━━━━━━━━━━━━━━━━━━━━━━━━━\n📋 *Последние результаты:*\n"
+                for r in recent[:5]:
+                    h, a, hs, as_, pred, ok, _ = r
+                    if hs is not None:
+                        icon = "✅" if ok == 1 else "❌"
+                        stats_text += f"{icon} {h} {hs}:{as_} {a}\n"
+                    else:
+                        stats_text += f"⏳ {h} vs {a} — ожидает результата\n"
+
+            # По месяцам
+            if monthly:
+                stats_text += "\n📅 *По месяцам:*\n"
+                for month, m_total, m_correct in monthly:
+                    if m_total > 0:
+                        m_acc = (m_correct / m_total * 100)
+                        m_icon = "🟢" if m_acc >= 60 else ("🟡" if m_acc >= 50 else "🔴")
+                        stats_text += f"{m_icon} {month}: {m_correct}/{m_total} ({m_acc:.0f}%)\n"
+
         await message.answer(stats_text, parse_mode="Markdown")
 
     elif text == "💎 VIP-доступ":
@@ -579,11 +615,17 @@ async def handle_callback(call: types.CallbackQuery):
         # Сохранение в базу данных
         prediction_data = {
             "gpt_verdict": gpt_result.get("recommended_outcome", ""),
-            "gemini_verdict": llama_result.get("recommended_outcome", ""),
+            "llama_verdict": llama_result.get("recommended_outcome", ""),
             "gpt_confidence": gpt_result.get("final_confidence_percent", 0),
-            "gemini_confidence": llama_result.get("final_confidence_percent", 0),
+            "llama_confidence": llama_result.get("final_confidence_percent", 0),
+            "bet_signal": gpt_result.get("bet_signal", ""),
             "total_goals": llama_result.get("total_goals_prediction", ""),
             "btts": llama_result.get("both_teams_to_score_prediction", ""),
+            "odds_home": bookmaker_odds.get("home_win", 0),
+            "odds_draw": bookmaker_odds.get("draw", 0),
+            "odds_away": bookmaker_odds.get("away_win", 0),
+            "odds_over25": bookmaker_odds.get("over_2_5", 0),
+            "odds_under25": bookmaker_odds.get("under_2_5", 0),
         }
         save_prediction(
             match['id'],
@@ -691,10 +733,91 @@ _{signal_reason}_
         report = format_handicap_report(cached["home_team"], cached["away_team"], handicap_result)
         await call.message.edit_text(report, parse_mode="Markdown", reply_markup=build_back_to_markets_keyboard(match_index))
 
-# --- 9. Запуск бота ---
+# --- 9. Проверка результатов ---
+
+async def check_results_task(bot: Bot):
+    """Периодически проверяет результаты сыгранных матчей через The Odds API."""
+    while True:
+        try:
+            pending = get_pending_predictions()
+            if pending:
+                print(f"[Результаты] Проверяю {len(pending)} матчей без результата...")
+                for pred in pending:
+                    match_id = pred['match_id']
+                    home = pred['home_team']
+                    away = pred['away_team']
+                    # Пробуем получить результат через scores endpoint
+                    try:
+                        url = f"https://api.the-odds-api.com/v4/sports/soccer_epl/scores/"
+                        params = {"apiKey": THE_ODDS_API_KEY, "daysFrom": 3, "dateFormat": "iso"}
+                        r = requests.get(url, params=params, timeout=10)
+                        if r.status_code == 200:
+                            scores = r.json()
+                            for s in scores:
+                                if s.get('id') == match_id and s.get('completed'):
+                                    sc = s.get('scores', [])
+                                    home_score = None
+                                    away_score = None
+                                    for sc_item in sc:
+                                        if sc_item['name'] == home:
+                                            home_score = int(sc_item['score'])
+                                        elif sc_item['name'] == away:
+                                            away_score = int(sc_item['score'])
+                                    if home_score is not None and away_score is not None:
+                                        result = update_result(match_id, home_score, away_score)
+                                        if result:
+                                            icon = "✅" if result['is_correct'] else "❌"
+                                            print(f"[Результаты] {icon} {home} {home_score}:{away_score} {away} — прогноз: {result['predicted']}")
+                    except Exception as e:
+                        print(f"[Результаты] Ошибка для {home} vs {away}: {e}")
+        except Exception as e:
+            print(f"[Результаты] Общая ошибка: {e}")
+        await asyncio.sleep(3600)  # Проверяем каждый час
+
+@dp.message(Command("results"))
+async def cmd_results(message: types.Message):
+    """Команда /results — показывает последние проверенные результаты."""
+    stats = get_statistics()
+    recent = stats['recent']
+    pending = stats['pending']
+    checked = stats['checked']
+    winner_acc = stats['winner_accuracy']
+
+    if not recent and checked == 0:
+        await message.answer(
+            "📋 *Результаты прогнозов*\n\n"
+            "Пока нет проверенных матчей.\n"
+            "Результаты проверяются автоматически каждый час после окончания матча.",
+            parse_mode="Markdown"
+        )
+        return
+
+    acc_icon = "🟢" if winner_acc >= 60 else ("🟡" if winner_acc >= 50 else "🔴")
+    text = (
+        f"📋 *Результаты прогнозов Chimera AI*\n"
+        f"━━━━━━━━━━━━━━━━━━━━━━━━━\n\n"
+        f"{acc_icon} Точность: *{winner_acc:.1f}%* ({stats['correct']}/{checked} угадано)\n"
+        f"⏳ Ожидают результата: *{pending}*\n\n"
+        f"━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+        f"*Последние матчи:*\n"
+    )
+    for r in recent[:8]:
+        h, a, hs, as_, pred, ok, date = r
+        if hs is not None:
+            icon = "✅" if ok == 1 else "❌"
+            text += f"{icon} {h} *{hs}:{as_}* {a}\n"
+            if pred:
+                text += f"   _Прогноз: {pred}_\n"
+        else:
+            text += f"⏳ {h} vs {a} — ждём результата\n"
+
+    await message.answer(text, parse_mode="Markdown")
+
+# --- 10. Запуск бота ---
 async def main():
     bot = Bot(token=TELEGRAM_TOKEN)
     print("🚀 Chimera AI v4.0: Бот запущен!")
+    asyncio.create_task(check_results_task(bot))
     await dp.start_polling(bot)
 
 if __name__ == '__main__':
