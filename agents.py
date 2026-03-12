@@ -5,9 +5,10 @@ import json
 
 # --- 1. Настройка клиентов ---
 try:
-    from config import OPENAI_API_KEY
+    from config import OPENAI_API_KEY, GROQ_API_KEY
 except ImportError:
     OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "")
+    GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
 
 try:
     client = OpenAI(api_key=OPENAI_API_KEY)
@@ -16,33 +17,27 @@ except Exception as e:
     print(f"[КРИТИЧЕСКАЯ ОШИБКА] Не удалось инициализировать OpenAI клиент: {e}")
     client = None
 
-# Gemini клиент через Google OpenAI-совместимый API
+# Groq клиент для Llama 3.3 70B
 try:
-    import google.generativeai as genai
-    try:
-        from config import GEMINI_API_KEY
-    except ImportError:
-        GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "")
-    if GEMINI_API_KEY:
-        genai.configure(api_key=GEMINI_API_KEY)
-        gemini_model = genai.GenerativeModel('gemini-2.0-flash')
-        print(f"[Агенты] Gemini клиент инициализирован.")
+    if GROQ_API_KEY:
+        groq_client = OpenAI(api_key=GROQ_API_KEY, base_url="https://api.groq.com/openai/v1")
+        print(f"[Агенты] Groq клиент инициализирован.")
     else:
-        gemini_model = None
-        print("[Агенты] Gemini API ключ не найден, агент Gemini отключён.")
-except ImportError:
-    gemini_model = None
-    print("[Агенты] Библиотека google-generativeai не установлена, агент Gemini отключён.")
+        groq_client = None
+        print("[Агенты] Groq API ключ не найден, Llama агент отключён.")
+except Exception as e:
+    groq_client = None
+    print(f"[КРИТИЧЕСКАЯ ОШИБКА] Не удалось инициализировать Groq клиент: {e}")
 
-# --- 2. Функция-помощник для вызова GPT ---
-def call_gpt(prompt, model="gpt-4o-mini"):
-    """Отправляет промпт в модель GPT и возвращает ответ в формате JSON."""
-    if not client:
-        print("[GPT] ОШИБКА: клиент не инициализирован!")
-        return {"error": "OpenAI client не инициализирован."}
+# --- 2. Функция-помощник для вызова ИИ ---
+def call_ai(prompt, client_instance, model):
+    """Отправляет промпт в указанную модель и возвращает ответ в формате JSON."""
+    if not client_instance:
+        print(f"[ОШИБКА] Клиент для модели {model} не инициализирован!")
+        return {"error": f"Клиент для {model} не инициализирован."}
     try:
-        print(f"[GPT] Отправляю запрос к модели {model}...")
-        response = client.chat.completions.create(
+        print(f"[{model}] Отправляю запрос...")
+        response = client_instance.chat.completions.create(
             model=model,
             messages=[
                 {"role": "system", "content": "Ты — эксперт мирового класса. Отвечай ТОЛЬКО валидным JSON объектом. Все текстовые поля пиши на русском языке."},
@@ -52,10 +47,10 @@ def call_gpt(prompt, model="gpt-4o-mini"):
             temperature=0.2
         )
         result = json.loads(response.choices[0].message.content)
-        print(f"[GPT] Ответ получен: {str(result)[:100]}...")
+        print(f"[{model}] Ответ получен: {str(result)[:100]}...")
         return result
     except Exception as e:
-        print(f"[GPT ОШИБКА] {type(e).__name__}: {e}")
+        print(f"[{model} ОШИБКА] {type(e).__name__}: {e}")
         return {"error": str(e)}
 
 # --- 3. Специализированные ИИ-агенты ---
@@ -82,7 +77,7 @@ def run_statistician_agent(prophet_data):
       "away_win_prob": <число от 0.0 до 1.0>
     }}
     """
-    return call_gpt(prompt)
+    return call_ai(prompt, client, "gpt-4o-mini")
 
 def run_scout_agent(home_team, away_team, news_summary):
     """Агент-Разведчик: анализирует новости и настроения."""
@@ -105,7 +100,7 @@ def run_scout_agent(home_team, away_team, news_summary):
       "away_team_sentiment": <число от -1.0 до 1.0>
     }}
     """
-    return call_gpt(prompt)
+    return call_ai(prompt, client, "gpt-4o-mini")
 
 def run_arbitrator_agent(stats_result, scout_result, bookmaker_odds):
     """Агент-Арбитр: объединяет все данные и выносит вердикт."""
@@ -142,67 +137,52 @@ def run_arbitrator_agent(stats_result, scout_result, bookmaker_odds):
       "recommended_stake_percent": <число, результат критерия Келли>
     }}
     """
-    return call_gpt(prompt)
+    return call_ai(prompt, client, "gpt-4o")
 
-# --- 4. Gemini Агент ---
+# --- 4. Llama Агент ---
 
-def run_gemini_agent(home_team, away_team, prophet_data, news_summary, bookmaker_odds):
-    """Агент на базе Gemini: даёт второе независимое мнение."""
-    if not gemini_model:
-        print("[Gemini] Агент Gemini недоступен, использую GPT как запасной вариант.")
-        return run_gemini_via_gpt(home_team, away_team, prophet_data, news_summary, bookmaker_odds)
+def run_llama_agent(home_team, away_team, prophet_data, news_summary, bookmaker_odds):
+    """Агент на базе Llama 3.3 70B через Groq: даёт второе независимое мнение."""
+    if not groq_client:
+        print("[Llama] Агент Llama недоступен, использую GPT как запасной вариант.")
+        return run_llama_via_gpt(home_team, away_team, prophet_data, news_summary, bookmaker_odds)
 
     prompt = f"""
-Ты — лучший в мире футбольный аналитик Google Gemini. Дай независимый прогноз на матч.
+    Ты — лучший в мире футбольный аналитик, использующий модель Llama 3.3 70B. Твоя задача — дать независимый прогноз на матч, игнорируя выводы других агентов.
 
-Матч: {home_team} vs {away_team}
+    Матч: {home_team} vs {away_team}
 
-Входные данные:
-1. Статистика (нейросеть Пророк):
-   - Победа хозяев: {prophet_data[1]:.2%}
-   - Ничья: {prophet_data[0]:.2%}
-   - Победа гостей: {prophet_data[2]:.2%}
-2. Новости:
-   {news_summary}
-3. Коэффициенты букмекеров:
-   - П1: {bookmaker_odds.get('home_win', 0)}, X: {bookmaker_odds.get('draw', 0)}, П2: {bookmaker_odds.get('away_win', 0)}
+    Входные данные:
+    1. Статистика (нейросеть Пророк):
+       - Победа хозяев: {prophet_data[1]:.2%}
+       - Ничья: {prophet_data[0]:.2%}
+       - Победа гостей: {prophet_data[2]:.2%}
+    2. Новости:
+       {news_summary}
+    3. Коэффициенты букмекеров:
+       - П1: {bookmaker_odds.get('home_win', 0)}, X: {bookmaker_odds.get('draw', 0)}, П2: {bookmaker_odds.get('away_win', 0)}
 
-Твои задачи:
-1. Проанализируй все данные и дай свой прогноз на исход матча.
-2. Оцени вероятность каждого из трёх исходов.
-3. Предложи ставку на тотал голов (Больше 2.5 или Меньше 2.5) и на "Обе забьют" (Да/Нет).
-4. Напиши краткое резюме (2-3 предложения) почему ты так считаешь.
+    Твои задачи:
+    1. Проанализируй все данные и дай свой собственный прогноз на исход матча (П1, Х, П2).
+    2. Оцени вероятность каждого из трёх исходов.
+    3. Предложи ставку на тотал голов (Больше 2.5 или Меньше 2.5) и на "Обе забьют" (Да/Нет).
+    4. Напиши краткое резюме (2-3 предложения) почему ты так считаешь.
 
-Отвечай ТОЛЬКО валидным JSON без пояснений, все тексты на русском:
-{{
-  "analysis_summary": "Краткое резюме твоего анализа.",
-  "recommended_outcome": "Победа хозяев" или "Ничья" или "Победа гостей",
-  "home_win_prob": 0.0,
-  "draw_prob": 0.0,
-  "away_win_prob": 0.0,
-  "total_goals_prediction": "Больше 2.5" или "Меньше 2.5",
-  "both_teams_to_score_prediction": "Да" или "Нет"
-}}
+    Формат ответа (только JSON):
+    {{
+      "analysis_summary": "Краткое резюме твоего анализа на русском языке.",
+      "recommended_outcome": "Победа хозяев" или "Ничья" или "Победа гостей",
+      "home_win_prob": <число от 0.0 до 1.0>,
+      "draw_prob": <число от 0.0 до 1.0>,
+      "away_win_prob": <число от 0.0 до 1.0>,
+      "total_goals_prediction": "Больше 2.5" или "Меньше 2.5",
+      "both_teams_to_score_prediction": "Да" или "Нет"
+    }}
     """
-    try:
-        print("[Gemini] Отправляю запрос к Gemini...")
-        response = gemini_model.generate_content(prompt)
-        text = response.text.strip()
-        # Извлекаем JSON из ответа
-        if "```json" in text:
-            text = text.split("```json")[1].split("```")[0].strip()
-        elif "```" in text:
-            text = text.split("```")[1].split("```")[0].strip()
-        result = json.loads(text)
-        print(f"[Gemini] Ответ получен: {str(result)[:100]}...")
-        return result
-    except Exception as e:
-        print(f"[Gemini ОШИБКА] {type(e).__name__}: {e}")
-        return run_gemini_via_gpt(home_team, away_team, prophet_data, news_summary, bookmaker_odds)
+    return call_ai(prompt, groq_client, "llama3-70b-8192")
 
-
-def run_gemini_via_gpt(home_team, away_team, prophet_data, news_summary, bookmaker_odds):
-    """Запасной вариант: используем GPT вместо Gemini."""
+def run_llama_via_gpt(home_team, away_team, prophet_data, news_summary, bookmaker_odds):
+    """Запасной вариант: используем GPT вместо Llama."""
     prompt = f"""
     Ты — футбольный аналитик. Дай независимый прогноз на матч {home_team} vs {away_team}.
     Статистика: П1={prophet_data[1]:.2%}, Х={prophet_data[0]:.2%}, П2={prophet_data[2]:.2%}.
@@ -211,4 +191,4 @@ def run_gemini_via_gpt(home_team, away_team, prophet_data, news_summary, bookmak
     Отвечай только JSON на русском:
     {{"analysis_summary": "...", "recommended_outcome": "...", "home_win_prob": 0.0, "draw_prob": 0.0, "away_win_prob": 0.0, "total_goals_prediction": "...", "both_teams_to_score_prediction": "..."}}
     """
-    return call_gpt(prompt)
+    return call_ai(prompt, client, "gpt-4o-mini")
