@@ -11,7 +11,7 @@ import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 from config import TELEGRAM_TOKEN, THE_ODDS_API_KEY
 from oracle_ai import oracle_analyze
-from agents import run_statistician_agent, run_scout_agent, run_arbitrator_agent, run_gemini_agent
+from agents import run_statistician_agent, run_scout_agent, run_arbitrator_agent, run_llama_agent
 from database import init_db, save_prediction, get_statistics
 
 # --- 1. Настройка логирования ---
@@ -159,7 +159,7 @@ def build_back_keyboard():
     return builder.as_markup()
 
 def format_final_report(home_team, away_team, prophet_data, oracle_results, gpt_result, gemini_result):
-    """Форматирует финальный отчёт объединяя GPT и Gemini."""
+    """Форматирует финальный отчёт объединяя GPT и Llama."""
 
     # --- Пророк ---
     home_prob = prophet_data[1] * 100
@@ -181,7 +181,7 @@ def format_final_report(home_team, away_team, prophet_data, oracle_results, gpt_
     gpt_stake = gpt_result.get("recommended_stake_percent", 0)
     gpt_ev = gpt_result.get("expected_value_percent", 0)
 
-    # --- Gemini Вердикт ---
+    # --- Llama Вердикт ---
     gemini_verdict_raw = gemini_result.get("recommended_outcome", "Нет данных")
     gemini_verdict = translate_outcome(gemini_verdict_raw, home_team, away_team)
     gemini_confidence = gemini_result.get("final_confidence_percent", gpt_confidence)
@@ -216,7 +216,7 @@ def format_final_report(home_team, away_team, prophet_data, oracle_results, gpt_
 🧠 *АНАЛИЗ GPT-4o-mini:*
 _{gpt_summary}_
 
-🤖 *АНАЛИЗ GEMINI 2.5 Flash:*
+🤖 *АНАЛИЗ Llama 3.3 70B:*
 _{gemini_summary}_
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -229,7 +229,7 @@ _{gemini_summary}_
 📈 Ожидаемая прибыль: +{gpt_ev:.1f}% от ставки
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━
-🤖 *ВЕРДИКТ GEMINI:*
+🤖 *ВЕРДИКТ Llama 3.3 70B:*
 
 {conf_icon(gemini_confidence)} Исход: {gemini_verdict}
 {conf_icon(gemini_confidence)} Уверенность ИИ: {gemini_confidence}%
@@ -253,7 +253,7 @@ async def send_welcome(message: types.Message):
         "🔮 Пророк — нейросеть (30 лет статистики)\n"
         "📰 Оракул — анализ новостей\n"
         "🧠 GPT-4o-mini — стратегический анализ\n"
-        "🤖 Gemini 2.5 Flash — второе независимое мнение",
+        "🤖 Llama 3.3 70B — второе независимое мнение",
         parse_mode="Markdown",
         reply_markup=build_main_keyboard()
     )
@@ -382,7 +382,7 @@ async def handle_callback(call: types.CallbackQuery):
         )
 
         # Шаг 4: Gemini Агент
-        gemini_result = run_gemini_agent(home_team, away_team, prophet_data, news_summary, bookmaker_odds)
+        gemini_result = run_llama_agent(home_team, away_team, prophet_data, news_summary, bookmaker_odds)
 
         # Шаг 5: Финальный отчёт
         final_report = format_final_report(
