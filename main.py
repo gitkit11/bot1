@@ -21,6 +21,12 @@ from agents import (
     run_corners_market_agent, run_cards_market_agent, run_handicap_market_agent
 )
 from api_football import get_match_stats
+try:
+    from understat_stats import format_xg_stats
+    UNDERSTAT_AVAILABLE = True
+except ImportError:
+    UNDERSTAT_AVAILABLE = False
+    def format_xg_stats(h, a, s='2024'): return ""
 from database import init_db, save_prediction, get_statistics, get_pending_predictions, update_result, get_recent_predictions
 
 # --- 1. Настройка логирования ---
@@ -647,6 +653,21 @@ async def handle_callback(call: types.CallbackQuery):
             print(f"[API-Football] Статистика получена для {home_team} vs {away_team}")
         else:
             print(f"[API-Football] Статистика недоступна для {home_team} vs {away_team}")
+
+        # Получаем xG статистику из Understat (если доступна)
+        xg_stats_text = ""
+        if UNDERSTAT_AVAILABLE:
+            try:
+                xg_stats_text = format_xg_stats(home_team, away_team)
+                if xg_stats_text:
+                    print(f"[Understat] xG статистика получена для {home_team} vs {away_team}")
+                    # Добавляем xG к общей статистике
+                    if team_stats_text:
+                        team_stats_text = team_stats_text + "\n\n" + xg_stats_text
+                    else:
+                        team_stats_text = xg_stats_text
+            except Exception as _xe:
+                print(f"[Understat] Недоступен: {_xe}")
 
         stats_result = run_statistician_agent(prophet_data, team_stats_text)
         scout_result = run_scout_agent(home_team, away_team, news_summary)
