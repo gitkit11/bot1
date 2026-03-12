@@ -5,7 +5,13 @@ import json
 
 # --- 1. Настройка клиента OpenAI ---
 try:
-    client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
+    from config import OPENAI_API_KEY
+except ImportError:
+    OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "")
+
+try:
+    client = OpenAI(api_key=OPENAI_API_KEY)
+    print(f"[Агенты] OpenAI клиент инициализирован. Ключ: {OPENAI_API_KEY[:20]}...")
 except Exception as e:
     print(f"[КРИТИЧЕСКАЯ ОШИБКА] Не удалось инициализировать OpenAI клиент: {e}")
     client = None
@@ -14,8 +20,10 @@ except Exception as e:
 def call_gpt(prompt, model="gpt-4o-mini"):
     """Отправляет промпт в модель GPT и возвращает ответ в формате JSON."""
     if not client:
+        print("[GPT] ОШИБКА: клиент не инициализирован!")
         return {"error": "OpenAI client не инициализирован."}
     try:
+        print(f"[GPT] Отправляю запрос к модели {model}...")
         response = client.chat.completions.create(
             model=model,
             messages=[
@@ -25,9 +33,11 @@ def call_gpt(prompt, model="gpt-4o-mini"):
             response_format={"type": "json_object"},
             temperature=0.2
         )
-        return json.loads(response.choices[0].message.content)
+        result = json.loads(response.choices[0].message.content)
+        print(f"[GPT] Ответ получен: {str(result)[:100]}...")
+        return result
     except Exception as e:
-        print(f"[GPT Ошибка] {e}")
+        print(f"[GPT ОШИБКА] {type(e).__name__}: {e}")
         return {"error": str(e)}
 
 # --- 3. Специализированные ИИ-агенты ---
