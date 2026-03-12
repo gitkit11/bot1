@@ -112,27 +112,28 @@ OUTCOME_TRANSLATE = {
     "draw": "Ничья",
 }
 
-def translate_outcome(text):
-    """Переводит исход с английского на русский."""
+def translate_outcome(text, home_team="Хозяева команда", away_team="Гостевая команда"):
+    """Переводит исход с английского на русский с названиями команд."""
     if not text:
         return "Нет данных"
-    # Прямое совпадение
-    if text in OUTCOME_TRANSLATE:
-        return OUTCOME_TRANSLATE[text]
-    # Частичное совпадение
     text_lower = text.lower()
     if "home" in text_lower and "win" in text_lower:
-        return "Победа хозяев"
+        return f"{home_team} (хозяева)"
     if "away" in text_lower and "win" in text_lower:
-        return "Победа гостей"
-    if "draw" in text_lower or "ничья" in text_lower:
+        return f"{away_team} (гость)"
+    if "draw" in text_lower or "ничья" in text_lower or "ничья" in text_lower:
         return "Ничья"
+    # Если GPT вернул уже на русском
+    if "хозяев" in text_lower:
+        return f"{home_team} (хозяева)"
+    if "гостей" in text_lower or "гость" in text_lower:
+        return f"{away_team} (гость)"
     return text
 
 def format_final_report(home_team, away_team, stats_result, scout_result, arbitrator_result):
     """Форматирует финальный отчёт для Telegram."""
     verdict_raw = arbitrator_result.get("recommended_outcome", "Нет данных")
-    verdict = translate_outcome(verdict_raw)
+    verdict = translate_outcome(verdict_raw, home_team, away_team)
     confidence = arbitrator_result.get("final_confidence_percent", 0)
     stake = arbitrator_result.get("recommended_stake_percent", 0)
     odds = arbitrator_result.get("bookmaker_odds", 0)
