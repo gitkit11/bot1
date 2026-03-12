@@ -22,11 +22,23 @@ from agents import (
     run_mixtral_agent, build_math_ensemble, calculate_value_bets
 )
 from math_model import (
-    load_elo_ratings, save_elo_ratings, elo_win_probabilities,
+    load_elo_ratings, save_elo_ratings, update_elo, elo_win_probabilities,
     poisson_match_probabilities, calculate_expected_goals, format_math_report
 )
 # Загружаем ELO рейтинги при старте
 _elo_ratings = load_elo_ratings()
+
+def update_elo_after_match(home_team: str, away_team: str, home_score: int, away_score: int):
+    """Обновляет ELO рейтинги после матча и сохраняет на диск."""
+    global _elo_ratings
+    old_home = _elo_ratings.get(home_team, 1500)
+    old_away = _elo_ratings.get(away_team, 1500)
+    _elo_ratings = update_elo(home_team, away_team, home_score, away_score, _elo_ratings)
+    save_elo_ratings(_elo_ratings)
+    new_home = _elo_ratings.get(home_team, 1500)
+    new_away = _elo_ratings.get(away_team, 1500)
+    print(f"[ELO] {home_team}: {old_home} → {new_home} | {away_team}: {old_away} → {new_away}")
+
 from api_football import get_match_stats
 try:
     from understat_stats import format_xg_stats, get_team_xg_stats
@@ -926,11 +938,18 @@ async def handle_callback(call: types.CallbackQuery):
         }
 
         # Сохранение в базу данных
+        # Определяем лучший исход ансамбля для сохранения
+        ens_best_key = max(['home', 'draw', 'away'], key=lambda k: (ensemble_probs or {}).get(k, 0)) if ensemble_probs else ""
+        ens_best_map = {'home': home_team, 'draw': 'Ничья', 'away': away_team}
+        ens_best_label = ens_best_map.get(ens_best_key, "") if ens_best_key else ""
+
         prediction_data = {
             "gpt_verdict": gpt_result.get("recommended_outcome", ""),
             "llama_verdict": llama_result.get("recommended_outcome", ""),
+            "mixtral_verdict": (mixtral_result or {}).get("recommended_outcome", ""),
             "gpt_confidence": gpt_result.get("final_confidence_percent", 0),
             "llama_confidence": llama_result.get("final_confidence_percent", 0),
+            "mixtral_confidence": (mixtral_result or {}).get("final_confidence_percent", 0),
             "bet_signal": gpt_result.get("bet_signal", ""),
             "total_goals": llama_result.get("total_goals_prediction", ""),
             "btts": llama_result.get("both_teams_to_score_prediction", ""),
@@ -939,6 +958,13 @@ async def handle_callback(call: types.CallbackQuery):
             "odds_away": bookmaker_odds.get("away_win", 0),
             "odds_over25": bookmaker_odds.get("over_2_5", 0),
             "odds_under25": bookmaker_odds.get("under_2_5", 0),
+            # Математические модели
+            "poisson_probs": poisson_probs,
+            "elo_probs": elo_probs,
+            "ensemble_probs": ensemble_probs,
+            "ensemble_best_outcome": ens_best_label,
+            "value_bets": value_bets,
+            "league": match.get('sport_key', 'soccer_epl'),
         }
         save_prediction(
             match['id'],
@@ -1055,48 +1081,99 @@ _{signal_reason}_
 
 # --- 9. Проверка результатов ---
 
+# Список лиг для проверки результатов
+SCORES_LEAGUES = [
+    "soccer_epl",           # АПЛ
+    "soccer_spain_la_liga", # Ла Лига
+    "soccer_germany_bundesliga",  # Бундеслига
+    "soccer_italy_serie_a",       # Серия А
+    "soccer_france_ligue_one",    # Лига 1
+    "soccer_uefa_champs_league",  # Лига Чемпионов
+]
+
+async def fetch_scores_for_league(league: str) -> dict:
+    """Получает результаты матчей для одной лиги. Возвращает dict {match_id: (home_score, away_score)}."""
+    results = {}
+    try:
+        url = f"https://api.the-odds-api.com/v4/sports/{league}/scores/"
+        params = {"apiKey": THE_ODDS_API_KEY, "daysFrom": 4, "dateFormat": "iso"}
+        r = requests.get(url, params=params, timeout=10)
+        if r.status_code == 200:
+            for s in r.json():
+                if s.get('completed'):
+                    sc = s.get('scores', [])
+                    home_score = away_score = None
+                    teams = s.get('home_team', ''), s.get('away_team', '')
+                    for sc_item in sc:
+                        if sc_item['name'] == teams[0]:
+                            home_score = int(sc_item['score'])
+                        elif sc_item['name'] == teams[1]:
+                            away_score = int(sc_item['score'])
+                    if home_score is not None and away_score is not None:
+                        results[s['id']] = (home_score, away_score)
+        elif r.status_code == 422:
+            pass  # Лига недоступна в текущем плане API
+    except Exception as e:
+        print(f"[Результаты] Ошибка лиги {league}: {e}")
+    return results
+
+
 async def check_results_task(bot: Bot):
-    """Периодически проверяет результаты сыгранных матчей через The Odds API."""
+    """Периодически проверяет результаты сыгранных матчей по всем лигам."""
     while True:
         try:
             pending = get_pending_predictions()
             if pending:
                 print(f"[Результаты] Проверяю {len(pending)} матчей без результата...")
+
+                # Собираем результаты по всем лигам
+                all_scores = {}
+                # Группируем pending по лигам
+                leagues_needed = set(p.get('league', 'soccer_epl') for p in pending)
+                # Всегда проверяем все лиги из списка
+                for league in SCORES_LEAGUES:
+                    scores = await fetch_scores_for_league(league)
+                    all_scores.update(scores)
+                    await asyncio.sleep(0.5)  # Не спамим API
+
+                print(f"[Результаты] Получено {len(all_scores)} завершённых матчей из API")
+
                 for pred in pending:
                     match_id = pred['match_id']
                     home = pred['home_team']
                     away = pred['away_team']
-                    # Пробуем получить результат через scores endpoint
-                    try:
-                        url = f"https://api.the-odds-api.com/v4/sports/soccer_epl/scores/"
-                        params = {"apiKey": THE_ODDS_API_KEY, "daysFrom": 3, "dateFormat": "iso"}
-                        r = requests.get(url, params=params, timeout=10)
-                        if r.status_code == 200:
-                            scores = r.json()
-                            for s in scores:
-                                if s.get('id') == match_id and s.get('completed'):
-                                    sc = s.get('scores', [])
-                                    home_score = None
-                                    away_score = None
-                                    for sc_item in sc:
-                                        if sc_item['name'] == home:
-                                            home_score = int(sc_item['score'])
-                                        elif sc_item['name'] == away:
-                                            away_score = int(sc_item['score'])
-                                    if home_score is not None and away_score is not None:
-                                        result = update_result(match_id, home_score, away_score)
-                                        if result:
-                                            icon = "✅" if result['is_correct'] else "❌"
-                                            print(f"[Результаты] {icon} {home} {home_score}:{away_score} {away} — прогноз: {result['predicted']}")
-                    except Exception as e:
-                        print(f"[Результаты] Ошибка для {home} vs {away}: {e}")
+
+                    if match_id in all_scores:
+                        home_score, away_score = all_scores[match_id]
+                        try:
+                            result = update_result(match_id, home_score, away_score)
+                            if result:
+                                icon = "✅" if result['is_correct'] else "❌"
+                                ens_icon = ""
+                                if result.get('is_ensemble_correct') is not None:
+                                    ens_icon = " [Анс: ✅]" if result['is_ensemble_correct'] else " [Анс: ❌]"
+                                vb_icon = ""
+                                if result.get('vb_correct') is not None:
+                                    vb_icon = " [VB: ✅]" if result['vb_correct'] else " [VB: ❌]"
+                                print(f"[Результаты] {icon} {home} {home_score}:{away_score} {away}{ens_icon}{vb_icon}")
+
+                                # Авто-обновление ELO рейтинга после матча
+                                try:
+                                    update_elo_after_match(home, away, home_score, away_score)
+                                except Exception as _elo_e:
+                                    print(f"[ELO] Ошибка обновления: {_elo_e}")
+                        except Exception as e:
+                            print(f"[Результаты] Ошибка обновления {home} vs {away}: {e}")
+                    else:
+                        print(f"[Результаты] Нет данных для {home} vs {away} (id={match_id})")
+
         except Exception as e:
             print(f"[Результаты] Общая ошибка: {e}")
         await asyncio.sleep(3600)  # Проверяем каждый час
 
 @dp.message(Command("results"))
 async def cmd_results(message: types.Message):
-    """Команда /results — показывает последние проверенные результаты."""
+    """Команда /results — полная статистика с ROI и точностью по моделям."""
     stats = get_statistics()
     recent = stats['recent']
     pending = stats['pending']
@@ -1105,27 +1182,74 @@ async def cmd_results(message: types.Message):
 
     if not recent and checked == 0:
         await message.answer(
-            "📋 *Результаты прогнозов*\n\n"
+            "📋 *Трекер результатов*\n\n"
             "Пока нет проверенных матчей.\n"
             "Результаты проверяются автоматически каждый час после окончания матча.",
             parse_mode="Markdown"
         )
         return
 
-    acc_icon = "🟢" if winner_acc >= 60 else ("🟡" if winner_acc >= 50 else "🔴")
+    def acc_icon(acc):
+        return "🟢" if acc >= 60 else ("🟡" if acc >= 50 else "🔴")
+
+    def roi_icon(roi):
+        return "🟢" if roi > 0 else "🔴"
+
+    # Точность по моделям
+    ens_acc = stats.get('ens_accuracy', 0)
+    ens_checked = stats.get('ens_checked', 0)
+    vb_acc = stats.get('vb_accuracy', 0)
+    vb_checked = stats.get('vb_checked', 0)
+    goals_acc = stats.get('goals_accuracy', 0)
+    goals_checked = stats.get('goals_checked', 0)
+    btts_acc = stats.get('btts_accuracy', 0)
+    btts_checked = stats.get('btts_checked', 0)
+    roi_vb = stats.get('roi_value_bets', 0)
+    roi_main = stats.get('roi_main', 0)
+
     text = (
-        f"📋 *Результаты прогнозов Chimera AI*\n"
+        f"📊 *CHIMERA AI — Трекер результатов*\n"
         f"━━━━━━━━━━━━━━━━━━━━━━━━━\n\n"
-        f"{acc_icon} Точность: *{winner_acc:.1f}%* ({stats['correct']}/{checked} угадано)\n"
-        f"⏳ Ожидают результата: *{pending}*\n\n"
-        f"━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-        f"*Последние матчи:*\n"
+        f"🎯 *Точность по моделям:*\n"
+        f"{acc_icon(winner_acc)} Исход (GPT): *{winner_acc:.1f}%* ({stats['correct']}/{checked})\n"
     )
-    for r in recent[:8]:
-        h, a, hs, as_, pred, ok, date = r
+    if ens_checked > 0:
+        text += f"{acc_icon(ens_acc)} Ансамбль: *{ens_acc:.1f}%* ({round(ens_acc/100*ens_checked)}/{ens_checked})\n"
+    if goals_checked > 0:
+        text += f"{acc_icon(goals_acc)} Тотал голов: *{goals_acc:.1f}%* ({round(goals_acc/100*goals_checked)}/{goals_checked})\n"
+    if btts_checked > 0:
+        text += f"{acc_icon(btts_acc)} Обе забьют: *{btts_acc:.1f}%* ({round(btts_acc/100*btts_checked)}/{btts_checked})\n"
+    if vb_checked > 0:
+        text += f"{acc_icon(vb_acc)} Value ставки: *{vb_acc:.1f}%* ({round(vb_acc/100*vb_checked)}/{vb_checked})\n"
+
+    text += f"\n💰 *ROI (прибыль/убыток):*\n"
+    if roi_main != 0:
+        text += f"{roi_icon(roi_main)} Основные ставки: *{roi_main:+.1f}* ед. банка\n"
+    if roi_vb != 0:
+        text += f"{roi_icon(roi_vb)} Value ставки: *{roi_vb:+.1f}* ед. банка\n"
+
+    text += f"\n⏳ Ожидают результата: *{pending}*\n"
+
+    # По месяцам
+    monthly = stats.get('monthly', [])
+    if monthly:
+        text += f"\n━━━━━━━━━━━━━━━━━━━━━━━━━\n*По месяцам:*\n"
+        for m in monthly[:4]:
+            month, total, corr, ens_c, vb_c, roi_m = m
+            m_acc = (corr / total * 100) if total > 0 else 0
+            text += f"{acc_icon(m_acc)} {month}: {corr}/{total} ({m_acc:.0f}%)"
+            if roi_m:
+                text += f" | ROI VB: {roi_m:+.1f}"
+            text += "\n"
+
+    text += f"\n━━━━━━━━━━━━━━━━━━━━━━━━━\n*Последние матчи:*\n"
+    for r in recent[:6]:
+        h, a, hs, as_, pred, ok, date, ens_ok, vb_out, vb_ok, vb_odds = r
         if hs is not None:
             icon = "✅" if ok == 1 else "❌"
-            text += f"{icon} {h} *{hs}:{as_}* {a}\n"
+            ens_str = " [Анс:✅]" if ens_ok == 1 else (" [Анс:❌]" if ens_ok == 0 else "")
+            vb_str = f" [VB {vb_out}@{vb_odds}:✅]" if vb_ok == 1 else (f" [VB:❌]" if vb_ok == 0 and vb_out else "")
+            text += f"{icon} {h} *{hs}:{as_}* {a}{ens_str}{vb_str}\n"
             if pred:
                 text += f"   _Прогноз: {pred}_\n"
         else:
@@ -1136,7 +1260,7 @@ async def cmd_results(message: types.Message):
 # --- 10. Запуск бота ---
 async def main():
     bot = Bot(token=TELEGRAM_TOKEN)
-    print("🚀 Chimera AI v4.0: Бот запущен!")
+    print("🚀 Chimera AI v4.2: Бот запущен! (Трекер результатов + ELO авто-обновление)")
     asyncio.create_task(check_results_task(bot))
     await dp.start_polling(bot)
 
