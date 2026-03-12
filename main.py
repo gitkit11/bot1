@@ -209,9 +209,13 @@ async def analyze_match_callback(callback: types.CallbackQuery):
     # --- ЭТАП 2: ОРАКУЛ (новости) ---
     await callback.message.answer("📰 *Оракул* сканирует новости...", parse_mode="Markdown")
     oracle_results = oracle_analyze(home_team, away_team)
+    home_sentiment = oracle_results.get(home_team, {}).get('sentiment_score', 0.0)
+    away_sentiment = oracle_results.get(away_team, {}).get('sentiment_score', 0.0)
+    home_verdict = oracle_results.get(home_team, {}).get('verdict', 'нейтральный')
+    away_verdict = oracle_results.get(away_team, {}).get('verdict', 'нейтральный')
     news_summary = (
-        f"{home_team}: sentiment={oracle_results.get('home_sentiment', 0):.2f}. "
-        f"{away_team}: sentiment={oracle_results.get('away_sentiment', 0):.2f}."
+        f"{home_team}: sentiment={home_sentiment:.2f} ({home_verdict}). "
+        f"{away_team}: sentiment={away_sentiment:.2f} ({away_verdict})."
     )
 
     # --- ЭТАП 3: GPT-АГЕНТЫ ---
@@ -224,6 +228,11 @@ async def analyze_match_callback(callback: types.CallbackQuery):
     arbitrator_result = run_arbitrator_agent(stats_result, scout_result, bookmaker_odds)
 
     # --- ФИНАЛЬНЫЙ ОТЧЁТ ---
+    # Передаём данные оракула в scout_result если GPT вернул пустые данные
+    if scout_result.get('home_team_sentiment') is None:
+        scout_result['home_team_sentiment'] = home_sentiment
+    if scout_result.get('away_team_sentiment') is None:
+        scout_result['away_team_sentiment'] = away_sentiment
     final_report = format_final_report(home_team, away_team, stats_result, scout_result, arbitrator_result)
     await callback.message.answer(final_report, parse_mode="Markdown")
 
