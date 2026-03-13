@@ -280,6 +280,7 @@ def conf_icon(c):
 def build_main_keyboard():
     """Строит главную клавиатуру с секциями спорта."""
     kb = [
+        [types.KeyboardButton(text="📡 Сигналы дня")],
         [types.KeyboardButton(text="⚽ Футбол")],
         [types.KeyboardButton(text="🎾 Теннис"), types.KeyboardButton(text="🎮 Киберспорт CS2")],
         [types.KeyboardButton(text="📊 Статистика"), types.KeyboardButton(text="💎 VIP-доступ")]
@@ -759,7 +760,9 @@ async def send_welcome(message: types.Message):
 @dp.message()
 async def handle_text(message: types.Message):
     text = message.text
-
+    if text == "📡 Сигналы дня":
+        await cmd_signals(message)
+        return
     if text == "⚽ Футбол":
         league_name = dict(FOOTBALL_LEAGUES).get(_current_league, "АПЛ")
         await message.answer(

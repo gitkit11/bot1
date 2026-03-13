@@ -1,80 +1,69 @@
 # -*- coding: utf-8 -*-
 """
-signal_engine.py — Движок сигналов CHIMERA AI
-===============================================
-Выдаёт сигнал ТОЛЬКО когда ВСЕ условия выполнены.
-Лучше пропустить матч, чем дать плохой сигнал.
+signal_engine.py — Движок сигналов CHIMERA AI v2
+==================================================
+Система баллов: сигнал выдаётся когда набрано MIN_SCORE баллов из MAX_SCORE.
+Это реалистичнее чем требовать ВСЕ условия одновременно.
 
-Логика:
-  1. Математическая вероятность > MIN_PROB
-  2. EV (Expected Value) > MIN_EV
-  3. Коэффициент в диапазоне [MIN_ODDS, MAX_ODDS]
-  4. Форма команды: 3+ побед из последних 5
-  5. ИИ агент согласен с прогнозом (опционально)
-  6. Нет противоречий между моделями
-
-Для CS2 дополнительно:
-  7. Преимущество на картах (MIS > 0.55)
-  8. Разница в рейтингах игроков > 0.10
+Каждое условие даёт 1 балл. Минимум для сигнала: 4 из 6 (футбол), 4 из 7 (CS2).
 """
 
 from typing import Optional
 
-# ─── Пороги сигналов ─────────────────────────────────────────────────────────
+# ─── Пороги ──────────────────────────────────────────────────────────────────
 
-FOOTBALL_THRESHOLDS = {
-    "min_prob":    0.62,   # Наша вероятность минимум 62%
-    "min_ev":      0.12,   # EV минимум 12%
-    "min_odds":    1.55,   # Не брать очевидных фаворитов
-    "max_odds":    3.50,   # Не брать аутсайдеров
-    "min_form":    3,      # Минимум 3 победы из последних 5
-    "min_elo_gap": 50,     # Разница ELO минимум 50 очков
+FOOTBALL_CFG = {
+    "min_prob":     0.55,   # Вероятность минимум 55%
+    "min_ev":       0.07,   # EV минимум 7%
+    "min_odds":     1.45,   # Не брать очевидных фаворитов
+    "max_odds":     4.00,
+    "min_form_wins": 3,     # Минимум 3 победы из последних 5
+    "min_elo_gap":  40,     # Разница ELO минимум 40 очков
+    "min_score":    4,      # Минимум 4 балла из 6 для сигнала
 }
 
-CS2_THRESHOLDS = {
-    "min_prob":    0.62,   # Наша вероятность минимум 62%
-    "min_ev":      0.12,   # EV минимум 12%
-    "min_odds":    1.55,
-    "max_odds":    3.00,
-    "min_form":    3,      # Минимум 3 победы из последних 5
-    "min_elo_gap": 40,
-    "min_mis_gap": 0.05,   # Преимущество по картам минимум 5%
-    "min_rating_gap": 0.08, # Разница рейтингов игроков
+CS2_CFG = {
+    "min_prob":     0.55,
+    "min_ev":       0.07,
+    "min_odds":     1.45,
+    "max_odds":     3.50,
+    "min_form_wins": 3,
+    "min_elo_gap":  30,
+    "min_mis_gap":  0.03,   # Преимущество по картам минимум 3%
+    "min_rating_gap": 0.06, # Разница рейтингов игроков
+    "min_score":    4,      # Минимум 4 балла из 7 для сигнала
 }
 
 
 # ─── Вспомогательные функции ─────────────────────────────────────────────────
 
-def _count_wins_in_form(form_str: str) -> int:
-    """Считает победы в строке формы типа 'WLWWL'"""
+def _count_wins(form_str: str) -> int:
     if not form_str:
         return 0
     return form_str.upper().count('W')
 
 def _calc_ev(prob: float, odds: float) -> float:
-    """Expected Value = prob * odds - 1"""
     if odds <= 1.0:
         return -1.0
     return prob * odds - 1.0
 
 def _kelly(prob: float, odds: float, max_kelly: float = 0.15) -> float:
-    """Критерий Келли (ограничен max_kelly банка)"""
     b = odds - 1
     q = 1 - prob
     k = (prob * b - q) / b if b > 0 else 0
     return round(max(0.0, min(k, max_kelly)) * 100, 1)
 
-def _signal_strength(ev: float, prob: float) -> str:
-    """Определяет силу сигнала"""
-    if ev >= 0.25 and prob >= 0.70:
+def _strength(score: int, max_score: int, ev: float) -> str:
+    ratio = score / max_score
+    if ratio >= 0.85 and ev >= 0.20:
         return "🔥🔥 СИЛЬНЫЙ"
-    elif ev >= 0.15 and prob >= 0.65:
+    elif ratio >= 0.70 and ev >= 0.12:
         return "🔥 ХОРОШИЙ"
     else:
         return "✅ ОБЫЧНЫЙ"
 
 
-# ─── Футбол: проверка сигнала ─────────────────────────────────────────────────
+# ─── Футбол ──────────────────────────────────────────────────────────────────
 
 def check_football_signal(
     home_team: str,
@@ -89,11 +78,7 @@ def check_football_signal(
     elo_away: float = 0,
     ai_agrees: Optional[bool] = None,
 ) -> list[dict]:
-    """
-    Проверяет матч на наличие сигнала по всем критериям.
-    Возвращает список сигналов (может быть пустым).
-    """
-    t = FOOTBALL_THRESHOLDS
+    c = FOOTBALL_CFG
     signals = []
 
     candidates = [
@@ -107,52 +92,63 @@ def check_football_signal(
             continue
 
         ev = _calc_ev(prob, odds)
-        reasons_fail = []
-        reasons_pass = []
+        score = 0
+        checks = []
 
-        # Условие 1: Вероятность
-        if prob >= t["min_prob"]:
-            reasons_pass.append(f"Вероятность {int(prob*100)}% ✅")
+        # 1. Вероятность
+        if prob >= c["min_prob"]:
+            score += 1
+            checks.append(f"Вероятность {int(prob*100)}% ✅")
         else:
-            reasons_fail.append(f"Вероятность {int(prob*100)}% < {int(t['min_prob']*100)}% ❌")
+            checks.append(f"Вероятность {int(prob*100)}% ❌")
 
-        # Условие 2: EV
-        if ev >= t["min_ev"]:
-            reasons_pass.append(f"EV +{round(ev*100,1)}% ✅")
+        # 2. EV
+        if ev >= c["min_ev"]:
+            score += 1
+            checks.append(f"EV +{round(ev*100,1)}% ✅")
         else:
-            reasons_fail.append(f"EV +{round(ev*100,1)}% < {int(t['min_ev']*100)}% ❌")
+            checks.append(f"EV {round(ev*100,1)}% ❌")
 
-        # Условие 3: Коэффициент
-        if t["min_odds"] <= odds <= t["max_odds"]:
-            reasons_pass.append(f"Кэф {odds} ✅")
+        # 3. Коэффициент
+        if c["min_odds"] <= odds <= c["max_odds"]:
+            score += 1
+            checks.append(f"Кэф {odds} ✅")
         else:
-            reasons_fail.append(f"Кэф {odds} вне диапазона [{t['min_odds']}-{t['max_odds']}] ❌")
+            checks.append(f"Кэф {odds} ❌")
 
-        # Условие 4: Форма (только для П1/П2, не для ничьей)
+        # 4. Форма (только П1/П2)
         if outcome != "Х" and form:
-            wins = _count_wins_in_form(form[-5:])
-            if wins >= t["min_form"]:
-                reasons_pass.append(f"Форма {form[-5:]} ({wins}/5 побед) ✅")
+            wins = _count_wins(form[-5:])
+            if wins >= c["min_form_wins"]:
+                score += 1
+                checks.append(f"Форма {form[-5:]} ({wins}/5) ✅")
             else:
-                reasons_fail.append(f"Форма {form[-5:]} ({wins}/5 побед) < {t['min_form']} ❌")
+                checks.append(f"Форма {form[-5:]} ({wins}/5) ❌")
+        elif outcome != "Х":
+            checks.append("Форма: нет данных ⚪")
 
-        # Условие 5: ELO разрыв (только для П1/П2)
-        if outcome != "Х" and elo_fav > 0 and elo_opp > 0:
-            elo_gap = elo_fav - elo_opp
-            if elo_gap >= t["min_elo_gap"]:
-                reasons_pass.append(f"ELO разрыв +{elo_gap} ✅")
+        # 5. ELO
+        if elo_fav > 0 and elo_opp > 0:
+            gap = elo_fav - elo_opp
+            if gap >= c["min_elo_gap"]:
+                score += 1
+                checks.append(f"ELO +{gap} ✅")
             else:
-                reasons_fail.append(f"ELO разрыв {elo_gap} < {t['min_elo_gap']} ❌")
+                checks.append(f"ELO {gap} ❌")
+        else:
+            checks.append("ELO: нет данных ⚪")
 
-        # Условие 6: ИИ согласен
+        # 6. ИИ согласен
         if ai_agrees is True:
-            reasons_pass.append("ИИ согласен ✅")
+            score += 1
+            checks.append("ИИ согласен ✅")
         elif ai_agrees is False:
-            reasons_fail.append("ИИ не согласен ❌")
+            checks.append("ИИ не согласен ❌")
+        # если None — не считаем
 
-        # Итог: сигнал только если НЕТ провальных условий
-        if not reasons_fail:
-            strength = _signal_strength(ev, prob)
+        max_score = 5 if outcome == "Х" else 6  # без формы для ничьей
+
+        if score >= c["min_score"] and ev > 0:
             signals.append({
                 "sport": "football",
                 "home": home_team,
@@ -163,14 +159,16 @@ def check_football_signal(
                 "prob": round(prob * 100, 1),
                 "ev": round(ev * 100, 1),
                 "kelly": _kelly(prob, odds),
-                "strength": strength,
-                "reasons": reasons_pass,
+                "score": score,
+                "max_score": max_score,
+                "strength": _strength(score, max_score, ev),
+                "checks": checks,
             })
 
     return signals
 
 
-# ─── CS2: проверка сигнала ────────────────────────────────────────────────────
+# ─── CS2 ─────────────────────────────────────────────────────────────────────
 
 def check_cs2_signal(
     home_team: str,
@@ -188,11 +186,7 @@ def check_cs2_signal(
     away_avg_rating: float = 0,
     ai_agrees: Optional[bool] = None,
 ) -> list[dict]:
-    """
-    Проверяет CS2 матч на сигнал.
-    Дополнительно учитывает MIS (карты) и рейтинги игроков.
-    """
-    t = CS2_THRESHOLDS
+    c = CS2_CFG
     signals = []
 
     candidates = [
@@ -200,73 +194,82 @@ def check_cs2_signal(
         ("П2", away_prob, bookmaker_odds.get("away_win", 0), away_team, away_form, elo_away, elo_home, mis_away, mis_home, away_avg_rating, home_avg_rating),
     ]
 
-    for outcome, prob, odds, team, form, elo_fav, elo_opp, mis_fav, mis_opp, rating_fav, rating_opp in candidates:
+    for outcome, prob, odds, team, form, elo_fav, elo_opp, mis_fav, mis_opp, rat_fav, rat_opp in candidates:
         if odds <= 1.0 or prob <= 0:
             continue
 
         ev = _calc_ev(prob, odds)
-        reasons_fail = []
-        reasons_pass = []
+        score = 0
+        checks = []
 
-        # Условие 1: Вероятность
-        if prob >= t["min_prob"]:
-            reasons_pass.append(f"Вероятность {int(prob*100)}% ✅")
+        # 1. Вероятность
+        if prob >= c["min_prob"]:
+            score += 1
+            checks.append(f"Вероятность {int(prob*100)}% ✅")
         else:
-            reasons_fail.append(f"Вероятность {int(prob*100)}% < {int(t['min_prob']*100)}% ❌")
+            checks.append(f"Вероятность {int(prob*100)}% ❌")
 
-        # Условие 2: EV
-        if ev >= t["min_ev"]:
-            reasons_pass.append(f"EV +{round(ev*100,1)}% ✅")
+        # 2. EV
+        if ev >= c["min_ev"]:
+            score += 1
+            checks.append(f"EV +{round(ev*100,1)}% ✅")
         else:
-            reasons_fail.append(f"EV +{round(ev*100,1)}% < {int(t['min_ev']*100)}% ❌")
+            checks.append(f"EV {round(ev*100,1)}% ❌")
 
-        # Условие 3: Коэффициент
-        if t["min_odds"] <= odds <= t["max_odds"]:
-            reasons_pass.append(f"Кэф {odds} ✅")
+        # 3. Коэффициент
+        if c["min_odds"] <= odds <= c["max_odds"]:
+            score += 1
+            checks.append(f"Кэф {odds} ✅")
         else:
-            reasons_fail.append(f"Кэф {odds} вне диапазона [{t['min_odds']}-{t['max_odds']}] ❌")
+            checks.append(f"Кэф {odds} ❌")
 
-        # Условие 4: Форма
+        # 4. Форма
         if form:
-            wins = _count_wins_in_form(form[-5:])
-            if wins >= t["min_form"]:
-                reasons_pass.append(f"Форма {form[-5:]} ({wins}/5) ✅")
+            wins = _count_wins(form[-5:])
+            if wins >= c["min_form_wins"]:
+                score += 1
+                checks.append(f"Форма {form[-5:]} ({wins}/5) ✅")
             else:
-                reasons_fail.append(f"Форма {form[-5:]} ({wins}/5) < {t['min_form']} ❌")
+                checks.append(f"Форма {form[-5:]} ({wins}/5) ❌")
+        else:
+            checks.append("Форма: нет данных ⚪")
 
-        # Условие 5: ELO
+        # 5. ELO
         if elo_fav > 0 and elo_opp > 0:
-            elo_gap = elo_fav - elo_opp
-            if elo_gap >= t["min_elo_gap"]:
-                reasons_pass.append(f"ELO разрыв +{elo_gap} ✅")
+            gap = elo_fav - elo_opp
+            if gap >= c["min_elo_gap"]:
+                score += 1
+                checks.append(f"ELO +{gap} ✅")
             else:
-                reasons_fail.append(f"ELO разрыв {elo_gap} < {t['min_elo_gap']} ❌")
+                checks.append(f"ELO {gap} ❌")
+        else:
+            checks.append("ELO: нет данных ⚪")
 
-        # Условие 6: MIS (преимущество на картах)
+        # 6. MIS (карты)
         if mis_fav > 0 and mis_opp > 0:
             mis_gap = mis_fav - mis_opp
-            if mis_gap >= t["min_mis_gap"]:
-                reasons_pass.append(f"MIS карты +{round(mis_gap*100,1)}% ✅")
+            if mis_gap >= c["min_mis_gap"]:
+                score += 1
+                checks.append(f"Карты +{round(mis_gap*100,1)}% ✅")
             else:
-                reasons_fail.append(f"MIS карты {round(mis_gap*100,1)}% < {int(t['min_mis_gap']*100)}% ❌")
+                checks.append(f"Карты {round(mis_gap*100,1)}% ❌")
+        else:
+            checks.append("Карты: нет данных ⚪")
 
-        # Условие 7: Рейтинг игроков
-        if rating_fav > 0 and rating_opp > 0:
-            rating_gap = rating_fav - rating_opp
-            if rating_gap >= t["min_rating_gap"]:
-                reasons_pass.append(f"Рейтинг игроков +{round(rating_gap,2)} ✅")
+        # 7. Рейтинг игроков
+        if rat_fav > 0 and rat_opp > 0:
+            rat_gap = rat_fav - rat_opp
+            if rat_gap >= c["min_rating_gap"]:
+                score += 1
+                checks.append(f"Рейтинг +{round(rat_gap,2)} ✅")
             else:
-                reasons_fail.append(f"Рейтинг игроков {round(rating_gap,2)} < {t['min_rating_gap']} ❌")
+                checks.append(f"Рейтинг {round(rat_gap,2)} ❌")
+        else:
+            checks.append("Рейтинг: нет данных ⚪")
 
-        # Условие 8: ИИ согласен
-        if ai_agrees is True:
-            reasons_pass.append("ИИ согласен ✅")
-        elif ai_agrees is False:
-            reasons_fail.append("ИИ не согласен ❌")
+        max_score = 7
 
-        # Итог
-        if not reasons_fail:
-            strength = _signal_strength(ev, prob)
+        if score >= c["min_score"] and ev > 0:
             signals.append({
                 "sport": "cs2",
                 "home": home_team,
@@ -277,112 +280,85 @@ def check_cs2_signal(
                 "prob": round(prob * 100, 1),
                 "ev": round(ev * 100, 1),
                 "kelly": _kelly(prob, odds),
-                "strength": strength,
-                "reasons": reasons_pass,
+                "score": score,
+                "max_score": max_score,
+                "strength": _strength(score, max_score, ev),
+                "checks": checks,
             })
 
     return signals
 
 
-# ─── Форматирование сигнала для Telegram ─────────────────────────────────────
+# ─── Форматирование ───────────────────────────────────────────────────────────
 
 def format_signal(signal: dict) -> str:
-    """Форматирует один сигнал для вывода в Telegram"""
-    sport_icon = "🎮" if signal["sport"] == "cs2" else "⚽"
+    icon = "🎮" if signal["sport"] == "cs2" else "⚽"
+    passing = [c for c in signal["checks"] if "✅" in c]
     lines = [
-        f"{sport_icon} *{signal['home']} vs {signal['away']}*",
+        f"{icon} *{signal['home']} vs {signal['away']}*",
         f"",
-        f"{signal['strength']}",
+        f"{signal['strength']}  ({signal['score']}/{signal['max_score']} факторов)",
         f"",
-        f"📌 Ставка: *{signal['outcome']}* ({signal['team']})",
-        f"💰 Коэффициент: *{signal['odds']}*",
-        f"📊 Наша вероятность: *{signal['prob']}%*",
-        f"📈 EV: *+{signal['ev']}%*",
-        f"🏦 Размер ставки (Келли): *{signal['kelly']}% банка*",
+        f"📌 *{signal['outcome']}* — {signal['team']}",
+        f"💰 Кэф: *{signal['odds']}*  |  Вероятность: *{signal['prob']}%*",
+        f"📈 EV: *+{signal['ev']}%*  |  Ставка: *{signal['kelly']}% банка*",
         f"",
-        f"✅ Почему сигнал:",
+        f"✅ Факторы за:",
     ]
-    for r in signal["reasons"]:
-        lines.append(f"  • {r}")
+    for c in passing:
+        lines.append(f"  • {c.replace(' ✅','')}")
     return "\n".join(lines)
 
 
 def format_signals_list(signals: list[dict], title: str = "📡 СИГНАЛЫ ДНЯ") -> str:
-    """Форматирует список сигналов для команды /signals"""
     if not signals:
         return (
             f"{title}\n"
             f"━━━━━━━━━━━━━━━━━━━━━━━\n\n"
             f"❌ Сегодня нет сигналов.\n\n"
-            f"Все матчи не прошли фильтры:\n"
-            f"• Вероятность < 62%\n"
-            f"• EV < 12%\n"
-            f"• Плохая форма команды\n\n"
-            f"_Лучше пропустить день, чем потерять деньги._"
+            f"Матчи не набрали достаточно факторов:\n"
+            f"• Нужно 4+ из 6 условий\n"
+            f"• Вероятность > 55%\n"
+            f"• EV > 7%\n\n"
+            f"_Попробуй позже — матчи обновляются._"
         )
 
     lines = [
         f"{title}",
         f"━━━━━━━━━━━━━━━━━━━━━━━",
-        f"Найдено сигналов: *{len(signals)}*",
+        f"Найдено: *{len(signals)}* сигнал(а)",
         f"",
     ]
-
     for i, sig in enumerate(signals, 1):
-        lines.append(f"*Сигнал {i}:*")
+        lines.append(f"*— Сигнал {i} —*")
         lines.append(format_signal(sig))
-        lines.append("─────────────────────")
+        lines.append("")
 
-    lines.append(f"\n⚠️ _Ставь не более {signals[0]['kelly']}% банка на каждый сигнал_")
+    lines.append(f"⚠️ _Управляй банком: не более {signals[0]['kelly']}% на сигнал_")
     return "\n".join(lines)
 
 
-# ─── Быстрый тест ────────────────────────────────────────────────────────────
+# ─── Тест ────────────────────────────────────────────────────────────────────
 
 if __name__ == "__main__":
-    # Тест футбол
     sigs = check_football_signal(
-        home_team="Manchester City",
-        away_team="Burnley",
-        home_prob=0.72,
-        away_prob=0.15,
-        draw_prob=0.13,
-        bookmaker_odds={"home_win": 1.75, "draw": 4.20, "away_win": 5.50},
-        home_form="WWWLW",
-        away_form="LLLWL",
-        elo_home=1900,
-        elo_away=1650,
-        ai_agrees=True,
+        "Manchester City", "Burnley",
+        home_prob=0.68, away_prob=0.16, draw_prob=0.16,
+        bookmaker_odds={"home_win": 1.72, "draw": 4.10, "away_win": 5.20},
+        home_form="WWWLW", away_form="LLLWL",
+        elo_home=1880, elo_away=1640,
     )
     print("=== Футбол ===")
-    if sigs:
-        for s in sigs:
-            print(format_signal(s))
-    else:
-        print("Нет сигналов")
+    print(format_signals_list(sigs))
 
-    print()
-
-    # Тест CS2
     sigs2 = check_cs2_signal(
-        home_team="Team Vitality",
-        away_team="Astralis",
-        home_prob=0.75,
-        away_prob=0.25,
-        bookmaker_odds={"home_win": 1.65, "away_win": 2.30},
-        home_form="WWWWL",
-        away_form="LLWLL",
-        elo_home=1820,
-        elo_away=1620,
-        mis_home=0.58,
-        mis_away=0.42,
-        home_avg_rating=1.19,
-        away_avg_rating=1.05,
-        ai_agrees=True,
+        "Team Vitality", "Astralis",
+        home_prob=0.72, away_prob=0.28,
+        bookmaker_odds={"home_win": 1.62, "away_win": 2.35},
+        home_form="WWWWL", away_form="LLWLL",
+        elo_home=1820, elo_away=1610,
+        mis_home=0.57, mis_away=0.43,
+        home_avg_rating=1.19, away_avg_rating=1.05,
     )
     print("=== CS2 ===")
-    if sigs2:
-        for s in sigs2:
-            print(format_signal(s))
-    else:
-        print("Нет сигналов")
+    print(format_signals_list(sigs2))
