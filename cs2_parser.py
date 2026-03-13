@@ -12,6 +12,8 @@ def get_real_cs2_matches():
         print("[CS2 Parser] Ошибка: THE_ODDS_API_KEY не найден в .env")
         return []
 
+    # The Odds API использует 'esports_csgo' для CS2, но иногда он может быть недоступен в Free Plan
+    # Пробуем получить матчи, если не найдено - возвращаем пустой список
     url = f"https://api.the-odds-api.com/v4/sports/esports_csgo/odds/"
     params = {
         "apiKey": THE_ODDS_API_KEY,

@@ -835,7 +835,7 @@ async def send_welcome(message: types.Message):
     get_matches()
     name = message.from_user.first_name or "друг"
     await message.answer(
-        f"🔮 *CHIMERA AI v4.3* — Искусственный Интеллект для ставок\n"
+        f"🔮 *CHIMERA AI v4.4.2* — Искусственный Интеллект для ставок\n"
         f"━━━━━━━━━━━━━━━━━━━━━━━━━\n\n"
         f"Привет, *{name}*! 👋\n\n"
         f"🧠 *5 независимых моделей анализа:*\n"
