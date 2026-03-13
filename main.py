@@ -273,23 +273,24 @@ def conf_icon(c):
 # --- 6. Клавиатуры ---
 
 def build_cs2_matches_keyboard():
-    """Клавиатура для выбора реальных матчей CS2."""
+    """Клавиатура для выбора реальных матчей CS2 (Tier-1/2/3)."""
     global cs2_matches_cache
     builder = InlineKeyboardBuilder()
     
-    # Получаем реальные матчи через парсер
-    cs2_matches_cache = get_real_cs2_matches()
+    # Получаем реальные матчи через PandaScore (видит Tier-2/3)
+    cs2_matches_cache = get_combined_cs2_matches()
     
     if not cs2_matches_cache:
-        # Если API не вернуло данных (нет ключа или нет матчей), оставляем mock для теста
+        # Если API не вернуло данных, оставляем mock для теста
         cs2_matches_cache = [
             {"home": "Natus Vincere", "away": "Team Vitality", "time": "20:00", "odds": {"home_win": 1.95, "away_win": 1.85}},
             {"home": "FaZe Clan", "away": "G2 Esports", "time": "22:30", "odds": {"home_win": 2.10, "away_win": 1.70}},
             {"home": "Team Spirit", "away": "MOUZ", "time": "18:00", "odds": {"home_win": 1.65, "away_win": 2.20}}
         ]
-        print("[CS2] API не вернуло данных, использую тестовые пары.")
+        print("[CS2] PandaScore не вернул данных, использую тестовые пары.")
 
-    for i, m in enumerate(cs2_matches_cache):
+    # Показываем максимум 10 матчей, чтобы не перегружать меню
+    for i, m in enumerate(cs2_matches_cache[:10]):
         builder.button(
             text=f"🎮 {m['home']} vs {m['away']} [{m['time']}]",
             callback_data=f"cs2_m_{i}"
@@ -761,7 +762,7 @@ dp = Dispatcher()
 
 from cs2_core import calculate_cs2_win_prob, get_golden_signal, format_cs2_full_report
 from cs2_agents import run_cs2_analyst_agent
-from cs2_parser import get_real_cs2_matches
+from cs2_pandascore import get_combined_cs2_matches
 
 # Кэш для реальных матчей CS2
 cs2_matches_cache = []
@@ -835,7 +836,7 @@ async def send_welcome(message: types.Message):
     get_matches()
     name = message.from_user.first_name or "друг"
     await message.answer(
-        f"🔮 *CHIMERA AI v4.4.2* — Искусственный Интеллект для ставок\n"
+        f"🔮 *CHIMERA AI v4.5.0* — Искусственный Интеллект для ставок\n"
         f"━━━━━━━━━━━━━━━━━━━━━━━━━\n\n"
         f"Привет, *{name}*! 👋\n\n"
         f"🧠 *5 независимых моделей анализа:*\n"
