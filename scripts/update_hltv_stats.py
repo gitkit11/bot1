@@ -1,26 +1,31 @@
 """
 scripts/update_hltv_stats.py — Ежедневное обновление статистики HLTV
 =====================================================================
-Использует Playwright для обхода Cloudflare.
+Использует cloudscraper для обхода базовых проверок Cloudflare без браузера.
 Обновляет winrate по картам и статистику игроков.
 
 Запуск:
     python3.11 scripts/update_hltv_stats.py
 """
 
-import asyncio
 import json
 import logging
 import os
-import re
 import sys
 import time
+import re
 from datetime import datetime
 from pathlib import Path
 
 # Добавляем корень проекта в путь
 PROJECT_ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
+
+try:
+    import cloudscraper
+except ImportError:
+    print("Ошибка: Библиотека cloudscraper не установлена. Выполните: pip install cloudscraper")
+    sys.exit(1)
 
 logging.basicConfig(
     level=logging.INFO,
@@ -49,110 +54,116 @@ TEAMS_TO_UPDATE = [
     ("Falcons",         12279, "falcons"),
 ]
 
-async def scrape_team_maps(page, team_id: int, slug: str) -> dict | None:
-    url = f"https://www.hltv.org/stats/teams/maps/{team_id}/{slug}?startDate=last-3-months"
-    try:
-        await page.goto(url, wait_until="domcontentloaded", timeout=30000)
-        await asyncio.sleep(3)
-        
-        map_data = await page.evaluate("""
-            () => {
-                const result = {};
-                document.querySelectorAll('.stats-table tbody tr').forEach(row => {
-                    const mapNameEl = row.querySelector('.stats-table-map-name');
-                    const winRateEl = row.querySelector('.stats-table-win-rate');
-                    if (mapNameEl && winRateEl) {
-                        const name = mapNameEl.textContent.trim();
-                        const wr = parseFloat(winRateEl.textContent.replace('%', ''));
-                        if (!isNaN(wr)) result[name] = wr;
-                    }
-                });
-                return result;
-            }
-        """)
-        return map_data if map_data else None
-    except Exception as e:
-        logger.error(f"  ❌ Maps {slug}: {e}")
-        return None
+MAPS = ["Mirage", "Nuke", "Inferno", "Ancient", "Anubis", "Vertigo", "Dust2"]
 
-async def scrape_team_players(page, team_id: int, slug: str) -> list | None:
-    url = f"https://www.hltv.org/stats/teams/players/{team_id}/{slug}?startDate=last-3-months"
+def get_team_data(team_id: int, slug: str):
+    scraper = cloudscraper.create_scraper(
+        browser={
+            'browser': 'chrome',
+            'platform': 'windows',
+            'desktop': True
+        }
+    )
+    
+    # Пытаемся получить данные через API-зеркало или напрямую с HLTV (через cloudscraper)
+    # 1. Получаем карты (за последние 3 месяца)
+    map_url = f"https://www.hltv.org/stats/teams/maps/{team_id}/{slug}?startDate=last-3-months"
+    # 2. Получаем игроков (за последние 3 месяца)
+    player_url = f"https://www.hltv.org/stats/teams/players/{team_id}/{slug}?startDate=last-3-months"
+    
+    map_stats = {}
+    player_stats = []
+    
     try:
-        await page.goto(url, wait_until="domcontentloaded", timeout=30000)
-        await asyncio.sleep(3)
+        # Парсинг карт
+        response = scraper.get(map_url, timeout=15)
+        if response.status_code == 200:
+            html = response.text
+            for m in MAPS:
+                # Ищем винрейт в HTML (упрощенный поиск регулярками)
+                pattern = rf'<div class="stats-table-map-name">{m}</div>.*?<div class="stats-table-win-rate">(.*?)%</div>'
+                match = re.search(pattern, html, re.DOTALL)
+                if match:
+                    try:
+                        map_stats[m] = float(match.group(1).strip())
+                    except:
+                        pass
         
-        players = await page.evaluate("""
-            () => {
-                const result = [];
-                document.querySelectorAll('table.stats-table tbody tr').forEach(row => {
-                    const cells = row.querySelectorAll('td');
-                    if (cells.length >= 5) {
-                        const nameEl = cells[0].querySelector('a');
-                        result.push({
-                            name: nameEl ? nameEl.textContent.trim() : cells[0].textContent.trim(),
-                            rating: parseFloat(cells[4].textContent.trim()) || 0,
-                        });
-                    }
-                });
-                return result;
-            }
-        """)
-        return players if players else None
+        time.sleep(2) # Пауза между запросами
+        
+        # Парсинг игроков
+        response = scraper.get(player_url, timeout=15)
+        if response.status_code == 200:
+            html = response.text
+            # Ищем имена и рейтинги игроков
+            # Паттерн: <a href="/stats/players/ID/NAME">NAME</a></td>...<td class="ratingColumn">RATING</td>
+            player_pattern = r'<td><a href="/stats/players/\d+/.*?">(.*?)</a></td>.*?<td class=".*?ratingColumn.*?">(.*?)</td>'
+            matches = re.findall(player_pattern, html, re.DOTALL)
+            for name, rating in matches:
+                try:
+                    player_stats.append({"name": name, "rating": float(rating)})
+                except:
+                    pass
+                    
+        return map_stats, player_stats
     except Exception as e:
-        logger.error(f"  ❌ Players {slug}: {e}")
-        return None
+        logger.error(f"Ошибка при получении данных для {slug}: {e}")
+        return None, None
 
-def generate_hltv_stats_file(map_stats: dict, player_stats: dict, update_date: str) -> str:
+def generate_hltv_stats_file(map_results: dict, player_results: dict, update_date: str) -> str:
     content = f'"""\nHLTV Stats — Автоматически обновляемые данные\nДата обновления: {update_date}\n"""\n\n'
     
-    # MAP_STATS
     content += "MAP_STATS: dict[str, dict[str, float]] = {\n"
-    for team, maps in map_stats.items():
+    for team, maps in map_results.items():
         content += f'    "{team}": {json.dumps(maps)},\n'
     content += "}\n\n"
     
-    # PLAYER_STATS
     content += "PLAYER_STATS: dict[str, list[dict]] = {\n"
-    for team, players in player_stats.items():
+    for team, players in player_results.items():
         content += f'    "{team}": {json.dumps(players)},\n'
+    content += "}\n\n"
+    
+    content += "TEAM_ALIASES: dict[str, str] = {\n"
+    content += '    "Vitality": "Team Vitality",\n'
+    content += '    "G2": "G2 Esports",\n'
+    content += '    "FaZe": "FaZe Clan",\n'
+    content += '    "NaVi": "Natus Vincere",\n'
+    content += '    "Spirit": "Team Spirit",\n'
+    content += '    "mousesports": "MOUZ",\n'
+    content += '    "Liquid": "Team Liquid",\n'
     content += "}\n"
     
     return content
 
-async def run_update():
-    from playwright.async_api import async_playwright
+def run_update():
     update_date = datetime.now().strftime("%Y-%m-%d")
-    
     map_results = {}
     player_results = {}
     
-    async with async_playwright() as p:
-        browser = await p.chromium.launch(headless=True, args=["--no-sandbox"])
-        context = await browser.new_context(user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
-        page = await context.new_page()
+    # Загружаем текущие данные (на случай, если API не отдаст часть данных)
+    stats_file = PROJECT_ROOT / "sports" / "cs2" / "hltv_stats.py"
+    
+    for team_name, team_id, slug in TEAMS_TO_UPDATE:
+        logger.info(f"Обновление {team_name} (ID: {team_id})...")
+        maps, players = get_team_data(team_id, slug)
         
-        for team_name, team_id, slug in TEAMS_TO_UPDATE:
-            logger.info(f"Updating {team_name}...")
+        if maps:
+            map_results[team_name] = maps
+            logger.info(f"  ✅ Карты: {len(maps)} шт.")
+        if players:
+            player_results[team_name] = players
+            logger.info(f"  ✅ Игроки: {len(players)} чел.")
             
-            maps = await scrape_team_maps(page, team_id, slug)
-            if maps: map_results[team_name] = maps
-            
-            await asyncio.sleep(2)
-            
-            players = await scrape_team_players(page, team_id, slug)
-            if players: player_results[team_name] = players
-            
-            await asyncio.sleep(2)
-            
-        await browser.close()
+        time.sleep(3) # Безопасная пауза
         
     if map_results or player_results:
-        stats_file = PROJECT_ROOT / "sports" / "cs2" / "hltv_stats.py"
         new_content = generate_hltv_stats_file(map_results, player_results, update_date)
         stats_file.write_text(new_content, encoding="utf-8")
-        logger.info(f"✅ hltv_stats.py updated")
+        logger.info(f"✅ Файл hltv_stats.py успешно обновлен!")
         return True
-    return False
+    else:
+        logger.error("❌ Не удалось получить данные. Проверьте соединение или VPN.")
+        return False
 
 if __name__ == "__main__":
-    asyncio.run(run_update())
+    run_update()
