@@ -241,3 +241,98 @@ def run_llama_via_gpt(home_team, away_team, prophet_data, news_summary, bookmake
     }}
     """
     return call_ai(prompt, client, "gpt-4.1-mini")
+
+# --- 5. Дополнительные рыночные агенты (Маркет-мейкеры) ---
+
+def run_goals_market_agent(home_team, away_team, stats_text, bookmaker_odds):
+    """Агент по рынку голов: анализирует ТБ/ТМ."""
+    prompt = f"""
+    Ты — эксперт по ставкам на тоталы голов. Матч: {home_team} vs {away_team}.
+    Статистика голов и xG: {stats_text}
+    Коэффициенты на ТБ 2.5: {bookmaker_odds.get('over_2_5', 'Нет данных')}, ТМ 2.5: {bookmaker_odds.get('under_2_5', 'Нет данных')}.
+    Задача: Дай прогноз на ТБ 2.5 или ТМ 2.5. Оцени вероятность и ценность.
+    Формат ответа (JSON):
+    {{
+      "analysis_summary": "...",
+      "recommended_outcome": "Больше 2.5" или "Меньше 2.5",
+      "confidence_percent": 0,
+      "expected_value_percent": 0
+    }}
+    """
+    return call_ai(prompt, client, "gpt-4.1-mini")
+
+def run_corners_market_agent(home_team, away_team, stats_text, bookmaker_odds):
+    """Агент по угловым."""
+    prompt = f"""
+    Ты — эксперт по ставкам на угловые. Матч: {home_team} vs {away_team}.
+    Статистика угловых: {stats_text}
+    Задача: Прогнозируй количество угловых (Победа по угловым или Тотал).
+    Формат ответа (JSON):
+    {{
+      "analysis_summary": "...",
+      "recommended_outcome": "...",
+      "confidence_percent": 0
+    }}
+    """
+    return call_ai(prompt, client, "gpt-4.1-mini")
+
+def run_cards_market_agent(home_team, away_team, stats_text, bookmaker_odds):
+    """Агент по желтым карточкам."""
+    prompt = f"""
+    Ты — эксперт по ставкам на карточки. Матч: {home_team} vs {away_team}.
+    Статистика ЖК: {stats_text}
+    Задача: Прогнозируй количество ЖК (Победа по ЖК или Тотал).
+    Формат ответа (JSON):
+    {{
+      "analysis_summary": "...",
+      "recommended_outcome": "...",
+      "confidence_percent": 0
+    }}
+    """
+    return call_ai(prompt, client, "gpt-4.1-mini")
+
+def run_handicap_market_agent(home_team, away_team, stats_text, bookmaker_odds):
+    """Агент по форам."""
+    prompt = f"""
+    Ты — эксперт по ставкам на форы (гандикапы). Матч: {home_team} vs {away_team}.
+    Статистика: {stats_text}
+    Задача: Прогнозируй оптимальную фору (например, -1 или +1.5).
+    Формат ответа (JSON):
+    {{
+      "analysis_summary": "...",
+      "recommended_outcome": "...",
+      "confidence_percent": 0
+    }}
+    """
+    return call_ai(prompt, client, "gpt-4.1-mini")
+
+def run_mixtral_agent(home_team, away_team, stats_text):
+    """Агент на базе Mixtral (через Groq) для альтернативного взгляда."""
+    if not groq_client:
+        return {"error": "Groq недоступен"}
+    prompt = f"Проанализируй матч {home_team} vs {away_team}. Статистика: {stats_text}. Дай краткий прогноз."
+    return call_ai(prompt, groq_client, "mixtral-8x7b-32768")
+
+def build_math_ensemble(math_probs, ai_probs):
+    """Объединяет математические вероятности и ИИ-прогнозы в ансамбль."""
+    # Веса: Математика 40%, ИИ 60%
+    ensemble = {}
+    for key in ['home', 'draw', 'away']:
+        ensemble[key] = (math_probs.get(key, 0.33) * 0.4) + (ai_probs.get(key, 0.33) * 0.6)
+    return ensemble
+
+def calculate_value_bets(ensemble_probs, bookmaker_odds):
+    """Ищет выгодные ставки (Value Bets) на основе ансамбля."""
+    value_bets = []
+    for outcome, prob in ensemble_probs.items():
+        odds = bookmaker_odds.get(outcome)
+        if odds and odds > 1:
+            implied_prob = 1 / odds
+            if prob > implied_prob + 0.05: # Преимущество 5%+
+                value_bets.append({
+                    "outcome": outcome,
+                    "prob": prob,
+                    "odds": odds,
+                    "ev": (prob * odds) - 1
+                })
+    return value_bets
