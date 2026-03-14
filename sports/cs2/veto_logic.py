@@ -15,7 +15,7 @@ TEAM_MAP_PREFERENCES = {
     "MOUZ": {"Mirage": 0.8, "Nuke": 0.8, "Inferno": 0.7, "Ancient": 0.8, "Anubis": 0.6, "Vertigo": 0.9, "Dust2": 0.5},
 }
 
-def simulate_bo3_veto(home_team, away_team):
+def simulate_bo3_veto(home_team, away_team, team_map_stats=None):
     """
     Симулирует процесс Veto для матча BO3.
     1. Home ban
@@ -29,8 +29,22 @@ def simulate_bo3_veto(home_team, away_team):
     pool = list(ACTIVE_DUTY_POOL)
     veto_log = []
     
-    h_pref = TEAM_MAP_PREFERENCES.get(home_team, {m: 0.5 for m in pool})
-    a_pref = TEAM_MAP_PREFERENCES.get(away_team, {m: 0.5 for m in pool})
+    # Получаем предпочтения (винрейты или mock-данные)
+    h_pref = {}
+    a_pref = {}
+    
+    for m in pool:
+        # Для хозяев
+        if team_map_stats and home_team in team_map_stats and m in team_map_stats[home_team]:
+            h_pref[m] = team_map_stats[home_team][m] / 100.0
+        else:
+            h_pref[m] = TEAM_MAP_PREFERENCES.get(home_team, {}).get(m, 0.5)
+            
+        # Для гостей
+        if team_map_stats and away_team in team_map_stats and m in team_map_stats[away_team]:
+            a_pref[m] = team_map_stats[away_team][m] / 100.0
+        else:
+            a_pref[m] = TEAM_MAP_PREFERENCES.get(away_team, {}).get(m, 0.5)
     
     # 1. Home ban (самая нелюбимая карта)
     h_ban = min(pool, key=lambda m: h_pref.get(m, 0.5))
