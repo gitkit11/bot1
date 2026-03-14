@@ -214,20 +214,32 @@ def parse_pandascore_item(item, status_label):
     display_status = "🟢 LIVE" if is_live else time_str
 
     # Извлекаем коэффициенты (если есть в API)
-    # PandaScore в бесплатном тарифе редко дает коэффициенты, 
-    # но мы проверим поле market_odds или подобные если они появятся
-    home_odds = 1.90
-    away_odds = 1.90
+    # PandaScore в бесплатном тарифе редко дает коэффициенты в основном объекте.
+    # По умолчанию ставим 0, чтобы в отчете было понятно, что данных нет.
+    home_odds = 0
+    away_odds = 0
     
-    # Попытка найти реальные коэффициенты в объекте матча
+    # 1. Попытка найти в market_odds (если есть)
     if item.get("market_odds"):
         for market in item["market_odds"]:
-            if market.get("name") == "match-winner":
+            if "winner" in market.get("name", "").lower():
                 for selection in market.get("selections", []):
                     if selection.get("name") == home:
-                        home_odds = selection.get("odds", 1.90)
+                        home_odds = selection.get("odds", 0)
                     elif selection.get("name") == away:
-                        away_odds = selection.get("odds", 1.90)
+                        away_odds = selection.get("odds", 0)
+
+    # 2. Попытка найти в поле odds (иногда PandaScore отдает так)
+    if home_odds == 0 and item.get("odds"):
+        # Бывает список или словарь
+        odds_data = item["odds"]
+        if isinstance(odds_data, list):
+            for o in odds_data:
+                if o.get("name") == home: home_odds = o.get("value", 0)
+                if o.get("name") == away: away_odds = o.get("value", 0)
+        elif isinstance(odds_data, dict):
+            home_odds = odds_data.get("home_win", 0) or odds_data.get("home", 0)
+            away_odds = odds_data.get("away_win", 0) or odds_data.get("away", 0)
 
     return {
         "id": item['id'],

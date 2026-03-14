@@ -166,9 +166,11 @@ def format_cs2_full_report(home_team, away_team, analysis, gpt_analysis, llama_a
     if bookmaker_odds:
         h_odds = bookmaker_odds.get("home_win", 0)
         a_odds = bookmaker_odds.get("away_win", 0)
+        report += f"💰 *КОЭФФИЦИЕНТЫ БУКМЕКЕРОВ:*\n"
         if h_odds > 0 and a_odds > 0:
-            report += f"💰 *КОЭФФИЦИЕНТЫ БУКМЕКЕРОВ:*\n"
             report += f" 🔹 {home_team}: *{h_odds:.2f}* | 🔸 {away_team}: *{a_odds:.2f}*\n\n"
+        else:
+            report += f" ⚠️ Коэффициенты временно недоступны в API\n\n"
 
     # Статистика команд
     report += f"📊 *СТАТИСТИКА КОМАНД (PandaScore):*\n"

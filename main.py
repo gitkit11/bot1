@@ -796,10 +796,7 @@ async def handle_text(message: types.Message):
             # Строим клавиатуру со списком матчей
             builder = InlineKeyboardBuilder()
             for i, m in enumerate(cs2_matches[:20]):
-                odds = m.get("odds", {})
-                h_odds = odds.get("home_win", 1.90)
-                a_odds = odds.get("away_win", 1.90)
-                label = f"🎮 {m['home']} ({h_odds}) vs ({a_odds}) {m['away']} | {m['time']}"
+                label = f"🎮 {m['home']} vs {m['away']} | {m['time']}"
                 builder.button(text=label, callback_data=f"cs2_m_{i}")
             builder.adjust(1)
             # Сохраняем матчи в кэш
@@ -927,10 +924,7 @@ async def handle_callback(call: types.CallbackQuery):
             return
         builder = InlineKeyboardBuilder()
         for i, m in enumerate(cs2_matches_cache[:20]):
-            odds = m.get("odds", {})
-            h_odds = odds.get("home_win", 1.90)
-            a_odds = odds.get("away_win", 1.90)
-            label = f"🎮 {m['home']} ({h_odds}) vs ({a_odds}) {m['away']} | {m['time']}"
+            label = f"🎮 {m['home']} vs {m['away']} | {m['time']}"
             builder.button(text=label, callback_data=f"cs2_m_{i}")
         builder.adjust(1)
         await call.message.edit_text(
