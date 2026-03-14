@@ -13,3 +13,4 @@ maestro_result.json
 # Игнорируем локальные конфигурации
 .env
 scripts/node_modules/
+chimera_predictions.db
