@@ -177,11 +177,8 @@ def run_cs2_analyst_agent(home_team, away_team, map_stats, bookmaker_odds,
     except Exception as e:
         # Если Llama через Groq не сработала, пробуем еще раз с увеличенным таймаутом
         if agent_type == "llama-3.3":
-            print(f"[CS2-Agents] Llama-3.3 агент упал с ошибкой: {e}. Пробую GPT-4.1-mini как запасной вариант.")
-            # Fallback на GPT-4.1-mini, если Llama-3.3 не сработала
-            result = _call_ai(prompt, _gpt_client, "gpt-4.1-mini", system_msg="Ты — профессиональный аналитик CS2 с 10-летним опытом. Отвечай на русском языке, кратко и по делу.")
-            if isinstance(result, dict) and result.get("error"):
-                result = f"❌ Ошибка Llama 3.3 и GPT-4.1-mini: {str(e)[:100]}"
+            print(f"[CS2-Agents] Llama-3.3 агент упал с ошибкой: {e}.")
+            result = f"❌ Ошибка Llama 3.3: {str(e)[:100]}"
         else:
             result = f"❌ Ошибка {model}: {str(e)[:100]}"
             
