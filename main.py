@@ -913,7 +913,7 @@ async def handle_callback(call: types.CallbackQuery):
             map_stats_for_ai = {m: {"home_prob": round(hp, 2), "away_prob": round(ap, 2)} for m, hp, ap in analysis.get("maps", [])}
             gpt_text = run_cs2_analyst_agent(home_team, away_team, map_stats_for_ai, odds, agent_type="gpt-4o", home_stats=h_stats, away_stats=a_stats, h2h=h2h)
             llama_text = run_cs2_analyst_agent(home_team, away_team, map_stats_for_ai, odds, agent_type="llama-3.3", home_stats=h_stats, away_stats=a_stats, h2h=h2h)
-            report = format_cs2_full_report(home_team, away_team, analysis, gpt_text, llama_text, golden_signals)
+            report = format_cs2_full_report(home_team, away_team, analysis, gpt_text, llama_text, golden_signals, bookmaker_odds=odds)
             builder = InlineKeyboardBuilder()
             builder.button(text="⬅️ Назад к списку", callback_data="back_to_cs2")
             await call.message.edit_text(report, parse_mode="Markdown", reply_markup=builder.as_markup())

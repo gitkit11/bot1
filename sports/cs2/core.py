@@ -151,7 +151,7 @@ def get_golden_signal(analysis_data, bookmaker_odds):
 
     return signals
 
-def format_cs2_full_report(home_team, away_team, analysis, gpt_analysis, llama_analysis, golden_signals):
+def format_cs2_full_report(home_team, away_team, analysis, gpt_analysis, llama_analysis, golden_signals, bookmaker_odds=None):
     """Форматирует профессиональный отчет для CS2 v4.5."""
     h_stats = analysis.get("home_stats", {})
     a_stats = analysis.get("away_stats", {})
@@ -161,6 +161,14 @@ def format_cs2_full_report(home_team, away_team, analysis, gpt_analysis, llama_a
     report = f"🎮 *CHIMERA AI CS2 v4.5 — АНАЛИЗ МАТЧА*\n"
     report += f"━━━━━━━━━━━━━━━━━━━━━━━━━\n\n"
     report += f"⚔️ *{home_team} vs {away_team}*\n\n"
+
+    # Коэффициенты букмекеров
+    if bookmaker_odds:
+        h_odds = bookmaker_odds.get("home_win", 0)
+        a_odds = bookmaker_odds.get("away_win", 0)
+        if h_odds > 0 and a_odds > 0:
+            report += f"💰 *КОЭФФИЦИЕНТЫ БУКМЕКЕРОВ:*\n"
+            report += f" 🔹 {home_team}: *{h_odds:.2f}* | 🔸 {away_team}: *{a_odds:.2f}*\n\n"
 
     # Статистика команд
     report += f"📊 *СТАТИСТИКА КОМАНД (PandaScore):*\n"
