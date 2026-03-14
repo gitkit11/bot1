@@ -176,17 +176,17 @@ def get_cs2_matches_pandascore():
     if r_upcoming and r_upcoming.status_code == 200:
         for item in r_upcoming.json():
             if item.get('opponents') and len(item['opponents']) >= 2:
-                matches.append(parse_pandascore_item(item, status="UPCOMING"))
+                matches.append(parse_pandascore_item(item, status_label="UPCOMING"))
 
     r_running = _request_with_retry(f"{PANDASCORE_BASE}/matches/running", params=params)
     if r_running and r_running.status_code == 200:
         for item in r_running.json():
             if item.get('opponents') and len(item['opponents']) >= 2:
-                matches.append(parse_pandascore_item(item, status="LIVE 🔴"))
+                matches.append(parse_pandascore_item(item, status_label="LIVE"))
 
     return matches
 
-def parse_pandascore_item(item, status):
+def parse_pandascore_item(item, status_label):
     """Парсит один матч из формата PandaScore."""
     opponents = item['opponents']
     home = opponents[0]['opponent']['name']
@@ -205,9 +205,29 @@ def parse_pandascore_item(item, status):
             dt = datetime.datetime.fromisoformat(start_time.replace('Z', '+00:00'))
             # Конвертируем в МСК (UTC+3)
             dt_msk = dt + datetime.timedelta(hours=3)
-            time_str = dt_msk.strftime("%H:%M")
+            time_str = dt_msk.strftime("%d.%m %H:%M")
         except:
             pass
+
+    # Формируем статус: если LIVE, то зеленый кружок
+    is_live = item.get("status") == "running"
+    display_status = "🟢 LIVE" if is_live else time_str
+
+    # Извлекаем коэффициенты (если есть в API)
+    # PandaScore в бесплатном тарифе редко дает коэффициенты, 
+    # но мы проверим поле market_odds или подобные если они появятся
+    home_odds = 1.90
+    away_odds = 1.90
+    
+    # Попытка найти реальные коэффициенты в объекте матча
+    if item.get("market_odds"):
+        for market in item["market_odds"]:
+            if market.get("name") == "match-winner":
+                for selection in market.get("selections", []):
+                    if selection.get("name") == home:
+                        home_odds = selection.get("odds", 1.90)
+                    elif selection.get("name") == away:
+                        away_odds = selection.get("odds", 1.90)
 
     return {
         "id": item['id'],
@@ -215,8 +235,8 @@ def parse_pandascore_item(item, status):
         "away": away,
         "home_id": home_id,
         "away_id": away_id,
-        "time": f"{time_str} [{status}]",
-        "odds": {"home_win": 1.90, "away_win": 1.90},
+        "time": display_status,
+        "odds": {"home_win": home_odds, "away_win": away_odds},
         "league": item.get('league', {}).get('name', 'Tier-2/3'),
         "match_type": item.get('match_type', 'best_of_3'),
         "tournament": item.get('tournament', {}).get('name', '')
