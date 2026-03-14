@@ -2,6 +2,9 @@
 import asyncio
 import logging
 import requests
+import os
+import sys
+from datetime import datetime, timedelta
 from aiogram import Bot, Dispatcher, types
 from aiogram.filters import Command
 from aiogram.utils.keyboard import InlineKeyboardBuilder
@@ -92,6 +95,26 @@ except Exception as e:
 
 # --- 3. Инициализация базы данных ---
 init_db()
+
+# --- 3.1. Автоматизация обновления HLTV ---
+async def run_hltv_update_task():
+    """Фоновая задача для ежедневного обновления статистики HLTV."""
+    from scripts.update_hltv_stats import run_update
+    while True:
+        try:
+            logging.info("[HLTV-Auto] Запуск ежедневного обновления статистики...")
+            # Запускаем обновление (оно теперь через API и без капчи)
+            success = run_update()
+            if success:
+                logging.info("[HLTV-Auto] Статистика успешно обновлена.")
+            else:
+                logging.warning("[HLTV-Auto] Не удалось обновить статистику, попробуем позже.")
+        except Exception as e:
+            logging.error(f"[HLTV-Auto] Ошибка при фоновом обновлении: {e}")
+        
+        # Ждем 24 часа до следующего обновления
+        await asyncio.sleep(86400) 
+
 
 # --- 4. Глобальный кэш матчей и анализов ---
 matches_cache = []
@@ -1979,6 +2002,8 @@ async def cmd_signals(message: types.Message):
 async def main():
     bot = Bot(token=TELEGRAM_TOKEN)
     print("🚀 Chimera AI v4.4: Бот запущен! (10 лиг + Автообновление + Секции спорта)")
+    # Запускаем фоновые задачи
+    asyncio.create_task(run_hltv_update_task())
     asyncio.create_task(check_results_task(bot))
     asyncio.create_task(auto_elo_recalibration_task())
     asyncio.create_task(auto_refresh_matches_task())
