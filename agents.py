@@ -1,8 +1,26 @@
 # -*- coding: utf-8 -*-
+"""
+agents.py — Три независимых ИИ-агента для анализа футбола (Chimera AI)
+========================================================================
+
+Архитектура "Трех голов":
+1. СТАТИСТИК (GPT-4o) — анализирует только цифры и вероятности
+2. РАЗВЕДЧИК (GPT-4o) — анализирует новости, травмы, мотивацию
+3. АРБИТР (GPT-4o) — синтезирует мнения и выносит финальный вердикт
+4. LLAMA (Llama 3.3 70B через Groq) — независимое второе мнение
+
+Каждый агент работает независимо. Если один из них недоступен — система сигнализирует об ошибке,
+но НЕ подменяет его другим агентом (это нарушает суть "разногласия мнений").
+"""
+
 import os
 from openai import OpenAI, APIStatusError
+from groq import Groq
 import json
 import time
+import logging
+
+logger = logging.getLogger(__name__)
 
 # --- 1. Настройка клиентов ---
 try:
@@ -11,7 +29,8 @@ except ImportError:
     OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "")
     GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
 
-# OpenAI клиент для GPT-4o
+# OpenAI клиент для GPT-4o (Статистик, Разведчик, Арбитр)
+client = None
 try:
     client = OpenAI(api_key=OPENAI_API_KEY)
     print(f"[Агенты] OpenAI клиент инициализирован. Ключ: {OPENAI_API_KEY[:20]}...")
@@ -19,52 +38,47 @@ except Exception as e:
     print(f"[КРИТИЧЕСКАЯ ОШИБКА] Не удалось инициализировать OpenAI клиент: {e}")
     client = None
 
-# Groq клиент для Llama и Gemma
+# Groq клиент для Llama 3.3 70B (независимое мнение)
 groq_client = None
 try:
     if GROQ_API_KEY:
-        from groq import Groq
         groq_client = Groq(api_key=GROQ_API_KEY)
         print(f"[Агенты] Groq клиент инициализирован.")
     else:
-        print("[Агенты] Groq API ключ не найден, Llama/Gemma агенты отключены.")
+        print("[Агенты] Groq API ключ не найден, Llama агент будет недоступен.")
 except Exception as e:
     groq_client = None
     print(f"[КРИТИЧЕСКАЯ ОШИБКА] Не удалось инициализировать Groq клиент: {e}")
 
 # --- 2. Функция-помощник для вызова ИИ ---
 def call_ai(prompt, client_instance, model, retries=2):
-    """Отправляет промпт в указанную модель и возвращает ответ в формате JSON."""
-    if not client_instance:
-        print(f"[ОШИБКА] Клиент для модели {model} не инициализирован!")
-        return {"error": f"Клиент для {model} не инициализирован."}
+    """
+    Отправляет промпт в указанную модель и возвращает ответ в формате JSON.
     
-    is_groq = "groq" in str(type(client_instance)).lower()
+    ВАЖНО: Если модель недоступна, возвращаем ошибку, НЕ подменяем другой моделью!
+    """
+    if not client_instance:
+        error_msg = f"[ОШИБКА] Клиент для модели {model} не инициализирован!"
+        print(error_msg)
+        return {"error": error_msg, "status": "unavailable"}
+    
+    is_groq = isinstance(client_instance, Groq)
     
     for attempt in range(retries):
         try:
             print(f"[{model}] Отправляю запрос (попытка {attempt+1})...")
             
-            # Для Groq и OpenAI вызовы немного отличаются
             if is_groq:
-                try:
-                    response = client_instance.chat.completions.create(
-                        model=model,
-                        messages=[
-                            {"role": "system", "content": "Ты — эксперт мирового класса по ставкам на футбол. Отвечай ТОЛЬКО валидным JSON объектом. Все текстовые поля пиши на русском языке. Будь конкретным и аналитичным."},
-                            {"role": "user", "content": prompt}
-                        ],
-                        response_format={"type": "json_object"},
-                        temperature=0.3,
-                        timeout=30
-                    )
-                except Exception as groq_err:
-                    # Если Groq упал (403, timeout и т.д.) — используем GPT как fallback
-                    print(f"[{model}] Groq ошибка: {groq_err}. Использую GPT как fallback...")
-                    if client:
-                        return call_ai(prompt, client, "gpt-4.1-mini", retries=1)
-                    else:
-                        raise groq_err
+                response = client_instance.chat.completions.create(
+                    model=model,
+                    messages=[
+                        {"role": "system", "content": "Ты — эксперт мирового класса по ставкам на футбол. Отвечай ТОЛЬКО валидным JSON объектом. Все текстовые поля пиши на русском языке. Будь конкретным и аналитичным."},
+                        {"role": "user", "content": prompt}
+                    ],
+                    response_format={"type": "json_object"},
+                    temperature=0.3,
+                    timeout=30
+                )
             else:
                 response = client_instance.chat.completions.create(
                     model=model,
@@ -78,28 +92,41 @@ def call_ai(prompt, client_instance, model, retries=2):
                 )
             
             result = json.loads(response.choices[0].message.content)
-            print(f"[{model}] Ответ получен: {str(result)[:100]}...")
+            print(f"[{model}] ✅ Ответ получен: {str(result)[:100]}...")
             return result
             
         except Exception as e:
-            print(f"[{model} ОШИБКА попытка {attempt+1}] {type(e).__name__}: {e}")
+            error_type = type(e).__name__
+            print(f"[{model} ОШИБКА попытка {attempt+1}] {error_type}: {str(e)[:100]}")
+            
+            # Специальная обработка для Groq 403 (Access Denied)
+            if is_groq and "403" in str(e):
+                print(f"[{model}] ⚠️ Groq API вернула 403 (Access Denied). Проверьте:")
+                print(f"    1. API ключ в GROQ_API_KEY")
+                print(f"    2. Региональные ограничения")
+                print(f"    3. Лимит запросов")
+                return {"error": f"Groq 403: Access Denied", "status": "blocked", "model": model}
+            
             if attempt < retries - 1:
                 time.sleep(2)
                 
-    # Если модель упала — возвращаем заглушку с пометкой
-    print(f"[{model}] Все попытки исчерпаны, возвращаю заглушку")
-    return {"error": f"{model} недоступен", "analysis_summary": f"⚠️ {model} временно недоступен",
-            "recommended_outcome": "Нет данных", "final_confidence_percent": 0,
-            "total_goals_prediction": "—", "both_teams_to_score_prediction": "—"}
+    # Если все попытки исчерпаны — возвращаем ошибку (БЕЗ подмены на другую модель!)
+    error_msg = f"[{model}] ❌ Все попытки исчерпаны. Модель недоступна."
+    print(error_msg)
+    return {"error": error_msg, "status": "unavailable", "model": model}
 
 # --- 3. Специализированные ИИ-агенты (основной анализ) ---
 
 def run_statistician_agent(prophet_data, team_stats_text=None):
-    """Агент-Статистик: анализирует только цифры."""
+    """
+    АГЕНТ-СТАТИСТИК (GPT-4o)
+    Анализирует только цифры: вероятности, форму, статистику.
+    """
     stats_block = f"""
     Дополнительная статистика сезона:
     {team_stats_text}
     """ if team_stats_text else ""
+    
     prompt = f"""
     Ты — лучший в мире футбольный статистик. Анализируй только числовые данные.
 
@@ -108,6 +135,7 @@ def run_statistician_agent(prophet_data, team_stats_text=None):
     - Вероятность ничьей (Х): {prophet_data[0]:.2%}
     - Вероятность победы гостей (П2): {prophet_data[2]:.2%}
     {stats_block}
+    
     Задача: дай статистическую оценку с учётом ВСЕХ данных. Какой исход наиболее вероятен? Насколько равный матч?
     Если есть данные по форме и голам — обязательно используй их в анализе.
 
@@ -123,7 +151,10 @@ def run_statistician_agent(prophet_data, team_stats_text=None):
     return call_ai(prompt, client, "gpt-4.1-mini")
 
 def run_scout_agent(home_team, away_team, news_summary):
-    """Агент-Разведчик: анализирует новости и настроения."""
+    """
+    АГЕНТ-РАЗВЕДЧИК (GPT-4o)
+    Анализирует новости, травмы, мотивацию, моральный дух.
+    """
     prompt = f"""
     Ты — лучший спортивный аналитик. Находишь скрытые факторы, невидимые в статистике.
     Матч: {home_team} vs {away_team}
@@ -147,7 +178,10 @@ def run_scout_agent(home_team, away_team, news_summary):
     return call_ai(prompt, client, "gpt-4.1-mini")
 
 def run_arbitrator_agent(stats_result, scout_result, bookmaker_odds):
-    """Агент-Арбитр: объединяет все данные и выносит вердикт."""
+    """
+    АГЕНТ-АРБИТР (GPT-4o)
+    Синтезирует мнения Статистика и Разведчика, выносит финальный вердикт.
+    """
     prompt = f"""
     Ты — финальный Арбитр, мастер-аналитик ставок с 20-летним опытом. Синтезируй отчёты и вынеси окончательное решение.
 
@@ -185,13 +219,17 @@ def run_arbitrator_agent(stats_result, scout_result, bookmaker_odds):
     """
     return call_ai(prompt, client, "gpt-4.1-mini")
 
-# --- 4. Llama Агент (независимое мнение) с fallback ---
+# --- 4. Llama Агент (НЕЗАВИСИМОЕ МНЕНИЕ, БЕЗ FALLBACK) ---
 
 def run_llama_agent(home_team, away_team, prophet_data, news_summary, bookmaker_odds, team_stats_text=None):
-    """Агент на базе Llama 3.3 70B через Groq: даёт второе независимое мнение."""
+    """
+    АГЕНТ LLAMA (Llama 3.3 70B через Groq)
+    Даёт НЕЗАВИСИМОЕ второе мнение. Если недоступна — возвращаем ошибку, НЕ подменяем на GPT!
+    """
     if not groq_client:
-        print("[Llama] Агент Llama недоступен, использую GPT как запасной вариант.")
-        return run_llama_via_gpt(home_team, away_team, prophet_data, news_summary, bookmaker_odds)
+        error_msg = "[Llama] ❌ Groq клиент не инициализирован. Llama агент недоступен."
+        print(error_msg)
+        return {"error": error_msg, "status": "unavailable", "model": "llama-3.3-70b-versatile"}
 
     stats_block = f"""
     4. Статистика сезона (API-Football):
@@ -199,7 +237,7 @@ def run_llama_agent(home_team, away_team, prophet_data, news_summary, bookmaker_
     """ if team_stats_text else ""
 
     prompt = f"""
-    Ты — независимый футбольный аналитик. Дай СВОЙ прогноз, не копируй чужие выводы.
+    Ты — независимый футбольный аналитик на базе Llama. Дай СВОЙ прогноз, не копируй чужие выводы.
     Матч: {home_team} (хозяева) vs {away_team} (гости)
 
     Данные:
@@ -207,6 +245,7 @@ def run_llama_agent(home_team, away_team, prophet_data, news_summary, bookmaker_
     2. Новостной фон: {news_summary}
     3. Коэффициенты: П1={bookmaker_odds.get('home_win', 0)}, X={bookmaker_odds.get('draw', 0)}, П2={bookmaker_odds.get('away_win', 0)}
     {stats_block}
+    
     Твои задачи:
     1. Дай НЕЗАВИСИМЫЙ прогноз на исход (П1/Х/П2) со своими вероятностями
     2. Прогноз тотала голов: Больше 2.5 или Меньше 2.5 — с обоснованием (используй среднее голов из статистики если есть)
@@ -229,27 +268,6 @@ def run_llama_agent(home_team, away_team, prophet_data, news_summary, bookmaker_
     }}
     """
     return call_ai(prompt, groq_client, "llama-3.3-70b-versatile")
-
-def run_llama_via_gpt(home_team, away_team, prophet_data, news_summary, bookmaker_odds):
-    """Запасной вариант: используем GPT вместо Llama."""
-    prompt = f"""
-    Ты — независимый футбольный аналитик. Дай прогноз на матч {home_team} vs {away_team}.
-    Статистика: П1={prophet_data[1]:.2%}, Х={prophet_data[0]:.2%}, П2={prophet_data[2]:.2%}.
-    Коэффициенты: П1={bookmaker_odds.get('home_win',0)}, X={bookmaker_odds.get('draw',0)}, П2={bookmaker_odds.get('away_win',0)}.
-    Новости: {news_summary[:500]}
-    Отвечай только JSON:
-    {{
-      "analysis_summary": "...", 
-      "recommended_outcome": "...", 
-      "home_win_prob": 0.0, 
-      "draw_prob": 0.0, 
-      "away_win_prob": 0.0,
-      "final_confidence_percent": 0,
-      "total_goals_prediction": "Больше 2.5",
-      "both_teams_to_score_prediction": "Да"
-    }}
-    """
-    return call_ai(prompt, client, "gpt-4.1-mini")
 
 # --- 5. Дополнительные рыночные агенты (Маркет-мейкеры) ---
 
