@@ -30,10 +30,10 @@ CS2_CFG = {
     "min_form_wins":        3,
     "min_elo_gap":          30,
     "min_mis_gap":          0.03,   # Преимущество по картам минимум 3%
-    "min_rating_gap":       0.06, # Разница рейтингов игроков
-    "min_map_advantage":    0.10,  # Новый: мин. преимущество на картах (в %)
-    "min_key_player_advantage": 0.15, # Новый: мин. преимущество ключевых игроков (в %)
-    "min_score":            6,     # Изменено: Минимум 6 баллов из 10 для сигнала
+    "min_rating_gap":       0.06,   # Разница рейтингов игроков (средний рейтинг команды)
+    "min_map_advantage":    0.10,   # Мин. преимущество на картах (в %)
+    "min_key_player_advantage": 0.15, # Мин. преимущество ключевых игроков (в %)
+    "min_score":            6,      # Минимум 6 баллов из 10 для сигнала
 }
 
 
@@ -186,12 +186,12 @@ def check_cs2_signal(
     mis_away: float = 0,
     home_avg_rating: float = 0,
     away_avg_rating: float = 0,
-    home_map_winrates: Dict[str, float] = None, # Новый параметр
-    away_map_winrates: Dict[str, float] = None, # Новый параметр
-    predicted_maps: List[str] = None,          # Новый параметр
-    home_key_players_form: List[float] = None, # Новый параметр
-    away_key_players_form: List[float] = None, # Новый параметр
-    ai_cs2_agrees: Optional[bool] = None,      # Новый параметр
+    home_map_winrates: Dict[str, float] = None,
+    away_map_winrates: Dict[str, float] = None,
+    predicted_maps: List[str] = None,
+    home_key_players_form: List[float] = None,
+    away_key_players_form: List[float] = None,
+    ai_cs2_agrees: Optional[bool] = None,
 ) -> list[dict]:
     c = CS2_CFG
     signals = []
@@ -274,7 +274,7 @@ def check_cs2_signal(
         else:
             checks.append("Рейтинг: нет данных ⚪")
 
-        # 8. Преимущество на ключевых картах (Map Pool Advantage) - НОВЫЙ
+        # 8. Преимущество на ключевых картах (Map Pool Advantage)
         if fav_map_winrates and opp_map_winrates and p_maps:
             fav_avg_winrate = sum(fav_map_winrates.get(m, 0) for m in p_maps) / len(p_maps) if p_maps else 0
             opp_avg_winrate = sum(opp_map_winrates.get(m, 0) for m in p_maps) / len(p_maps) if p_maps else 0
@@ -287,7 +287,7 @@ def check_cs2_signal(
         else:
             checks.append("Преимущество на картах: нет данных ⚪")
 
-        # 9. Форма ключевых игроков (Key Player Form) - НОВЫЙ
+        # 9. Форма ключевых игроков (Key Player Form)
         if fav_key_players and opp_key_players:
             fav_kp_avg = sum(fav_key_players) / len(fav_key_players) if fav_key_players else 0
             opp_kp_avg = sum(opp_key_players) / len(opp_key_players) if opp_key_players else 0
@@ -300,16 +300,14 @@ def check_cs2_signal(
         else:
             checks.append("Ключевые игроки: нет данных ⚪")
 
-        # 10. Подтверждение от быстрого ИИ-агента (AI CS2 Agrees) - НОВЫЙ
+        # 10. Подтверждение от АИ
         if ai_cs2_agrees is True:
             score += 1
             checks.append("ИИ CS2 согласен ✅")
         elif ai_cs2_agrees is False:
             checks.append("ИИ CS2 не согласен ❌")
-        else:
-            checks.append("ИИ CS2: нет данных ⚪")
 
-        max_score = 10 # Обновлено до 10 критериев
+        max_score = 10
 
         if score >= c["min_score"] and ev > 0:
             signals.append({
@@ -329,90 +327,3 @@ def check_cs2_signal(
             })
 
     return signals
-
-
-# ─── Форматирование ───────────────────────────────────────────────────────────
-
-def format_signal(signal: dict) -> str:
-    icon = "🎮" if signal["sport"] == "cs2" else "⚽"
-    passing = [c for c in signal["checks"] if "✅" in c]
-    lines = [
-        f"{icon} *{signal["home"]} vs {signal["away"]}*",
-        f"",
-        f"{signal["strength"]}  ({signal["score"]}/{signal["max_score"]} факторов)",
-        f"",
-        f"📌 *{signal["outcome"]}* — {signal["team"]}",
-        f"💰 Кэф: *{signal["odds"]}*  |  Вероятность: *{signal["prob"]}%*",
-        f"📈 EV: *+{signal["ev"]}%*  |  Ставка: *{signal["kelly"]}% банка*",
-        f"",
-        f"✅ Факторы за:",
-    ]
-    for c in passing:
-        lines.append(f"  • {c.replace(" ✅","")}")
-    return "\n".join(lines)
-
-
-def format_signals_list(signals: list[dict], title: str = "📡 СИГНАЛЫ ДНЯ") -> str:
-    if not signals:
-        return (
-            f"{title}\n"
-            f"━━━━━━━━━━━━━━━━━━━━━━━\n\n"
-            f"❌ Сегодня нет сигналов.\n\n"
-            f"Матчи не набрали достаточно факторов:\n"
-            f"• Нужно 6+ из 10 условий для CS2\n"
-            f"• Вероятность > 55%\n"
-            f"• EV > 7%\n\n"
-            f"_Попробуй позже — матчи обновляются._"
-        )
-
-    lines = [
-        f"{title}",
-        f"━━━━━━━━━━━━━━━━━━━━━━━",
-        f"Найдено: *{len(signals)}* сигнал(а)",
-        f"",
-    ]
-    for i, sig in enumerate(signals, 1):
-        lines.append(f"*— Сигнал {i} —*")
-        lines.append(format_signal(sig))
-        lines.append("")
-
-    lines.append(f"⚠️ _Управляй банком: не более {signals[0]["kelly"]}% на сигнал_")
-    return "\n".join(lines)
-
-
-# ─── Тест ────────────────────────────────────────────────────────────────────
-
-if __name__ == "__main__":
-    sigs = check_football_signal(
-        "Manchester City", "Burnley",
-        home_prob=0.68, away_prob=0.16, draw_prob=0.16,
-        bookmaker_odds={"home_win": 1.72, "draw": 4.10, "away_win": 5.20},
-        home_form="WWWLW", away_form="LLLWL",
-        elo_home=1880, elo_away=1640,
-    )
-    print("=== Футбол ===")
-    print(format_signals_list(sigs))
-
-    sigs2 = check_cs2_signal(
-        "Team Vitality", "Astralis",
-        home_prob=0.72, away_prob=0.28,
-        bookmaker_odds={"home_win": 1.62, "away_win": 2.35},
-        home_form="WWWWL", away_form="LLWLL",
-        elo_home=1820, elo_away=1610,
-        mis_home=0.57, mis_away=0.43,
-        home_avg_rating=1.19, away_avg_rating=1.05,
-        home_map_winrates={
-            "Inferno": 0.75, "Mirage": 0.65, "Nuke": 0.80, "Overpass": 0.70,
-            "Vertigo": 0.60, "Ancient": 0.55, "Anubis": 0.68
-        },
-        away_map_winrates={
-            "Inferno": 0.60, "Mirage": 0.50, "Nuke": 0.65, "Overpass": 0.55,
-            "Vertigo": 0.45, "Ancient": 0.40, "Anubis": 0.58
-        },
-        predicted_maps=["Nuke", "Inferno", "Mirage"],
-        home_key_players_form=[1.30, 1.25, 1.18],
-        away_key_players_form=[1.10, 1.05, 0.98],
-        ai_cs2_agrees=True,
-    )
-    print("=== CS2 ===")
-    print(format_signals_list(sigs2))

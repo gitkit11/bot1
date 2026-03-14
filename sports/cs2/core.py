@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
-from .veto_logic import simulate_bo3_veto, get_map_impact_score
+from .veto_logic import simulate_bo3_veto, get_map_impact_score, get_team_player_stats
 from .pandascore import get_team_stats, get_head_to_head
 from .hltv_odds import get_hltv_odds, get_team_map_stats
 import json
 import asyncio
 
 # ELO-подобные рейтинги топ-команд CS2 (обновляются вручную)
-# Для неизвестных команд используется 1000 (средний)
 CS2_ELO = {
     "Team Vitality": 1820,
     "Natus Vincere": 1780,
@@ -27,227 +26,142 @@ CS2_ELO = {
 DEFAULT_ELO = 1000
 
 def get_elo_prob(home_team, away_team):
-    """Рассчитывает вероятность победы на основе ELO рейтингов."""
     h_elo = CS2_ELO.get(home_team, DEFAULT_ELO)
     a_elo = CS2_ELO.get(away_team, DEFAULT_ELO)
-    # Формула ELO
     h_prob = 1 / (1 + 10 ** ((a_elo - h_elo) / 400))
     return round(h_prob, 3), round(1 - h_prob, 3)
 
 def calculate_cs2_win_prob(home_team, away_team):
     """
-    Расчёт вероятности победы — 3 источника данных:
-    1. MIS (Map Impact Score) из вето-симуляции — 40%
-    2. ELO рейтинг команд — 35%
-    3. Реальный винрейт из PandaScore (последние 20 матчей) — 25%
+    Расчёт вероятности победы — 4 источника данных:
+    1. MIS (Map Impact Score) из вето-симуляции — 30%
+    2. ELO рейтинг команд — 30%
+    3. Реальный винрейт из PandaScore (последние 20 матчей) — 20%
+    4. Рейтинг игроков с HLTV — 20%
     """
-    # Получаем статистику карт с HLTV
+    # 1. Получаем статистику карт и игроков
     home_map_stats = get_team_map_stats(home_team)
     away_map_stats = get_team_map_stats(away_team)
-    
-    team_map_stats_combined = {
-        home_team: home_map_stats,
-        away_team: away_map_stats
-    }
+    team_map_stats_combined = {home_team: home_map_stats, away_team: away_map_stats}
 
-    # 1. Симулируем мап-вето
+    home_players = get_team_player_stats(home_team)
+    away_players = get_team_player_stats(away_team)
+
+    # 2. Симулируем мап-вето
     maps, veto_log = simulate_bo3_veto(home_team, away_team, team_map_stats_combined)
 
-    # 2. Считаем MIS для каждой карты
+    # 3. Считаем MIS для каждой карты
     map_scores = []
     for m in maps:
         h_mis = get_map_impact_score(home_team, m, team_map_stats_combined)
         a_mis = get_map_impact_score(away_team, m, team_map_stats_combined)
         total = h_mis + a_mis
-        if total == 0:
-            h_prob, a_prob = 0.5, 0.5
-        else:
-            h_prob = h_mis / total
-            a_prob = a_mis / total
+        h_prob, a_prob = (h_mis / total, a_mis / total) if total > 0 else (0.5, 0.5)
         map_scores.append((m, h_prob, a_prob))
 
-    # Взвешенный MIS (пики важнее десайдера)
     weights = [0.35, 0.35, 0.30]
     mis_h = sum(map_scores[i][1] * weights[i] for i in range(3))
 
-    # 3. ELO вероятность
+    # 4. ELO вероятность
     elo_h, elo_a = get_elo_prob(home_team, away_team)
 
-    # 4. Реальный винрейт из PandaScore
-    print(f"[CS2-Core] Загружаю статистику {home_team}...")
+    # 5. Реальный винрейт из PandaScore
     h_stats = get_team_stats(home_team)
-    print(f"[CS2-Core] Загружаю статистику {away_team}...")
     a_stats = get_team_stats(away_team)
+    total_wr = h_stats["winrate"] + a_stats["winrate"]
+    h_wr_norm = h_stats["winrate"] / total_wr if total_wr > 0 else 0.5
 
-    h_winrate = h_stats["winrate"]
-    a_winrate = a_stats["winrate"]
+    # 6. Рейтинг игроков (HLTV)
+    h_rating = sum(p['rating'] for p in home_players) / len(home_players) if home_players else 1.0
+    a_rating = sum(p['rating'] for p in away_players) / len(away_players) if away_players else 1.0
+    total_rating = h_rating + a_rating
+    h_rating_norm = h_rating / total_rating if total_rating > 0 else 0.5
 
-    # Нормализуем винрейты чтобы сумма = 1
-    total_wr = h_winrate + a_winrate
-    if total_wr > 0:
-        h_wr_norm = h_winrate / total_wr
-    else:
-        h_wr_norm = 0.5
-
-    # 5. Личные встречи (бонус/штраф)
+    # 7. Личные встречи
     h2h = get_head_to_head(home_team, away_team)
-    h2h_bonus = 0.0
-    if h2h["total"] >= 3:
-        h2h_h = h2h["team1_wins"] / h2h["total"]
-        h2h_bonus = (h2h_h - 0.5) * 0.1  # Максимум ±5%
+    h2h_bonus = (h2h["team1_wins"] / h2h["total"] - 0.5) * 0.1 if h2h["total"] >= 3 else 0.0
 
-    # 6. Финальный ансамбль
-    final_h = (mis_h * 0.40) + (elo_h * 0.35) + (h_wr_norm * 0.25) + h2h_bonus
-    final_h = max(0.05, min(0.95, final_h))  # Ограничиваем 5%-95%
-    final_a = 1 - final_h
-
+    # 8. Финальный ансамбль
+    final_h = (mis_h * 0.30) + (elo_h * 0.30) + (h_wr_norm * 0.20) + (h_rating_norm * 0.20) + h2h_bonus
+    final_h = max(0.05, min(0.95, final_h))
+    
     return {
         "home_prob": round(final_h, 2),
-        "away_prob": round(final_a, 2),
+        "away_prob": round(1 - final_h, 2),
         "maps": map_scores,
         "veto_log": veto_log,
         "home_stats": h_stats,
         "away_stats": a_stats,
+        "home_players": home_players,
+        "away_players": away_players,
         "elo_home": CS2_ELO.get(home_team, DEFAULT_ELO),
         "elo_away": CS2_ELO.get(away_team, DEFAULT_ELO),
         "h2h": h2h,
-        # Детали расчёта
         "detail": {
             "mis": round(mis_h, 2),
             "elo": round(elo_h, 2),
             "winrate": round(h_wr_norm, 2),
+            "player_rating": round(h_rating_norm, 2),
             "h2h_bonus": round(h2h_bonus, 3)
         }
     }
 
 def get_golden_signal(analysis_data, bookmaker_odds):
-    """
-    Алгоритм "Золотого сигнала" с высокой проходимостью.
-    Условия:
-    1. Наша вероятность > 60%
-    2. Коэффициент букмекера > 1.60
-    3. EV (Expected Value) > 15%
-    """
     h_prob = analysis_data["home_prob"]
     a_prob = analysis_data["away_prob"]
-
     h_odds = bookmaker_odds.get("home_win", 0)
     a_odds = bookmaker_odds.get("away_win", 0)
-
     signals = []
-
     if h_odds > 1.0:
         h_ev = (h_prob * h_odds) - 1
         if h_prob >= 0.60 and h_odds >= 1.60 and h_ev >= 0.15:
-            signals.append({
-                "type": "GOLDEN",
-                "team": analysis_data.get("home_team", ""),
-                "outcome": "Победа (П1)",
-                "odds": h_odds,
-                "ev": round(h_ev * 100, 1),
-                "confidence": int(h_prob * 100)
-            })
-
+            signals.append({"type": "GOLDEN", "team": analysis_data.get("home_team", ""), "outcome": "Победа (П1)", "odds": h_odds, "ev": round(h_ev * 100, 1), "confidence": int(h_prob * 100)})
     if a_odds > 1.0:
         a_ev = (a_prob * a_odds) - 1
         if a_prob >= 0.60 and a_odds >= 1.60 and a_ev >= 0.15:
-            signals.append({
-                "type": "GOLDEN",
-                "team": analysis_data.get("away_team", ""),
-                "outcome": "Победа (П2)",
-                "odds": a_odds,
-                "ev": round(a_ev * 100, 1),
-                "confidence": int(a_prob * 100)
-            })
-
+            signals.append({"type": "GOLDEN", "team": analysis_data.get("away_team", ""), "outcome": "Победа (П2)", "odds": a_odds, "ev": round(a_ev * 100, 1), "confidence": int(a_prob * 100)})
     return signals
 
 def format_cs2_full_report(home_team, away_team, analysis, gpt_analysis, llama_analysis, golden_signals, bookmaker_odds=None):
-    """Форматирует профессиональный отчет для CS2 v4.5."""
     h_stats = analysis.get("home_stats", {})
     a_stats = analysis.get("away_stats", {})
+    h_players = analysis.get("home_players", [])
+    a_players = analysis.get("away_players", [])
     h2h = analysis.get("h2h", {})
-    detail = analysis.get("detail", {})
-
-    report = f"🎮 *CHIMERA AI CS2 v4.5 — АНАЛИЗ МАТЧА*\n"
+    
+    report = f"🎮 *CHIMERA AI CS2 v4.6 — АНАЛИЗ МАТЧА*\n"
     report += f"━━━━━━━━━━━━━━━━━━━━━━━━━\n\n"
     report += f"⚔️ *{home_team} vs {away_team}*\n\n"
 
-    # Коэффициенты букмекеров
     if bookmaker_odds:
         h_odds = bookmaker_odds.get("home_win", 0)
         a_odds = bookmaker_odds.get("away_win", 0)
-        
-        # Если коэффициенты в API нулевые, пробуем получить их с HLTV
-        if h_odds == 0 or a_odds == 0:
-            try:
-                hltv_odds = get_hltv_odds(home_team, away_team)
-                if hltv_odds:
-                    h_odds = hltv_odds.get("home_win", 0)
-                    a_odds = hltv_odds.get("away_win", 0)
-            except Exception as e:
-                print(f"[HLTV] Ошибка при получении коэффициентов: {e}")
-
-        report += f"💰 *КОЭФФИЦИЕНТЫ БУКМЕКЕРОВ:*\n"
         if h_odds > 0 and a_odds > 0:
-            report += f" 🔹 {home_team}: *{h_odds:.2f}* | 🔸 {away_team}: *{a_odds:.2f}*\n\n"
-        else:
-            report += f" ⚠️ Коэффициенты временно недоступны\n\n"
+            report += f"💰 *КЭФЫ:* {home_team}: *{h_odds:.2f}* | {away_team}: *{a_odds:.2f}*\n\n"
 
-    # Статистика команд
-    report += f"📊 *СТАТИСТИКА КОМАНД (PandaScore):*\n"
-    if h_stats.get("matches", 0) > 0:
-        report += f" 🔹 {home_team}: {h_stats['wins']}В/{h_stats['losses']}П | WR: {int(h_stats['winrate']*100)}% | Форма: {h_stats['form']}\n"
-    else:
-        report += f" 🔹 {home_team}: нет данных\n"
-    if a_stats.get("matches", 0) > 0:
-        report += f" 🔸 {away_team}: {a_stats['wins']}В/{a_stats['losses']}П | WR: {int(a_stats['winrate']*100)}% | Форма: {a_stats['form']}\n"
-    else:
-        report += f" 🔸 {away_team}: нет данных\n"
+    report += f"👥 *СОСТАВЫ (HLTV Rating):*\n"
+    h_p_str = ", ".join([f"{p['name']} ({p['rating']})" for p in h_players[:3]])
+    a_p_str = ", ".join([f"{p['name']} ({p['rating']})" for p in a_players[:3]])
+    report += f" 🔹 {home_team}: {h_p_str}...\n"
+    report += f" 🔸 {away_team}: {a_p_str}...\n\n"
 
-    # Личные встречи
-    if h2h.get("total", 0) >= 2:
-        report += f" 🤝 Личные встречи: {home_team} {h2h['team1_wins']}:{h2h['team2_wins']} {away_team}\n"
-    report += "\n"
-
-    # ELO
-    report += f"⚡ *ELO РЕЙТИНГ CS2:*\n"
-    report += f" {home_team}: {analysis.get('elo_home', '?')} | {away_team}: {analysis.get('elo_away', '?')}\n\n"
-
-    # Вето симуляция
     report += f"🗺 *СИМУЛЯЦИЯ VETO (BO3):*\n"
-    for log in analysis["veto_log"]:
-        report += f" {log}\n"
+    for log in analysis["veto_log"]: report += f" {log}\n"
     report += "\n"
 
-    # Вероятности по картам
     report += f"📈 *ВЕРОЯТНОСТЬ ПО КАРТАМ (MIS):*\n"
     for m, hp, ap in analysis["maps"]:
-        bar_h = "█" * int(hp * 10)
-        bar_a = "█" * int(ap * 10)
-        report += f" • {m}: {int(hp*100)}% {bar_h}|{bar_a} {int(ap*100)}%\n"
+        report += f" • {m}: {int(hp*100)}% — {int(ap*100)}%\n"
     report += "\n"
 
-    # Итоговый расчёт
-    report += f"🔢 *ИТОГОВЫЙ РАСЧЁТ (ансамбль):*\n"
-    report += f" 🔹 {home_team}: *{int(analysis['home_prob']*100)}%*\n"
-    report += f" 🔸 {away_team}: *{int(analysis['away_prob']*100)}%*\n"
-    report += f" Веса: MIS 40% + ELO 35% + WR 25%\n\n"
+    report += f"🔢 *ИТОГОВЫЙ РАСЧЁТ:* {home_team} *{int(analysis['home_prob']*100)}%* — *{int(analysis['away_prob']*100)}%* {away_team}\n"
+    report += f"_Веса: MIS 30%, ELO 30%, WR 20%, Players 20%_\n\n"
 
-    # AI анализ
-    if gpt_analysis and gpt_analysis != "—":
-        report += f"🧠 *GPT-4 (Стратег):*\n_{gpt_analysis}_\n\n"
-    if llama_analysis and llama_analysis != "—":
-        report += f"🤖 *Llama (Тактик):*\n_{llama_analysis}_\n\n"
-
-    # Сигнал
+    if gpt_analysis and gpt_analysis != "—": report += f"🧠 *GPT-4:* _{gpt_analysis}_\n\n"
     if golden_signals:
-        report += f"🌟 *ЗОЛОТОЙ СИГНАЛ:*\n"
         for sig in golden_signals:
-            report += f"🔥 {sig['outcome']} {sig['team']} @ {sig['odds']}\n"
-            report += f"   Уверенность: {sig['confidence']}% | EV: +{sig['ev']}%\n"
+            report += f"🌟 *ЗОЛОТОЙ СИГНАЛ:* 🔥 {sig['outcome']} {sig['team']} @ {sig['odds']} (EV: +{sig['ev']}%)\n"
     else:
         report += f"⏸ *СИГНАЛ: ПРОПУСТИТЬ*\n"
-        report += f"_Нет достаточной уверенности (нужно >60% и EV >15%)_\n"
 
     return report
