@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 from .veto_logic import simulate_bo3_veto, get_map_impact_score
 from .pandascore import get_team_stats, get_head_to_head
+from .hltv_odds import get_hltv_odds
 import json
+import asyncio
 
 # ELO-подобные рейтинги топ-команд CS2 (обновляются вручную)
 # Для неизвестных команд используется 1000 (средний)
@@ -166,11 +168,22 @@ def format_cs2_full_report(home_team, away_team, analysis, gpt_analysis, llama_a
     if bookmaker_odds:
         h_odds = bookmaker_odds.get("home_win", 0)
         a_odds = bookmaker_odds.get("away_win", 0)
+        
+        # Если коэффициенты в API нулевые, пробуем получить их с HLTV
+        if h_odds == 0 or a_odds == 0:
+            try:
+                hltv_odds = get_hltv_odds(home_team, away_team)
+                if hltv_odds:
+                    h_odds = hltv_odds.get("home_win", 0)
+                    a_odds = hltv_odds.get("away_win", 0)
+            except Exception as e:
+                print(f"[HLTV] Ошибка при получении коэффициентов: {e}")
+
         report += f"💰 *КОЭФФИЦИЕНТЫ БУКМЕКЕРОВ:*\n"
         if h_odds > 0 and a_odds > 0:
             report += f" 🔹 {home_team}: *{h_odds:.2f}* | 🔸 {away_team}: *{a_odds:.2f}*\n\n"
         else:
-            report += f" ⚠️ Коэффициенты временно недоступны в API\n\n"
+            report += f" ⚠️ Коэффициенты временно недоступны\n\n"
 
     # Статистика команд
     report += f"📊 *СТАТИСТИКА КОМАНД (PandaScore):*\n"
