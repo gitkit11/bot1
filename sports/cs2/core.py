@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from .veto_logic import simulate_bo3_veto, get_map_impact_score, get_team_player_stats
 from .pandascore import get_team_stats, get_head_to_head
-from .hltv_odds import get_hltv_odds, get_team_map_stats
+from .hltv_stats import get_team_map_stats
 import json
 import asyncio
 
@@ -158,6 +158,7 @@ def format_cs2_full_report(home_team, away_team, analysis, gpt_analysis, llama_a
     report += f"_Веса: MIS 30%, ELO 30%, WR 20%, Players 20%_\n\n"
 
     if gpt_analysis and gpt_analysis != "—": report += f"🧠 *GPT-4:* _{gpt_analysis}_\n\n"
+    if llama_analysis and llama_analysis != "—": report += f"🦙 *Llama-3:* _{llama_analysis}_\n\n"
     if golden_signals:
         for sig in golden_signals:
             report += f"🌟 *ЗОЛОТОЙ СИГНАЛ:* 🔥 {sig['outcome']} {sig['team']} @ {sig['odds']} (EV: +{sig['ev']}%)\n"

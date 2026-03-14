@@ -1994,15 +1994,14 @@ async def cmd_signals(message: types.Message):
     await message.answer(text, parse_mode="Markdown")
 
 # --- 11. Запуск бота ---
+
 async def main():
     bot = Bot(token=TELEGRAM_TOKEN)
-    print("🚀 Chimera AI v4.4: Бот запущен! (10 лиг + Автообновление + Секции спорта)")
-    # Запускаем фоновые задачи
     asyncio.create_task(run_hltv_update_task())
     asyncio.create_task(check_results_task(bot))
     asyncio.create_task(auto_elo_recalibration_task())
     asyncio.create_task(auto_refresh_matches_task())
     await dp.start_polling(bot)
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     asyncio.run(main())

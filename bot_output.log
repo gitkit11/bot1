@@ -1,0 +1,19 @@
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1773523765.867383   17053 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+I0000 00:00:1773523771.846765   17053 cpu_feature_guard.cc:227] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1773523804.424639   17053 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+03/14/2026 05:29:54 PM - HTTP Request: HEAD https://huggingface.co/distilbert-base-uncased-finetuned-sst-2-english/resolve/main/config.json "HTTP/1.1 200 OK"
+Загрузка модели анализа тональности (может занять несколько секунд)...
+Loading weights:   0%|          | 0/104 [00:00<?, ?it/s]Loading weights:  19%|█▉        | 20/104 [00:00<00:00, 172.86it/s]Loading weights:  37%|███▋      | 38/104 [00:00<00:00, 171.63it/s]Loading weights: 100%|██████████| 104/104 [00:00<00:00, 355.29it/s]
+03/14/2026 05:29:54 PM - HTTP Request: GET https://huggingface.co/api/models/distilbert-base-uncased-finetuned-sst-2-english/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 307 Temporary Redirect"
+03/14/2026 05:29:54 PM - HTTP Request: GET https://huggingface.co/api/models/distilbert/distilbert-base-uncased-finetuned-sst-2-english/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+03/14/2026 05:29:54 PM - HTTP Request: GET https://huggingface.co/api/models/distilbert-base-uncased-finetuned-sst-2-english/tree/main?recursive=true&expand=false "HTTP/1.1 307 Temporary Redirect"
+03/14/2026 05:29:55 PM - HTTP Request: GET https://huggingface.co/api/models/distilbert/distilbert-base-uncased-finetuned-sst-2-english/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+E0000 00:00:1773523803.925783   16058 cuda_platform.cc:52] failed call to cuInit: INTERNAL: CUDA error: Failed call to cuInit: UNKNOWN ERROR (303)
+03/14/2026 05:30:17 PM - Start polling
+03/14/2026 05:30:17 PM - [HLTV-Auto] Запуск ежедневного обновления статистики...
+03/14/2026 05:30:17 PM - [HLTV-Auto] Обновление через API...
+03/14/2026 05:30:17 PM - [HLTV-Auto] Статистика успешно обновлена.
+03/14/2026 05:30:18 PM - Run polling for bot @Chimera_AI_Bet_bot id=8683911470 - 'CHIMERA AI'

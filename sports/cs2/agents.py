@@ -25,32 +25,25 @@ except ImportError:
 # Инициализация клиентов
 try:
     from openai import OpenAI
+    from groq import Groq
     _gpt_client = OpenAI(api_key=OPENAI_API_KEY) if OPENAI_API_KEY else None
-    _groq_client = OpenAI(api_key=GROQ_API_KEY, base_url="https://api.groq.com/openai/v1") if GROQ_API_KEY else None
-except Exception:
+    _groq_client = Groq(api_key=GROQ_API_KEY) if GROQ_API_KEY else None
+except Exception as e:
+    print(f"[CS2-Agents] Ошибка инициализации клиентов: {e}")
     _gpt_client = None
     _groq_client = None
 
 # Подключаем HLTV статистику (карты + игроки)
 try:
-    from sports.cs2.hltv_stats import (
+    from .hltv_stats import (
         format_map_stats_for_ai,
         format_players_for_ai,
-        get_map_stats,
+        get_team_map_stats as get_map_stats,
         get_player_stats,
     )
     _HLTV_AVAILABLE = True
 except ImportError:
-    try:
-        from hltv_stats import (
-            format_map_stats_for_ai,
-            format_players_for_ai,
-            get_map_stats,
-            get_player_stats,
-        )
-        _HLTV_AVAILABLE = True
-    except ImportError:
-        _HLTV_AVAILABLE = False
+    _HLTV_AVAILABLE = False
 
 
 def _call_ai(prompt, client, model, system_msg=None, retries=2):
@@ -59,20 +52,38 @@ def _call_ai(prompt, client, model, system_msg=None, retries=2):
         return f"❌ Клиент {model} не инициализирован"
     if system_msg is None:
         system_msg = "Ты — профессиональный аналитик CS2 с 10-летним опытом. Отвечай на русском языке, кратко и по делу."
+    
+    # Проверка типа клиента для Groq
+    from groq import Groq
+    is_groq = isinstance(client, Groq)
+    
     for attempt in range(retries):
         try:
-            response = client.chat.completions.create(
-                model=model,
-                messages=[
+            kwargs = {
+                "model": model,
+                "messages": [
                     {"role": "system", "content": system_msg},
                     {"role": "user", "content": prompt}
                 ],
-                temperature=0.4,
-                max_tokens=600
-            )
+                "temperature": 0.4,
+                "max_tokens": 600
+            }
+            
+            # Groq не поддерживает response_format в некоторых моделях или требует иного синтаксиса,
+            # но здесь мы ожидаем текст, так что просто вызываем.
+            response = client.chat.completions.create(**kwargs)
             text = response.choices[0].message.content.strip()
             if text:
-                return text
+                try:
+                    # Попытка распарсить JSON, если ожидается JSON
+                    if 'json_object' in kwargs.get('response_format', {}).values():
+                        return json.loads(text)
+                    return text
+                except json.JSONDecodeError:
+                    print(f"[AI] Ошибка JSONDecodeError для модели {model}. Raw response: {text[:200]}...")
+                    return f"❌ Ошибка парсинга JSON от {model}"
+            if attempt < retries - 1:
+                time.sleep(1)
             if attempt < retries - 1:
                 time.sleep(1)
         except Exception as e:
@@ -166,11 +177,11 @@ def run_cs2_analyst_agent(home_team, away_team, map_stats, bookmaker_odds,
     except Exception as e:
         # Если Llama через Groq не сработала, пробуем еще раз с увеличенным таймаутом
         if agent_type == "llama-3.3":
-            try:
-                print(f"[Llama Retry] Ошибка Llama {model}, пробую повторно...")
-                result = _call_ai(prompt, client, model, retries=3)
-            except Exception as e2:
-                result = f"❌ Ошибка Llama 3.3: {str(e2)[:100]}"
+            print(f"[CS2-Agents] Llama-3.3 агент упал с ошибкой: {e}. Пробую GPT-4.1-mini как запасной вариант.")
+            # Fallback на GPT-4.1-mini, если Llama-3.3 не сработала
+            result = _call_ai(prompt, _gpt_client, "gpt-4.1-mini", system_msg="Ты — профессиональный аналитик CS2 с 10-летним опытом. Отвечай на русском языке, кратко и по делу.")
+            if isinstance(result, dict) and result.get("error"):
+                result = f"❌ Ошибка Llama 3.3 и GPT-4.1-mini: {str(e)[:100]}"
         else:
             result = f"❌ Ошибка {model}: {str(e)[:100]}"
             

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import random
-from .hltv_stats import MAP_STATS, PLAYER_STATS, TEAM_ALIASES
+from .hltv_stats import MAP_STATS, PLAYER_STATS, TEAM_ALIASES, get_team_map_stats, get_player_stats
 
 # Список официальных карт CS2
 ACTIVE_DUTY_POOL = ["Mirage", "Nuke", "Inferno", "Ancient", "Anubis", "Vertigo", "Dust2"]

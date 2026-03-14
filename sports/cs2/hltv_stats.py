@@ -28,3 +28,42 @@ TEAM_ALIASES: dict[str, str] = {
     "mousesports": "MOUZ",
     "Liquid": "Team Liquid",
 }
+
+def get_team_map_stats(team_name: str) -> dict:
+    name = TEAM_ALIASES.get(team_name, team_name)
+    return MAP_STATS.get(name, {})
+
+def get_player_stats(team_name: str) -> list:
+    name = TEAM_ALIASES.get(team_name, team_name)
+    return PLAYER_STATS.get(name, [])
+
+def format_map_stats_for_ai(home_team: str, away_team: str) -> str:
+    h_maps = get_team_map_stats(home_team)
+    a_maps = get_team_map_stats(away_team)
+    
+    if not h_maps and not a_maps:
+        return "Статистика карт HLTV недоступна."
+        
+    res = "🗺 Статистика карт (HLTV Winrate):\n"
+    all_maps = set(list(h_maps.keys()) + list(a_maps.keys()))
+    for m in sorted(all_maps):
+        h_wr = h_maps.get(m, "—")
+        a_wr = a_maps.get(m, "—")
+        res += f"  • {m}: {home_team} {h_wr}% vs {a_wr}% {away_team}\n"
+    return res
+
+def format_players_for_ai(home_team: str, away_team: str) -> str:
+    h_players = get_player_stats(home_team)
+    a_players = get_player_stats(away_team)
+    
+    if not h_players and not a_players:
+        return "Статистика игроков HLTV недоступна."
+        
+    res = "👥 Ключевые игроки (HLTV Rating):\n"
+    if h_players:
+        h_str = ", ".join([f"{p['name']} ({p['rating']})" for p in h_players])
+        res += f"  🔹 {home_team}: {h_str}\n"
+    if a_players:
+        a_str = ", ".join([f"{p['name']} ({p['rating']})" for p in a_players])
+        res += f"  🔸 {away_team}: {a_str}\n"
+    return res
