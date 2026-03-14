@@ -350,3 +350,22 @@ def format_signal(sig: dict) -> str:
         
     text.append("\n#ChimeraAI #Прогноз")
     return "\n".join(text)
+
+def format_signals_list(signals: list[dict]) -> str:
+    """Форматирует список сигналов в красивый текст для Telegram."""
+    if not signals:
+        return "📊 Сигналов не найдено. Рынок спокоен или нет ценных ставок."
+    
+    text = [f"🎯 <b>Найдено сигналов: {len(signals)}</b>\n"]
+    
+    # Сортируем по EV (ценность)
+    sorted_signals = sorted(signals, key=lambda x: x.get('ev', 0), reverse=True)
+    
+    for i, sig in enumerate(sorted_signals[:10], 1):  # Показываем топ-10
+        emoji = "⚽️" if sig['sport'] == "football" else "🎮"
+        text.append(f"{i}. {emoji} <b>{sig['home']} vs {sig['away']}</b>")
+        text.append(f"   Прогноз: {sig['team']} ({sig['outcome']}) | EV: +{sig['ev']}% | Кэф: {sig['odds']}")
+        text.append(f"   Сила: {sig['strength']} | Баллы: {sig['score']}/{sig['max_score']}\n")
+    
+    text.append("\n#ChimeraAI #Сигналы")
+    return "\n".join(text)

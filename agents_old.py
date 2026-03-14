@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 import os
 from openai import OpenAI, APIStatusError
+from groq import Groq
 import json
-import time
 
 # --- 1. Настройка клиентов ---
 try:
@@ -19,14 +19,13 @@ except Exception as e:
     print(f"[КРИТИЧЕСКАЯ ОШИБКА] Не удалось инициализировать OpenAI клиент: {e}")
     client = None
 
-# Groq клиент для Llama и Gemma
-groq_client = None
+# Groq клиент для Llama и Gemma (через официальную библиотеку)
 try:
     if GROQ_API_KEY:
-        from groq import Groq
         groq_client = Groq(api_key=GROQ_API_KEY)
         print(f"[Агенты] Groq клиент инициализирован.")
     else:
+        groq_client = None
         print("[Агенты] Groq API ключ не найден, Llama/Gemma агенты отключены.")
 except Exception as e:
     groq_client = None
@@ -39,32 +38,24 @@ def call_ai(prompt, client_instance, model, retries=2):
         print(f"[ОШИБКА] Клиент для модели {model} не инициализирован!")
         return {"error": f"Клиент для {model} не инициализирован."}
     
-    is_groq = "groq" in str(type(client_instance)).lower()
+    is_groq = isinstance(client_instance, Groq)
     
     for attempt in range(retries):
         try:
             print(f"[{model}] Отправляю запрос (попытка {attempt+1})...")
             
-            # Для Groq и OpenAI вызовы немного отличаются
+            # Для Groq и OpenAI вызовы немного отличаются в зависимости от библиотеки
             if is_groq:
-                try:
-                    response = client_instance.chat.completions.create(
-                        model=model,
-                        messages=[
-                            {"role": "system", "content": "Ты — эксперт мирового класса по ставкам на футбол. Отвечай ТОЛЬКО валидным JSON объектом. Все текстовые поля пиши на русском языке. Будь конкретным и аналитичным."},
-                            {"role": "user", "content": prompt}
-                        ],
-                        response_format={"type": "json_object"},
-                        temperature=0.3,
-                        timeout=30
-                    )
-                except Exception as groq_err:
-                    # Если Groq упал (403, timeout и т.д.) — используем GPT как fallback
-                    print(f"[{model}] Groq ошибка: {groq_err}. Использую GPT как fallback...")
-                    if client:
-                        return call_ai(prompt, client, "gpt-4.1-mini", retries=1)
-                    else:
-                        raise groq_err
+                response = client_instance.chat.completions.create(
+                    model=model,
+                    messages=[
+                        {"role": "system", "content": "Ты — эксперт мирового класса по ставкам на футбол. Отвечай ТОЛЬКО валидным JSON объектом. Все текстовые поля пиши на русском языке. Будь конкретным и аналитичным."},
+                        {"role": "user", "content": prompt}
+                    ],
+                    response_format={"type": "json_object"},
+                    temperature=0.3,
+                    timeout=30
+                )
             else:
                 response = client_instance.chat.completions.create(
                     model=model,
@@ -84,7 +75,7 @@ def call_ai(prompt, client_instance, model, retries=2):
         except Exception as e:
             print(f"[{model} ОШИБКА попытка {attempt+1}] {type(e).__name__}: {e}")
             if attempt < retries - 1:
-                time.sleep(2)
+                import time; time.sleep(2)
                 
     # Если модель упала — возвращаем заглушку с пометкой
     print(f"[{model}] Все попытки исчерпаны, возвращаю заглушку")
@@ -185,7 +176,7 @@ def run_arbitrator_agent(stats_result, scout_result, bookmaker_odds):
     """
     return call_ai(prompt, client, "gpt-4.1-mini")
 
-# --- 4. Llama Агент (независимое мнение) с fallback ---
+# --- 4. Llama Агент (независимое мнение) ---
 
 def run_llama_agent(home_team, away_team, prophet_data, news_summary, bookmaker_odds, team_stats_text=None):
     """Агент на базе Llama 3.3 70B через Groq: даёт второе независимое мнение."""
@@ -262,64 +253,86 @@ def run_goals_market_agent(home_team, away_team, stats_text, bookmaker_odds):
     Задача: Дай прогноз на ТБ 2.5 или ТМ 2.5. Оцени вероятность и ценность.
     Формат ответа (JSON):
     {{
-      "prediction": "ТБ 2.5" или "ТМ 2.5",
-      "probability": <число от 0.0 до 1.0>,
-      "reasoning": "Почему именно этот прогноз (1 предложение)"
+      "analysis_summary": "...",
+      "recommended_outcome": "Больше 2.5" или "Меньше 2.5",
+      "confidence_percent": 0,
+      "expected_value_percent": 0
     }}
     """
     return call_ai(prompt, client, "gpt-4.1-mini")
 
-def run_corners_market_agent(home_team, away_team, stats_text):
-    """Агент по рынку корнеров."""
+def run_corners_market_agent(home_team, away_team, stats_text, bookmaker_odds):
+    """Агент по угловым."""
     prompt = f"""
-    Ты — эксперт по ставкам на корнеры. Матч: {home_team} vs {away_team}.
-    Статистика: {stats_text}
-    Дай прогноз на ТБ/ТМ 9.5 корнеров.
+    Ты — эксперт по ставкам на угловые. Матч: {home_team} vs {away_team}.
+    Статистика угловых: {stats_text}
+    Задача: Прогнозируй количество угловых (Победа по угловым или Тотал).
     Формат ответа (JSON):
     {{
-      "prediction": "ТБ 9.5" или "ТМ 9.5",
-      "reasoning": "Почему (1 предложение)"
+      "analysis_summary": "...",
+      "recommended_outcome": "...",
+      "confidence_percent": 0
     }}
     """
     return call_ai(prompt, client, "gpt-4.1-mini")
 
-def run_cards_market_agent(home_team, away_team, stats_text):
-    """Агент по рынку карточек."""
+def run_cards_market_agent(home_team, away_team, stats_text, bookmaker_odds):
+    """Агент по желтым карточкам."""
     prompt = f"""
     Ты — эксперт по ставкам на карточки. Матч: {home_team} vs {away_team}.
-    Статистика: {stats_text}
-    Дай прогноз на ТБ/ТМ 4.5 карточек.
+    Статистика ЖК: {stats_text}
+    Задача: Прогнозируй количество ЖК (Победа по ЖК или Тотал).
     Формат ответа (JSON):
     {{
-      "prediction": "ТБ 4.5" или "ТМ 4.5",
-      "reasoning": "Почему (1 предложение)"
+      "analysis_summary": "...",
+      "recommended_outcome": "...",
+      "confidence_percent": 0
     }}
     """
     return call_ai(prompt, client, "gpt-4.1-mini")
 
 def run_handicap_market_agent(home_team, away_team, stats_text, bookmaker_odds):
-    """Агент по рынку гандикапов."""
+    """Агент по форам."""
     prompt = f"""
-    Ты — эксперт по ставкам на гандикапы. Матч: {home_team} vs {away_team}.
+    Ты — эксперт по ставкам на форы (гандикапы). Матч: {home_team} vs {away_team}.
     Статистика: {stats_text}
-    Коэффициенты: {bookmaker_odds}
-    Дай прогноз на гандикап -1 / +1.
+    Задача: Прогнозируй оптимальную фору (например, -1 или +1.5).
     Формат ответа (JSON):
     {{
-      "prediction": "Гандикап -1" или "Гандикап +1",
-      "reasoning": "Почему (1 предложение)"
+      "analysis_summary": "...",
+      "recommended_outcome": "...",
+      "confidence_percent": 0
     }}
     """
     return call_ai(prompt, client, "gpt-4.1-mini")
 
-def run_mixtral_agent(home_team, away_team, stats):
-    """Агент Mixtral (если доступен)."""
-    return {"analysis": "Mixtral агент временно недоступен"}
+def run_mixtral_agent(home_team, away_team, stats_text):
+    """Агент на базе Mixtral (через Groq) для альтернативного взгляда."""
+    if not groq_client:
+        return {"error": "Groq недоступен"}
+    prompt = f"Проанализируй матч {home_team} vs {away_team}. Статистика: {stats_text}. Дай краткий прогноз."
+    return call_ai(prompt, groq_client, "mixtral-8x7b-32768")
 
-def build_math_ensemble(predictions):
-    """Строит ансамбль из нескольких моделей."""
-    return {"ensemble": "Ансамбль построен"}
+def build_math_ensemble(math_probs, ai_probs):
+    """Объединяет математические вероятности и ИИ-прогнозы в ансамбль."""
+    # Веса: Математика 40%, ИИ 60%
+    ensemble = {}
+    for key in ['home', 'draw', 'away']:
+        ensemble[key] = (math_probs.get(key, 0.33) * 0.4) + (ai_probs.get(key, 0.33) * 0.6)
+    return ensemble
 
-def calculate_value_bets(predictions, odds):
-    """Рассчитывает ценные ставки."""
-    return {"value_bets": []}
+def calculate_value_bets(ensemble_probs, bookmaker_odds):
+    """Ищет выгодные ставки (Value Bets) на основе ансамбля."""
+    value_bets = []
+    for outcome, prob in ensemble_probs.items():
+        odds = bookmaker_odds.get(outcome)
+        if odds and odds > 1:
+            implied_prob = 1 / odds
+            if prob > implied_prob + 0.05: # Преимущество 5%+
+                value_bets.append({
+                    "outcome": outcome,
+                    "prob": prob,
+                    "odds": odds,
+                    "ev": (prob * odds) - 1
+                })
+    return value_bets

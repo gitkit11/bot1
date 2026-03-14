@@ -26,7 +26,7 @@ from agents import (
 )
 from signal_engine import (
     check_football_signal, check_cs2_signal,
-    format_signal
+    format_signal, format_signals_list
 )
 from math_model import (
     load_elo_ratings, save_elo_ratings, update_elo, elo_win_probabilities,
@@ -1952,7 +1952,7 @@ async def cmd_signals(message: types.Message):
     # --- CS2 ---
     try:
         from sports.cs2 import calculate_cs2_win_prob
-        from sports.cs2.hltv_stats import get_player_stats
+        from sports.cs2.hltv_sync import get_player_stats
         for m in cs2_matches_cache[:15]:
             try:
                 home = m.get("home", "")
