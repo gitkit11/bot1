@@ -798,41 +798,49 @@ async def handle_text(message: types.Message):
             from sports.cs2 import get_combined_cs2_matches
             all_cs2_matches = get_combined_cs2_matches()
             
-            # Фильтрация по белому списку лиг
-            cs2_matches = []
+            # Группировка по лигам
+            leagues_dict = {}
             for m in all_cs2_matches:
-                league_name = m.get('league', '')
+                league_name = m.get('league', 'Other')
                 tournament_name = m.get('tournament', '')
                 full_name = f"{league_name} {tournament_name}".lower()
                 
-                is_allowed = False
+                matched_league = None
                 for allowed in CS2_WHITELIST_LEAGUES:
                     if allowed.lower() in full_name:
-                        is_allowed = True
+                        matched_league = allowed
                         break
                 
-                if is_allowed:
-                    cs2_matches.append(m)
+                if matched_league:
+                    if matched_league not in leagues_dict:
+                        leagues_dict[matched_league] = []
+                    leagues_dict[matched_league].append(m)
 
-            if not cs2_matches:
+            if not leagues_dict:
                 await message.answer(
                     "🎮 *Киберспорт CS2*\n\n"
-                    "❌ Нет доступных матчей.\n\n"
+                    "❌ Нет доступных матчей в выбранных лигах.\n\n"
                     "Убедись что в .env есть PANDASCORE_API_KEY",
                     parse_mode="Markdown"
                 )
                 return
-            # Строим клавиатуру со списком матчей
-            builder = InlineKeyboardBuilder()
-            for i, m in enumerate(cs2_matches[:20]):
-                label = f"🎮 {m['home']} vs {m['away']} | {m['time']}"
-                builder.button(text=label, callback_data=f"cs2_m_{i}")
-            builder.adjust(1)
-            # Сохраняем матчи в кэш
+
+            # Сохраняем все отфильтрованные матчи в кэш для последующего доступа
             cs2_matches_cache.clear()
-            cs2_matches_cache.extend(cs2_matches)
+            all_filtered = []
+            for l_matches in leagues_dict.values():
+                all_filtered.extend(l_matches)
+            cs2_matches_cache.extend(all_filtered)
+
+            # Строим клавиатуру со списком лиг
+            builder = InlineKeyboardBuilder()
+            for league in sorted(leagues_dict.keys()):
+                count = len(leagues_dict[league])
+                builder.button(text=f"🏆 {league} ({count})", callback_data=f"cs2_league_{league}")
+            builder.adjust(1)
+            
             await message.answer(
-                f"🎮 *CS2* — {len(cs2_matches)} матчей:\nВыберите матч для анализа:",
+                f"🎮 *CS2* — Выберите лигу:",
                 parse_mode="Markdown",
                 reply_markup=builder.as_markup()
             )
@@ -946,18 +954,55 @@ async def handle_callback(call: types.CallbackQuery):
         except Exception as e:
             await call.message.edit_text(f"❌ Ошибка анализа CS2: {e}")
 
-    # --- Назад к списку CS2 ---
-    elif call.data == "back_to_cs2":
+    # --- Выбор лиги CS2 ---
+    elif call.data.startswith("cs2_league_"):
+        league_name = call.data[11:]
+        league_matches = [m for m in cs2_matches_cache if league_name.lower() in f"{m.get('league','')} {m.get('tournament','')}".lower()]
+        
+        if not league_matches:
+            await call.answer("Матчи не найдены.", show_alert=True)
+            return
+            
+        builder = InlineKeyboardBuilder()
+        for m in league_matches:
+            # Находим индекс в общем кэше
+            idx = cs2_matches_cache.index(m)
+            label = f"🎮 {m['home']} vs {m['away']} | {m['time']}"
+            builder.button(text=label, callback_data=f"cs2_m_{idx}")
+        builder.button(text="⬅️ Назад к лигам", callback_data="back_to_cs2_leagues")
+        builder.adjust(1)
+        
+        await call.message.edit_text(
+            f"🏆 *{league_name}* — матчи:\nВыберите матч для анализа:",
+            parse_mode="Markdown",
+            reply_markup=builder.as_markup()
+        )
+
+    # --- Назад к списку лиг CS2 ---
+    elif call.data == "back_to_cs2_leagues" or call.data == "back_to_cs2":
         if not cs2_matches_cache:
             await call.answer("Список устарел. Вернись в главное меню.", show_alert=True)
             return
+            
+        leagues = sorted(list(set([m.get('league', 'Other') for m in cs2_matches_cache])))
+        # Пытаемся сопоставить с белым списком для красивых названий
+        display_leagues = {}
+        for m in cs2_matches_cache:
+            full_name = f"{m.get('league','')} {m.get('tournament','')}".lower()
+            for allowed in CS2_WHITELIST_LEAGUES:
+                if allowed.lower() in full_name:
+                    if allowed not in display_leagues:
+                        display_leagues[allowed] = 0
+                    display_leagues[allowed] += 1
+                    break
+        
         builder = InlineKeyboardBuilder()
-        for i, m in enumerate(cs2_matches_cache[:20]):
-            label = f"🎮 {m['home']} vs {m['away']} | {m['time']}"
-            builder.button(text=label, callback_data=f"cs2_m_{i}")
+        for league, count in sorted(display_leagues.items()):
+            builder.button(text=f"🏆 {league} ({count})", callback_data=f"cs2_league_{league}")
         builder.adjust(1)
+        
         await call.message.edit_text(
-            f"🎮 *CS2* — {len(cs2_matches_cache)} матчей:\nВыберите матч для анализа:",
+            f"🎮 *CS2* — Выберите лигу:",
             parse_mode="Markdown",
             reply_markup=builder.as_markup()
         )
