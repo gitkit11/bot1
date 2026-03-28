@@ -1,0 +1,6827 @@
+{
+  "ae308aa4ea2b0438786e027e65ebb198": {
+    "sport": "tennis",
+    "home_team": "Zhizhen Zhang",
+    "away_team": "Adrian Mannarino",
+    "opening_home": 1.93,
+    "opening_away": 1.94,
+    "opening_draw": null,
+    "last_home": 1.93,
+    "last_away": 1.96,
+    "last_draw": null,
+    "first_seen": 1773802052.9894965,
+    "last_updated": 1773871955.157188,
+    "snapshots": [
+      {
+        "home": 1.93,
+        "away": 1.94,
+        "draw": null,
+        "ts": 1773802052.9894965
+      },
+      {
+        "home": 1.93,
+        "away": 1.94,
+        "draw": null,
+        "ts": 1773804871.980819
+      },
+      {
+        "home": 1.9,
+        "away": 1.99,
+        "draw": null,
+        "ts": 1773850893.7769194
+      },
+      {
+        "home": 1.93,
+        "away": 1.96,
+        "draw": null,
+        "ts": 1773864057.4959426
+      },
+      {
+        "home": 1.93,
+        "away": 1.96,
+        "draw": null,
+        "ts": 1773871955.157188
+      }
+    ]
+  },
+  "50be5cea1c6ba4d03c1e27f404f7a564": {
+    "sport": "tennis",
+    "home_team": "Alejandro Tabilo",
+    "away_team": "Francisco Comesana",
+    "opening_home": 1.42,
+    "opening_away": 3.03,
+    "opening_draw": null,
+    "last_home": 1.43,
+    "last_away": 3.05,
+    "last_draw": null,
+    "first_seen": 1773802052.9894965,
+    "last_updated": 1773871955.157188,
+    "snapshots": [
+      {
+        "home": 1.42,
+        "away": 3.03,
+        "draw": null,
+        "ts": 1773802052.9894965
+      },
+      {
+        "home": 1.42,
+        "away": 3.03,
+        "draw": null,
+        "ts": 1773804871.980819
+      },
+      {
+        "home": 1.43,
+        "away": 3.05,
+        "draw": null,
+        "ts": 1773850893.8793678
+      },
+      {
+        "home": 1.43,
+        "away": 3.05,
+        "draw": null,
+        "ts": 1773864057.5892026
+      },
+      {
+        "home": 1.43,
+        "away": 3.05,
+        "draw": null,
+        "ts": 1773871955.157188
+      }
+    ]
+  },
+  "e637d5926b452a8f7b25ccfcee394489": {
+    "sport": "tennis",
+    "home_team": "Aleksandar Kovacevic",
+    "away_team": "Rei Sakamoto",
+    "opening_home": 1.65,
+    "opening_away": 2.34,
+    "opening_draw": null,
+    "last_home": 1.63,
+    "last_away": 2.4,
+    "last_draw": null,
+    "first_seen": 1773802052.999532,
+    "last_updated": 1773871955.1729984,
+    "snapshots": [
+      {
+        "home": 1.65,
+        "away": 2.34,
+        "draw": null,
+        "ts": 1773802052.999532
+      },
+      {
+        "home": 1.65,
+        "away": 2.34,
+        "draw": null,
+        "ts": 1773804871.980819
+      },
+      {
+        "home": 1.63,
+        "away": 2.4,
+        "draw": null,
+        "ts": 1773850893.8885162
+      },
+      {
+        "home": 1.63,
+        "away": 2.4,
+        "draw": null,
+        "ts": 1773864057.5962636
+      },
+      {
+        "home": 1.63,
+        "away": 2.4,
+        "draw": null,
+        "ts": 1773871955.1729984
+      }
+    ]
+  },
+  "f5ed97578414ef0e76febe97e5bca008": {
+    "sport": "tennis",
+    "home_team": "Matteo Arnaldi",
+    "away_team": "Alexander Shevchenko",
+    "opening_home": 2.01,
+    "opening_away": 1.86,
+    "opening_draw": null,
+    "last_home": 2.08,
+    "last_away": 1.83,
+    "last_draw": null,
+    "first_seen": 1773802052.999532,
+    "last_updated": 1773871955.1889439,
+    "snapshots": [
+      {
+        "home": 2.01,
+        "away": 1.86,
+        "draw": null,
+        "ts": 1773802052.999532
+      },
+      {
+        "home": 2.01,
+        "away": 1.86,
+        "draw": null,
+        "ts": 1773804871.980819
+      },
+      {
+        "home": 2.02,
+        "away": 1.87,
+        "draw": null,
+        "ts": 1773850893.9079618
+      },
+      {
+        "home": 2.02,
+        "away": 1.87,
+        "draw": null,
+        "ts": 1773864057.6163542
+      },
+      {
+        "home": 2.08,
+        "away": 1.83,
+        "draw": null,
+        "ts": 1773871955.1889439
+      }
+    ]
+  },
+  "cffbeeb9aa29a5b7dcfc1c21e7733aef": {
+    "sport": "tennis",
+    "home_team": "Alexandre Muller",
+    "away_team": "Matteo Berrettini",
+    "opening_home": 4.27,
+    "opening_away": 1.25,
+    "opening_draw": null,
+    "last_home": 4.65,
+    "last_away": 1.23,
+    "last_draw": null,
+    "first_seen": 1773802052.999532,
+    "last_updated": 1773871955.3375862,
+    "snapshots": [
+      {
+        "home": 4.27,
+        "away": 1.25,
+        "draw": null,
+        "ts": 1773802052.999532
+      },
+      {
+        "home": 4.27,
+        "away": 1.25,
+        "draw": null,
+        "ts": 1773804871.980819
+      },
+      {
+        "home": 4.69,
+        "away": 1.23,
+        "draw": null,
+        "ts": 1773850893.8675284
+      },
+      {
+        "home": 4.71,
+        "away": 1.22,
+        "draw": null,
+        "ts": 1773864057.7726161
+      },
+      {
+        "home": 4.65,
+        "away": 1.23,
+        "draw": null,
+        "ts": 1773871955.3375862
+      }
+    ]
+  },
+  "8f2b7630c71da64c8fda46aece0b735c": {
+    "sport": "tennis",
+    "home_team": "Marin Cilic",
+    "away_team": "Alexei Popyrin",
+    "opening_home": 1.65,
+    "opening_away": 2.33,
+    "opening_draw": null,
+    "last_home": 1.62,
+    "last_away": 2.42,
+    "last_draw": null,
+    "first_seen": 1773802052.999532,
+    "last_updated": 1773871955.2046094,
+    "snapshots": [
+      {
+        "home": 1.65,
+        "away": 2.33,
+        "draw": null,
+        "ts": 1773802052.999532
+      },
+      {
+        "home": 1.65,
+        "away": 2.33,
+        "draw": null,
+        "ts": 1773804871.9944584
+      },
+      {
+        "home": 1.62,
+        "away": 2.43,
+        "draw": null,
+        "ts": 1773850893.9185922
+      },
+      {
+        "home": 1.62,
+        "away": 2.42,
+        "draw": null,
+        "ts": 1773864057.6243763
+      },
+      {
+        "home": 1.62,
+        "away": 2.42,
+        "draw": null,
+        "ts": 1773871955.2046094
+      }
+    ]
+  },
+  "46b240853dac06944f5d690e7659c72e": {
+    "sport": "tennis",
+    "home_team": "Denis Shapovalov",
+    "away_team": "Botic van de Zandschulp",
+    "opening_home": 1.5,
+    "opening_away": 2.73,
+    "opening_draw": null,
+    "last_home": 1.53,
+    "last_away": 2.65,
+    "last_draw": null,
+    "first_seen": 1773802052.999532,
+    "last_updated": 1773871955.124569,
+    "snapshots": [
+      {
+        "home": 1.5,
+        "away": 2.73,
+        "draw": null,
+        "ts": 1773802052.999532
+      },
+      {
+        "home": 1.5,
+        "away": 2.73,
+        "draw": null,
+        "ts": 1773804871.9944584
+      },
+      {
+        "home": 1.54,
+        "away": 2.63,
+        "draw": null,
+        "ts": 1773850893.7769194
+      },
+      {
+        "home": 1.53,
+        "away": 2.65,
+        "draw": null,
+        "ts": 1773864057.4969482
+      },
+      {
+        "home": 1.53,
+        "away": 2.65,
+        "draw": null,
+        "ts": 1773871955.124569
+      }
+    ]
+  },
+  "4f0647d260a49e88c2736a4a2c6c2392": {
+    "sport": "tennis",
+    "home_team": "Giovanni Mpetshi Perricard",
+    "away_team": "Camilo Ugo Carabelli",
+    "opening_home": 1.57,
+    "opening_away": 2.52,
+    "opening_draw": null,
+    "last_home": 1.55,
+    "last_away": 2.61,
+    "last_draw": null,
+    "first_seen": 1773802052.999532,
+    "last_updated": 1773871955.124569,
+    "snapshots": [
+      {
+        "home": 1.57,
+        "away": 2.52,
+        "draw": null,
+        "ts": 1773802052.999532
+      },
+      {
+        "home": 1.57,
+        "away": 2.52,
+        "draw": null,
+        "ts": 1773804871.9944584
+      },
+      {
+        "home": 1.55,
+        "away": 2.6,
+        "draw": null,
+        "ts": 1773850893.7844605
+      },
+      {
+        "home": 1.55,
+        "away": 2.61,
+        "draw": null,
+        "ts": 1773864057.497947
+      },
+      {
+        "home": 1.55,
+        "away": 2.61,
+        "draw": null,
+        "ts": 1773871955.124569
+      }
+    ]
+  },
+  "414ede2ffcf770635b940d5c5dce6b9e": {
+    "sport": "tennis",
+    "home_team": "Terence Atmane",
+    "away_team": "Daniel Altmaier",
+    "opening_home": 1.5,
+    "opening_away": 2.73,
+    "opening_draw": null,
+    "last_home": 1.5,
+    "last_away": 2.76,
+    "last_draw": null,
+    "first_seen": 1773802052.999532,
+    "last_updated": 1773871955.2264366,
+    "snapshots": [
+      {
+        "home": 1.5,
+        "away": 2.73,
+        "draw": null,
+        "ts": 1773802052.999532
+      },
+      {
+        "home": 1.5,
+        "away": 2.73,
+        "draw": null,
+        "ts": 1773804871.9944584
+      },
+      {
+        "home": 1.5,
+        "away": 2.76,
+        "draw": null,
+        "ts": 1773850893.9426193
+      },
+      {
+        "home": 1.5,
+        "away": 2.76,
+        "draw": null,
+        "ts": 1773864057.6660929
+      },
+      {
+        "home": 1.5,
+        "away": 2.76,
+        "draw": null,
+        "ts": 1773871955.2264366
+      }
+    ]
+  },
+  "e739a29dc4be6aa3167f6b655adacad6": {
+    "sport": "tennis",
+    "home_team": "Darwin Blanch",
+    "away_team": "Jan-Lennard Struff",
+    "opening_home": 2.62,
+    "opening_away": 1.53,
+    "opening_draw": null,
+    "last_home": 2.56,
+    "last_away": 1.57,
+    "last_draw": null,
+    "first_seen": 1773802052.999532,
+    "last_updated": 1773871955.3375862,
+    "snapshots": [
+      {
+        "home": 2.62,
+        "away": 1.53,
+        "draw": null,
+        "ts": 1773802052.999532
+      },
+      {
+        "home": 2.62,
+        "away": 1.53,
+        "draw": null,
+        "ts": 1773804872.010221
+      },
+      {
+        "home": 2.6,
+        "away": 1.55,
+        "draw": null,
+        "ts": 1773850893.8467863
+      },
+      {
+        "home": 2.56,
+        "away": 1.57,
+        "draw": null,
+        "ts": 1773864057.7801216
+      },
+      {
+        "home": 2.56,
+        "away": 1.57,
+        "draw": null,
+        "ts": 1773871955.3375862
+      }
+    ]
+  },
+  "09208a822404c620f1486df75b626492": {
+    "sport": "tennis",
+    "home_team": "Emilio Nava",
+    "away_team": "Tomas Machac",
+    "opening_home": 2.94,
+    "opening_away": 1.44,
+    "opening_draw": null,
+    "last_home": 2.99,
+    "last_away": 1.44,
+    "last_draw": null,
+    "first_seen": 1773802052.999532,
+    "last_updated": 1773871955.2423003,
+    "snapshots": [
+      {
+        "home": 2.94,
+        "away": 1.44,
+        "draw": null,
+        "ts": 1773802052.999532
+      },
+      {
+        "home": 2.94,
+        "away": 1.44,
+        "draw": null,
+        "ts": 1773804872.010221
+      },
+      {
+        "home": 2.99,
+        "away": 1.44,
+        "draw": null,
+        "ts": 1773850893.9426193
+      },
+      {
+        "home": 2.93,
+        "away": 1.45,
+        "draw": null,
+        "ts": 1773864057.674556
+      },
+      {
+        "home": 2.99,
+        "away": 1.44,
+        "draw": null,
+        "ts": 1773871955.2423003
+      }
+    ]
+  },
+  "c657ae62bf872244dde8bc947e6cc77b": {
+    "sport": "tennis",
+    "home_team": "Ethan Quinn",
+    "away_team": "Hubert Hurkacz",
+    "opening_home": 2.08,
+    "opening_away": 1.81,
+    "opening_draw": null,
+    "last_home": 2.19,
+    "last_away": 1.75,
+    "last_draw": null,
+    "first_seen": 1773802052.999532,
+    "last_updated": 1773871955.3320487,
+    "snapshots": [
+      {
+        "home": 2.08,
+        "away": 1.81,
+        "draw": null,
+        "ts": 1773802052.999532
+      },
+      {
+        "home": 2.08,
+        "away": 1.81,
+        "draw": null,
+        "ts": 1773804872.010221
+      },
+      {
+        "home": 2.12,
+        "away": 1.79,
+        "draw": null,
+        "ts": 1773850893.7914672
+      },
+      {
+        "home": 2.12,
+        "away": 1.79,
+        "draw": null,
+        "ts": 1773864057.7620988
+      },
+      {
+        "home": 2.19,
+        "away": 1.75,
+        "draw": null,
+        "ts": 1773871955.3320487
+      }
+    ]
+  },
+  "e7ee98fac27bd912e9100c197702b774": {
+    "sport": "tennis",
+    "home_team": "Fabian Marozsan",
+    "away_team": "Joao Fonseca",
+    "opening_home": 3.14,
+    "opening_away": 1.4,
+    "opening_draw": null,
+    "last_home": 3.0,
+    "last_away": 1.44,
+    "last_draw": null,
+    "first_seen": 1773802052.999532,
+    "last_updated": 1773871955.2584424,
+    "snapshots": [
+      {
+        "home": 3.14,
+        "away": 1.4,
+        "draw": null,
+        "ts": 1773802052.999532
+      },
+      {
+        "home": 3.14,
+        "away": 1.4,
+        "draw": null,
+        "ts": 1773804872.010221
+      },
+      {
+        "home": 3.06,
+        "away": 1.42,
+        "draw": null,
+        "ts": 1773850893.9436207
+      },
+      {
+        "home": 3.0,
+        "away": 1.44,
+        "draw": null,
+        "ts": 1773864057.6820652
+      },
+      {
+        "home": 3.0,
+        "away": 1.44,
+        "draw": null,
+        "ts": 1773871955.2584424
+      }
+    ]
+  },
+  "8783ff8e12c9975d63060835bf149f07": {
+    "sport": "tennis",
+    "home_team": "Gabriel Diallo",
+    "away_team": "Wu Yibing",
+    "opening_home": 2.1,
+    "opening_away": 1.79,
+    "opening_draw": null,
+    "last_home": 2.1,
+    "last_away": 1.81,
+    "last_draw": null,
+    "first_seen": 1773802052.999532,
+    "last_updated": 1773871955.2698147,
+    "snapshots": [
+      {
+        "home": 2.1,
+        "away": 1.79,
+        "draw": null,
+        "ts": 1773802052.999532
+      },
+      {
+        "home": 2.1,
+        "away": 1.79,
+        "draw": null,
+        "ts": 1773804872.010221
+      },
+      {
+        "home": 2.13,
+        "away": 1.79,
+        "draw": null,
+        "ts": 1773850893.9436207
+      },
+      {
+        "home": 2.1,
+        "away": 1.81,
+        "draw": null,
+        "ts": 1773864057.6951914
+      },
+      {
+        "home": 2.1,
+        "away": 1.81,
+        "draw": null,
+        "ts": 1773871955.2698147
+      }
+    ]
+  },
+  "47375c4ed6f39a2d446fa5c9aee68762": {
+    "sport": "tennis",
+    "home_team": "Raphael Collignon",
+    "away_team": "Grigor Dimitrov",
+    "opening_home": 2.26,
+    "opening_away": 1.69,
+    "opening_draw": null,
+    "last_home": 2.13,
+    "last_away": 1.79,
+    "last_draw": null,
+    "first_seen": 1773802052.999532,
+    "last_updated": 1773871955.1271734,
+    "snapshots": [
+      {
+        "home": 2.26,
+        "away": 1.69,
+        "draw": null,
+        "ts": 1773802052.999532
+      },
+      {
+        "home": 2.26,
+        "away": 1.69,
+        "draw": null,
+        "ts": 1773804872.0275238
+      },
+      {
+        "home": 2.16,
+        "away": 1.77,
+        "draw": null,
+        "ts": 1773850893.7864695
+      },
+      {
+        "home": 2.13,
+        "away": 1.79,
+        "draw": null,
+        "ts": 1773864057.514646
+      },
+      {
+        "home": 2.13,
+        "away": 1.79,
+        "draw": null,
+        "ts": 1773871955.1271734
+      }
+    ]
+  },
+  "39b573760f448ada6b7d12b7a14ded64": {
+    "sport": "tennis",
+    "home_team": "Martin Damm Jr.",
+    "away_team": "Jacob Fearnley",
+    "opening_home": 2.03,
+    "opening_away": 1.85,
+    "opening_draw": null,
+    "last_home": 2.06,
+    "last_away": 1.84,
+    "last_draw": null,
+    "first_seen": 1773802052.999532,
+    "last_updated": 1773871955.2741928,
+    "snapshots": [
+      {
+        "home": 2.03,
+        "away": 1.85,
+        "draw": null,
+        "ts": 1773802052.999532
+      },
+      {
+        "home": 2.03,
+        "away": 1.85,
+        "draw": null,
+        "ts": 1773804872.0275238
+      },
+      {
+        "home": 2.06,
+        "away": 1.84,
+        "draw": null,
+        "ts": 1773850893.9498937
+      },
+      {
+        "home": 2.06,
+        "away": 1.84,
+        "draw": null,
+        "ts": 1773864057.7057002
+      },
+      {
+        "home": 2.06,
+        "away": 1.84,
+        "draw": null,
+        "ts": 1773871955.2741928
+      }
+    ]
+  },
+  "cf67d53f8b1752a6b13e03475e47104e": {
+    "sport": "tennis",
+    "home_team": "James Duckworth",
+    "away_team": "Roberto Bautista Agut",
+    "opening_home": 2.36,
+    "opening_away": 1.64,
+    "opening_draw": null,
+    "last_home": 2.35,
+    "last_away": 1.66,
+    "last_draw": null,
+    "first_seen": 1773802052.999532,
+    "last_updated": 1773871955.353445,
+    "snapshots": [
+      {
+        "home": 2.36,
+        "away": 1.64,
+        "draw": null,
+        "ts": 1773802052.999532
+      },
+      {
+        "home": 2.36,
+        "away": 1.64,
+        "draw": null,
+        "ts": 1773804872.0275238
+      },
+      {
+        "home": 2.33,
+        "away": 1.67,
+        "draw": null,
+        "ts": 1773850893.7976537
+      },
+      {
+        "home": 2.35,
+        "away": 1.66,
+        "draw": null,
+        "ts": 1773864057.525668
+      },
+      {
+        "home": 2.35,
+        "away": 1.66,
+        "draw": null,
+        "ts": 1773871955.353445
+      }
+    ]
+  },
+  "44075768ddf390fa95a5f2b6327ec563": {
+    "sport": "tennis",
+    "home_team": "Zizou Bergs",
+    "away_team": "Jenson Brooksby",
+    "opening_home": 2.28,
+    "opening_away": 1.68,
+    "opening_draw": null,
+    "last_home": 2.46,
+    "last_away": 1.61,
+    "last_draw": null,
+    "first_seen": 1773802053.0120423,
+    "last_updated": 1773864057.5381806,
+    "snapshots": [
+      {
+        "home": 2.28,
+        "away": 1.68,
+        "draw": null,
+        "ts": 1773802053.0120423
+      },
+      {
+        "home": 2.28,
+        "away": 1.68,
+        "draw": null,
+        "ts": 1773804872.0372567
+      },
+      {
+        "home": 2.56,
+        "away": 1.56,
+        "draw": null,
+        "ts": 1773850893.8063426
+      },
+      {
+        "home": 2.46,
+        "away": 1.61,
+        "draw": null,
+        "ts": 1773864057.5381806
+      }
+    ]
+  },
+  "e7319e42655e37959a881f337dd91290": {
+    "sport": "tennis",
+    "home_team": "Kamil Majchrzak",
+    "away_team": "Miomir Kecmanovic",
+    "opening_home": 2.6,
+    "opening_away": 1.54,
+    "opening_draw": null,
+    "last_home": 2.66,
+    "last_away": 1.53,
+    "last_draw": null,
+    "first_seen": 1773802053.0133,
+    "last_updated": 1773871955.2899702,
+    "snapshots": [
+      {
+        "home": 2.6,
+        "away": 1.54,
+        "draw": null,
+        "ts": 1773802053.0133
+      },
+      {
+        "home": 2.6,
+        "away": 1.54,
+        "draw": null,
+        "ts": 1773804872.0413632
+      },
+      {
+        "home": 2.66,
+        "away": 1.53,
+        "draw": null,
+        "ts": 1773850893.9675112
+      },
+      {
+        "home": 2.66,
+        "away": 1.53,
+        "draw": null,
+        "ts": 1773864057.7172298
+      },
+      {
+        "home": 2.66,
+        "away": 1.53,
+        "draw": null,
+        "ts": 1773871955.2899702
+      }
+    ]
+  },
+  "57c79dcfa77a8acbbf6d35d97027ae0b": {
+    "sport": "tennis",
+    "home_team": "Reilly Opelka",
+    "away_team": "Nuno Borges",
+    "opening_home": 1.96,
+    "opening_away": 1.91,
+    "opening_draw": null,
+    "last_home": 1.81,
+    "last_away": 2.1,
+    "last_draw": null,
+    "first_seen": 1773802053.0133,
+    "last_updated": 1773871955.1271734,
+    "snapshots": [
+      {
+        "home": 1.96,
+        "away": 1.91,
+        "draw": null,
+        "ts": 1773802053.0133
+      },
+      {
+        "home": 1.96,
+        "away": 1.91,
+        "draw": null,
+        "ts": 1773804872.0413632
+      },
+      {
+        "home": 1.82,
+        "away": 2.09,
+        "draw": null,
+        "ts": 1773850893.788469
+      },
+      {
+        "home": 1.81,
+        "away": 2.1,
+        "draw": null,
+        "ts": 1773864057.499949
+      },
+      {
+        "home": 1.81,
+        "away": 2.1,
+        "draw": null,
+        "ts": 1773871955.1271734
+      }
+    ]
+  },
+  "776f293f0cd27abb8fc0a97e8dc8b650": {
+    "sport": "tennis",
+    "home_team": "Katerina Siniakova",
+    "away_team": "Maria Camila Osorio Serrano",
+    "opening_home": 84.65,
+    "opening_away": 1.01,
+    "opening_draw": null,
+    "last_home": 84.65,
+    "last_away": 1.01,
+    "last_draw": null,
+    "first_seen": 1773802053.6397793,
+    "last_updated": 1773802053.6397793,
+    "snapshots": [
+      {
+        "home": 84.65,
+        "away": 1.01,
+        "draw": null,
+        "ts": 1773802053.6397793
+      }
+    ]
+  },
+  "154c4e69eae5194cd2d42f43dfb48505": {
+    "sport": "tennis",
+    "home_team": "Elena Gabriela Ruse",
+    "away_team": "Antonia Ruzic",
+    "opening_home": 1.73,
+    "opening_away": 2.22,
+    "opening_draw": null,
+    "last_home": 1.67,
+    "last_away": 2.32,
+    "last_draw": null,
+    "first_seen": 1773802053.6397793,
+    "last_updated": 1773871956.2485626,
+    "snapshots": [
+      {
+        "home": 1.73,
+        "away": 2.22,
+        "draw": null,
+        "ts": 1773802053.6397793
+      },
+      {
+        "home": 1.62,
+        "away": 2.43,
+        "draw": null,
+        "ts": 1773804872.8753293
+      },
+      {
+        "home": 1.66,
+        "away": 2.34,
+        "draw": null,
+        "ts": 1773850894.9720156
+      },
+      {
+        "home": 1.66,
+        "away": 2.35,
+        "draw": null,
+        "ts": 1773864060.0817025
+      },
+      {
+        "home": 1.67,
+        "away": 2.32,
+        "draw": null,
+        "ts": 1773871956.2485626
+      }
+    ]
+  },
+  "11cc63d7f51fb82f0e29e61909dcadd7": {
+    "sport": "tennis",
+    "home_team": "Dayana Yastremska",
+    "away_team": "Ashlyn Krueger",
+    "opening_home": 2.09,
+    "opening_away": 1.82,
+    "opening_draw": null,
+    "last_home": 2.22,
+    "last_away": 1.73,
+    "last_draw": null,
+    "first_seen": 1773802053.6397793,
+    "last_updated": 1773871956.2643433,
+    "snapshots": [
+      {
+        "home": 2.09,
+        "away": 1.82,
+        "draw": null,
+        "ts": 1773802053.6397793
+      },
+      {
+        "home": 2.09,
+        "away": 1.82,
+        "draw": null,
+        "ts": 1773804872.8753293
+      },
+      {
+        "home": 2.22,
+        "away": 1.73,
+        "draw": null,
+        "ts": 1773850894.9737802
+      },
+      {
+        "home": 2.22,
+        "away": 1.73,
+        "draw": null,
+        "ts": 1773864060.084707
+      },
+      {
+        "home": 2.22,
+        "away": 1.73,
+        "draw": null,
+        "ts": 1773871956.2643433
+      }
+    ]
+  },
+  "df354fbc7239b2933053f91cbcc11083": {
+    "sport": "tennis",
+    "home_team": "Emiliana Arango",
+    "away_team": "Oksana Selekhmeteva",
+    "opening_home": 3.12,
+    "opening_away": 1.41,
+    "opening_draw": null,
+    "last_home": 3.24,
+    "last_away": 1.39,
+    "last_draw": null,
+    "first_seen": 1773802053.6397793,
+    "last_updated": 1773871956.2701263,
+    "snapshots": [
+      {
+        "home": 3.12,
+        "away": 1.41,
+        "draw": null,
+        "ts": 1773802053.6397793
+      },
+      {
+        "home": 3.12,
+        "away": 1.41,
+        "draw": null,
+        "ts": 1773804872.8753293
+      },
+      {
+        "home": 3.24,
+        "away": 1.39,
+        "draw": null,
+        "ts": 1773850894.9757879
+      },
+      {
+        "home": 3.24,
+        "away": 1.39,
+        "draw": null,
+        "ts": 1773864060.0857067
+      },
+      {
+        "home": 3.24,
+        "away": 1.39,
+        "draw": null,
+        "ts": 1773871956.2701263
+      }
+    ]
+  },
+  "51e7fa5534fd1c7c2a835029b16a3dfe": {
+    "sport": "tennis",
+    "home_team": "Hailey Baptiste",
+    "away_team": "Tatjana Maria",
+    "opening_home": 1.22,
+    "opening_away": 4.72,
+    "opening_draw": null,
+    "last_home": 1.23,
+    "last_away": 4.69,
+    "last_draw": null,
+    "first_seen": 1773802053.6397793,
+    "last_updated": 1773871956.2010524,
+    "snapshots": [
+      {
+        "home": 1.22,
+        "away": 4.72,
+        "draw": null,
+        "ts": 1773802053.6397793
+      },
+      {
+        "home": 1.22,
+        "away": 4.72,
+        "draw": null,
+        "ts": 1773804872.885949
+      },
+      {
+        "home": 1.23,
+        "away": 4.69,
+        "draw": null,
+        "ts": 1773850894.9767926
+      },
+      {
+        "home": 1.23,
+        "away": 4.69,
+        "draw": null,
+        "ts": 1773864060.1027315
+      },
+      {
+        "home": 1.23,
+        "away": 4.69,
+        "draw": null,
+        "ts": 1773871956.2010524
+      }
+    ]
+  },
+  "164b34845077a2154a199134d29e71ab": {
+    "sport": "tennis",
+    "home_team": "Janice Tjen",
+    "away_team": "Yulia Putintseva",
+    "opening_home": 1.83,
+    "opening_away": 2.07,
+    "opening_draw": null,
+    "last_home": 1.8,
+    "last_away": 2.11,
+    "last_draw": null,
+    "first_seen": 1773802053.6397793,
+    "last_updated": 1773871956.280166,
+    "snapshots": [
+      {
+        "home": 1.83,
+        "away": 2.07,
+        "draw": null,
+        "ts": 1773802053.6397793
+      },
+      {
+        "home": 1.81,
+        "away": 2.1,
+        "draw": null,
+        "ts": 1773804872.8753293
+      },
+      {
+        "home": 1.81,
+        "away": 2.09,
+        "draw": null,
+        "ts": 1773850894.9757879
+      },
+      {
+        "home": 1.8,
+        "away": 2.11,
+        "draw": null,
+        "ts": 1773864060.0902152
+      },
+      {
+        "home": 1.8,
+        "away": 2.11,
+        "draw": null,
+        "ts": 1773871956.280166
+      }
+    ]
+  },
+  "b540c4825378021b9fdc7343c09d795b": {
+    "sport": "tennis",
+    "home_team": "Jennifer Brady",
+    "away_team": "Sloane Stephens",
+    "opening_home": 1.46,
+    "opening_away": 2.91,
+    "opening_draw": null,
+    "last_home": 1.46,
+    "last_away": 2.89,
+    "last_draw": null,
+    "first_seen": 1773802053.6397793,
+    "last_updated": 1773871956.2903852,
+    "snapshots": [
+      {
+        "home": 1.46,
+        "away": 2.91,
+        "draw": null,
+        "ts": 1773802053.6397793
+      },
+      {
+        "home": 1.46,
+        "away": 2.91,
+        "draw": null,
+        "ts": 1773804872.8753293
+      },
+      {
+        "home": 1.49,
+        "away": 2.81,
+        "draw": null,
+        "ts": 1773850894.9757879
+      },
+      {
+        "home": 1.48,
+        "away": 2.84,
+        "draw": null,
+        "ts": 1773864060.096229
+      },
+      {
+        "home": 1.46,
+        "away": 2.89,
+        "draw": null,
+        "ts": 1773871956.2903852
+      }
+    ]
+  },
+  "97ab90a603a65929bd77565a95e00644": {
+    "sport": "soccer",
+    "home_team": "Bournemouth",
+    "away_team": "Manchester United",
+    "opening_home": 3.22,
+    "opening_away": 2.17,
+    "opening_draw": 3.83,
+    "last_home": 3.22,
+    "last_away": 2.16,
+    "last_draw": 3.83,
+    "first_seen": 1773802301.2151947,
+    "last_updated": 1773864278.08513,
+    "snapshots": [
+      {
+        "home": 3.22,
+        "away": 2.17,
+        "draw": 3.83,
+        "ts": 1773802301.2151947
+      },
+      {
+        "home": 3.22,
+        "away": 2.17,
+        "draw": 3.83,
+        "ts": 1773805121.9700587
+      },
+      {
+        "home": 3.22,
+        "away": 2.17,
+        "draw": 3.83,
+        "ts": 1773850891.40618
+      },
+      {
+        "home": 3.22,
+        "away": 2.16,
+        "draw": 3.83,
+        "ts": 1773864278.08513
+      }
+    ]
+  },
+  "6f6891624dbf3d13a1e41a24d2c7bf4c": {
+    "sport": "soccer",
+    "home_team": "Brighton and Hove Albion",
+    "away_team": "Liverpool",
+    "opening_home": 3.19,
+    "opening_away": 2.22,
+    "opening_draw": 3.71,
+    "last_home": 3.2,
+    "last_away": 2.23,
+    "last_draw": 3.67,
+    "first_seen": 1773802301.2151947,
+    "last_updated": 1773864278.1160874,
+    "snapshots": [
+      {
+        "home": 3.19,
+        "away": 2.22,
+        "draw": 3.71,
+        "ts": 1773802301.2151947
+      },
+      {
+        "home": 3.19,
+        "away": 2.22,
+        "draw": 3.71,
+        "ts": 1773805121.9700587
+      },
+      {
+        "home": 3.2,
+        "away": 2.23,
+        "draw": 3.67,
+        "ts": 1773850891.4190278
+      },
+      {
+        "home": 3.2,
+        "away": 2.23,
+        "draw": 3.67,
+        "ts": 1773864278.1160874
+      }
+    ]
+  },
+  "5a6fab8da714813d8037b9754f082f7f": {
+    "sport": "soccer",
+    "home_team": "Fulham",
+    "away_team": "Burnley",
+    "opening_home": 1.61,
+    "opening_away": 6.0,
+    "opening_draw": 4.01,
+    "last_home": 1.61,
+    "last_away": 5.98,
+    "last_draw": 3.99,
+    "first_seen": 1773802301.2151947,
+    "last_updated": 1773864278.1937108,
+    "snapshots": [
+      {
+        "home": 1.61,
+        "away": 6.0,
+        "draw": 4.01,
+        "ts": 1773802301.2151947
+      },
+      {
+        "home": 1.61,
+        "away": 6.0,
+        "draw": 4.01,
+        "ts": 1773805121.9719937
+      },
+      {
+        "home": 1.61,
+        "away": 5.98,
+        "draw": 3.99,
+        "ts": 1773850891.4423532
+      },
+      {
+        "home": 1.61,
+        "away": 5.98,
+        "draw": 3.99,
+        "ts": 1773864278.1937108
+      }
+    ]
+  },
+  "70a4161c6b699d029c5e4a2ebdf61fbc": {
+    "sport": "soccer",
+    "home_team": "Everton",
+    "away_team": "Chelsea",
+    "opening_home": 3.56,
+    "opening_away": 2.12,
+    "opening_draw": 3.56,
+    "last_home": 3.53,
+    "last_away": 2.12,
+    "last_draw": 3.58,
+    "first_seen": 1773802301.2164128,
+    "last_updated": 1773864278.281505,
+    "snapshots": [
+      {
+        "home": 3.56,
+        "away": 2.12,
+        "draw": 3.56,
+        "ts": 1773802301.2164128
+      },
+      {
+        "home": 3.56,
+        "away": 2.12,
+        "draw": 3.56,
+        "ts": 1773805121.9738152
+      },
+      {
+        "home": 3.53,
+        "away": 2.12,
+        "draw": 3.58,
+        "ts": 1773850891.4520426
+      },
+      {
+        "home": 3.53,
+        "away": 2.12,
+        "draw": 3.58,
+        "ts": 1773864278.281505
+      }
+    ]
+  },
+  "997cc590268f6d24e0d2e8d84a6e3389": {
+    "sport": "soccer",
+    "home_team": "Leeds United",
+    "away_team": "Brentford",
+    "opening_home": 2.51,
+    "opening_away": 2.88,
+    "opening_draw": 3.49,
+    "last_home": 2.51,
+    "last_away": 2.88,
+    "last_draw": 3.49,
+    "first_seen": 1773802301.218124,
+    "last_updated": 1773864278.3180642,
+    "snapshots": [
+      {
+        "home": 2.51,
+        "away": 2.88,
+        "draw": 3.49,
+        "ts": 1773802301.218124
+      },
+      {
+        "home": 2.51,
+        "away": 2.88,
+        "draw": 3.49,
+        "ts": 1773805121.9768248
+      },
+      {
+        "home": 2.51,
+        "away": 2.88,
+        "draw": 3.49,
+        "ts": 1773850891.5017197
+      },
+      {
+        "home": 2.51,
+        "away": 2.88,
+        "draw": 3.49,
+        "ts": 1773864278.3180642
+      }
+    ]
+  },
+  "3def90dc9d468dd46508a5afae2d5546": {
+    "sport": "soccer",
+    "home_team": "Newcastle United",
+    "away_team": "Sunderland",
+    "opening_home": 1.66,
+    "opening_away": 5.35,
+    "opening_draw": 4.05,
+    "last_home": 1.66,
+    "last_away": 5.35,
+    "last_draw": 4.04,
+    "first_seen": 1773802301.221217,
+    "last_updated": 1773864278.3590076,
+    "snapshots": [
+      {
+        "home": 1.66,
+        "away": 5.35,
+        "draw": 4.05,
+        "ts": 1773802301.221217
+      },
+      {
+        "home": 1.66,
+        "away": 5.35,
+        "draw": 4.05,
+        "ts": 1773805121.9798253
+      },
+      {
+        "home": 1.66,
+        "away": 5.35,
+        "draw": 4.05,
+        "ts": 1773850891.52547
+      },
+      {
+        "home": 1.66,
+        "away": 5.35,
+        "draw": 4.04,
+        "ts": 1773864278.3590076
+      }
+    ]
+  },
+  "1efa28912151d6adc43453fb2302a610": {
+    "sport": "soccer",
+    "home_team": "Aston Villa",
+    "away_team": "West Ham United",
+    "opening_home": 1.97,
+    "opening_away": 4.13,
+    "opening_draw": 3.51,
+    "last_home": 1.97,
+    "last_away": 4.09,
+    "last_draw": 3.52,
+    "first_seen": 1773802301.2261748,
+    "last_updated": 1773864278.4015641,
+    "snapshots": [
+      {
+        "home": 1.97,
+        "away": 4.13,
+        "draw": 3.51,
+        "ts": 1773802301.2261748
+      },
+      {
+        "home": 1.97,
+        "away": 4.13,
+        "draw": 3.51,
+        "ts": 1773805121.9828398
+      },
+      {
+        "home": 1.97,
+        "away": 4.09,
+        "draw": 3.52,
+        "ts": 1773850891.5483856
+      },
+      {
+        "home": 1.97,
+        "away": 4.09,
+        "draw": 3.52,
+        "ts": 1773864278.4015641
+      }
+    ]
+  },
+  "81dd92df69b61ff2716351eea3bd457c": {
+    "sport": "soccer",
+    "home_team": "Tottenham Hotspur",
+    "away_team": "Nottingham Forest",
+    "opening_home": 2.53,
+    "opening_away": 2.91,
+    "opening_draw": 3.41,
+    "last_home": 2.51,
+    "last_away": 2.92,
+    "last_draw": 3.42,
+    "first_seen": 1773802301.2296793,
+    "last_updated": 1773864278.4660811,
+    "snapshots": [
+      {
+        "home": 2.53,
+        "away": 2.91,
+        "draw": 3.41,
+        "ts": 1773802301.2296793
+      },
+      {
+        "home": 2.53,
+        "away": 2.91,
+        "draw": 3.41,
+        "ts": 1773805121.9848244
+      },
+      {
+        "home": 2.53,
+        "away": 2.91,
+        "draw": 3.41,
+        "ts": 1773850891.5632064
+      },
+      {
+        "home": 2.51,
+        "away": 2.92,
+        "draw": 3.42,
+        "ts": 1773864278.4660811
+      }
+    ]
+  },
+  "10d3a3a8df4f15a0754da8195a47c41f": {
+    "sport": "soccer",
+    "home_team": "West Ham United",
+    "away_team": "Wolverhampton Wanderers",
+    "opening_home": 1.76,
+    "opening_away": 4.39,
+    "opening_draw": 3.87,
+    "last_home": 1.76,
+    "last_away": 4.39,
+    "last_draw": 3.87,
+    "first_seen": 1773802301.2325776,
+    "last_updated": 1773864278.5290904,
+    "snapshots": [
+      {
+        "home": 1.76,
+        "away": 4.39,
+        "draw": 3.87,
+        "ts": 1773802301.2325776
+      },
+      {
+        "home": 1.76,
+        "away": 4.39,
+        "draw": 3.87,
+        "ts": 1773805121.991011
+      },
+      {
+        "home": 1.76,
+        "away": 4.39,
+        "draw": 3.87,
+        "ts": 1773850891.6102562
+      },
+      {
+        "home": 1.76,
+        "away": 4.39,
+        "draw": 3.87,
+        "ts": 1773864278.5290904
+      }
+    ]
+  },
+  "ff027a0ac6a0538a713b46bd753b670d": {
+    "sport": "soccer",
+    "home_team": "Arsenal",
+    "away_team": "Bournemouth",
+    "opening_home": 1.31,
+    "opening_away": 9.18,
+    "opening_draw": 5.38,
+    "last_home": 1.31,
+    "last_away": 9.18,
+    "last_draw": 5.38,
+    "first_seen": 1773802301.236958,
+    "last_updated": 1773864278.5734835,
+    "snapshots": [
+      {
+        "home": 1.31,
+        "away": 9.18,
+        "draw": 5.38,
+        "ts": 1773802301.236958
+      },
+      {
+        "home": 1.31,
+        "away": 9.18,
+        "draw": 5.38,
+        "ts": 1773805121.9933074
+      },
+      {
+        "home": 1.31,
+        "away": 9.18,
+        "draw": 5.38,
+        "ts": 1773850891.6237183
+      },
+      {
+        "home": 1.31,
+        "away": 9.18,
+        "draw": 5.38,
+        "ts": 1773864278.5734835
+      }
+    ]
+  },
+  "41b3af3f11ca7ac6a1f3763620c10d5a": {
+    "sport": "soccer",
+    "home_team": "Nottingham Forest",
+    "away_team": "Aston Villa",
+    "opening_home": 2.58,
+    "opening_away": 2.78,
+    "opening_draw": 3.31,
+    "last_home": 2.58,
+    "last_away": 2.78,
+    "last_draw": 3.31,
+    "first_seen": 1773802301.2463055,
+    "last_updated": 1773864278.6291945,
+    "snapshots": [
+      {
+        "home": 2.58,
+        "away": 2.78,
+        "draw": 3.31,
+        "ts": 1773802301.2463055
+      },
+      {
+        "home": 2.58,
+        "away": 2.78,
+        "draw": 3.31,
+        "ts": 1773805121.9953148
+      },
+      {
+        "home": 2.58,
+        "away": 2.78,
+        "draw": 3.31,
+        "ts": 1773850891.636827
+      },
+      {
+        "home": 2.58,
+        "away": 2.78,
+        "draw": 3.31,
+        "ts": 1773864278.6291945
+      }
+    ]
+  },
+  "0b8adb16f16b2490e3fbd514a2d86190": {
+    "sport": "soccer",
+    "home_team": "Brentford",
+    "away_team": "Everton",
+    "opening_home": 2.18,
+    "opening_away": 3.51,
+    "opening_draw": 3.27,
+    "last_home": 2.18,
+    "last_away": 3.51,
+    "last_draw": 3.27,
+    "first_seen": 1773802301.2473052,
+    "last_updated": 1773864278.6901295,
+    "snapshots": [
+      {
+        "home": 2.18,
+        "away": 3.51,
+        "draw": 3.27,
+        "ts": 1773802301.2473052
+      },
+      {
+        "home": 2.18,
+        "away": 3.51,
+        "draw": 3.27,
+        "ts": 1773805121.9963124
+      },
+      {
+        "home": 2.18,
+        "away": 3.51,
+        "draw": 3.27,
+        "ts": 1773850891.6559558
+      },
+      {
+        "home": 2.18,
+        "away": 3.51,
+        "draw": 3.27,
+        "ts": 1773864278.6901295
+      }
+    ]
+  },
+  "44d98d5d5c19eb115a527f1de294f03e": {
+    "sport": "soccer",
+    "home_team": "Burnley",
+    "away_team": "Brighton and Hove Albion",
+    "opening_home": 4.11,
+    "opening_away": 1.82,
+    "opening_draw": 3.85,
+    "last_home": 4.11,
+    "last_away": 1.82,
+    "last_draw": 3.85,
+    "first_seen": 1773802301.2493067,
+    "last_updated": 1773864278.741247,
+    "snapshots": [
+      {
+        "home": 4.11,
+        "away": 1.82,
+        "draw": 3.85,
+        "ts": 1773802301.2493067
+      },
+      {
+        "home": 4.11,
+        "away": 1.82,
+        "draw": 3.85,
+        "ts": 1773805122.0036325
+      },
+      {
+        "home": 4.11,
+        "away": 1.82,
+        "draw": 3.85,
+        "ts": 1773850891.672416
+      },
+      {
+        "home": 4.11,
+        "away": 1.82,
+        "draw": 3.85,
+        "ts": 1773864278.741247
+      }
+    ]
+  },
+  "34bae76a0a8f270a8765f8a4ec5d4234": {
+    "sport": "soccer",
+    "home_team": "Crystal Palace",
+    "away_team": "Newcastle United",
+    "opening_home": 2.81,
+    "opening_away": 2.47,
+    "opening_draw": 3.46,
+    "last_home": 2.81,
+    "last_away": 2.47,
+    "last_draw": 3.46,
+    "first_seen": 1773802301.2512925,
+    "last_updated": 1773864278.8164032,
+    "snapshots": [
+      {
+        "home": 2.81,
+        "away": 2.47,
+        "draw": 3.46,
+        "ts": 1773802301.2512925
+      },
+      {
+        "home": 2.81,
+        "away": 2.47,
+        "draw": 3.46,
+        "ts": 1773805122.0056345
+      },
+      {
+        "home": 2.81,
+        "away": 2.47,
+        "draw": 3.46,
+        "ts": 1773850891.6874056
+      },
+      {
+        "home": 2.81,
+        "away": 2.47,
+        "draw": 3.46,
+        "ts": 1773864278.8164032
+      }
+    ]
+  },
+  "f022ab37b6c69f588015498186a9694b": {
+    "sport": "soccer",
+    "home_team": "Liverpool",
+    "away_team": "Fulham",
+    "opening_home": 1.5,
+    "opening_away": 5.78,
+    "opening_draw": 4.59,
+    "last_home": 1.5,
+    "last_away": 5.77,
+    "last_draw": 4.59,
+    "first_seen": 1773802301.256006,
+    "last_updated": 1773864278.8646126,
+    "snapshots": [
+      {
+        "home": 1.5,
+        "away": 5.78,
+        "draw": 4.59,
+        "ts": 1773802301.256006
+      },
+      {
+        "home": 1.5,
+        "away": 5.78,
+        "draw": 4.59,
+        "ts": 1773805122.0085528
+      },
+      {
+        "home": 1.5,
+        "away": 5.77,
+        "draw": 4.59,
+        "ts": 1773850891.70366
+      },
+      {
+        "home": 1.5,
+        "away": 5.77,
+        "draw": 4.59,
+        "ts": 1773864278.8646126
+      }
+    ]
+  },
+  "5b7b41cabf1a84e8991c9cf3d0a7ab90": {
+    "sport": "soccer",
+    "home_team": "Sunderland",
+    "away_team": "Tottenham Hotspur",
+    "opening_home": 2.66,
+    "opening_away": 2.62,
+    "opening_draw": 3.43,
+    "last_home": 2.66,
+    "last_away": 2.62,
+    "last_draw": 3.43,
+    "first_seen": 1773802301.258789,
+    "last_updated": 1773864278.912803,
+    "snapshots": [
+      {
+        "home": 2.66,
+        "away": 2.62,
+        "draw": 3.43,
+        "ts": 1773802301.258789
+      },
+      {
+        "home": 2.66,
+        "away": 2.62,
+        "draw": 3.43,
+        "ts": 1773805122.0105572
+      },
+      {
+        "home": 2.66,
+        "away": 2.62,
+        "draw": 3.43,
+        "ts": 1773850891.7101188
+      },
+      {
+        "home": 2.66,
+        "away": 2.62,
+        "draw": 3.43,
+        "ts": 1773864278.912803
+      }
+    ]
+  },
+  "e4c2f457a464a95a8631ab28ef77b0b9": {
+    "sport": "soccer",
+    "home_team": "Chelsea",
+    "away_team": "Manchester City",
+    "opening_home": 2.68,
+    "opening_away": 2.38,
+    "opening_draw": 3.9,
+    "last_home": 2.69,
+    "last_away": 2.37,
+    "last_draw": 3.89,
+    "first_seen": 1773802301.2617188,
+    "last_updated": 1773864278.9768214,
+    "snapshots": [
+      {
+        "home": 2.68,
+        "away": 2.38,
+        "draw": 3.9,
+        "ts": 1773802301.2617188
+      },
+      {
+        "home": 2.68,
+        "away": 2.38,
+        "draw": 3.9,
+        "ts": 1773805122.0115852
+      },
+      {
+        "home": 2.69,
+        "away": 2.37,
+        "draw": 3.89,
+        "ts": 1773850891.7316034
+      },
+      {
+        "home": 2.69,
+        "away": 2.37,
+        "draw": 3.89,
+        "ts": 1773864278.9768214
+      }
+    ]
+  },
+  "7d48c93e68e7403998d0ed38e99caae5": {
+    "sport": "soccer",
+    "home_team": "Manchester United",
+    "away_team": "Leeds United",
+    "opening_home": 1.56,
+    "opening_away": 5.4,
+    "opening_draw": 4.32,
+    "last_home": 1.56,
+    "last_away": 5.4,
+    "last_draw": 4.32,
+    "first_seen": 1773802301.266002,
+    "last_updated": 1773864279.0246823,
+    "snapshots": [
+      {
+        "home": 1.56,
+        "away": 5.4,
+        "draw": 4.32,
+        "ts": 1773802301.266002
+      },
+      {
+        "home": 1.56,
+        "away": 5.4,
+        "draw": 4.32,
+        "ts": 1773805122.012581
+      },
+      {
+        "home": 1.56,
+        "away": 5.4,
+        "draw": 4.32,
+        "ts": 1773850891.7517262
+      },
+      {
+        "home": 1.56,
+        "away": 5.4,
+        "draw": 4.32,
+        "ts": 1773864279.0246823
+      }
+    ]
+  },
+  "cb9d0d5daff8d62f0222a2128327e482": {
+    "sport": "soccer",
+    "home_team": "Villarreal",
+    "away_team": "Real Sociedad",
+    "opening_home": 1.96,
+    "opening_away": 3.94,
+    "opening_draw": 3.68,
+    "last_home": 1.94,
+    "last_away": 3.96,
+    "last_draw": 3.73,
+    "first_seen": 1773806698.0007386,
+    "last_updated": 1773864277.9876485,
+    "snapshots": [
+      {
+        "home": 1.96,
+        "away": 3.94,
+        "draw": 3.68,
+        "ts": 1773806698.0007386
+      },
+      {
+        "home": 1.94,
+        "away": 3.97,
+        "draw": 3.72,
+        "ts": 1773850891.283185
+      },
+      {
+        "home": 1.94,
+        "away": 3.96,
+        "draw": 3.73,
+        "ts": 1773864277.9876485
+      }
+    ]
+  },
+  "6b904feabfc1e1ed40ecd26f689a1d4f": {
+    "sport": "soccer",
+    "home_team": "Elche CF",
+    "away_team": "Mallorca",
+    "opening_home": 2.17,
+    "opening_away": 3.65,
+    "opening_draw": 3.34,
+    "last_home": 2.16,
+    "last_away": 3.67,
+    "last_draw": 3.35,
+    "first_seen": 1773806698.0007386,
+    "last_updated": 1773864278.0195415,
+    "snapshots": [
+      {
+        "home": 2.17,
+        "away": 3.65,
+        "draw": 3.34,
+        "ts": 1773806698.0007386
+      },
+      {
+        "home": 2.16,
+        "away": 3.67,
+        "draw": 3.35,
+        "ts": 1773850891.2886066
+      },
+      {
+        "home": 2.16,
+        "away": 3.67,
+        "draw": 3.35,
+        "ts": 1773864278.0195415
+      }
+    ]
+  },
+  "a60515528a2ca996651e2bf69d577e76": {
+    "sport": "soccer",
+    "home_team": "Espanyol",
+    "away_team": "Getafe",
+    "opening_home": 2.47,
+    "opening_away": 3.39,
+    "opening_draw": 3.0,
+    "last_home": 2.47,
+    "last_away": 3.4,
+    "last_draw": 3.0,
+    "first_seen": 1773806698.0007386,
+    "last_updated": 1773864278.08513,
+    "snapshots": [
+      {
+        "home": 2.47,
+        "away": 3.39,
+        "draw": 3.0,
+        "ts": 1773806698.0007386
+      },
+      {
+        "home": 2.47,
+        "away": 3.4,
+        "draw": 3.0,
+        "ts": 1773850891.3032591
+      },
+      {
+        "home": 2.47,
+        "away": 3.4,
+        "draw": 3.0,
+        "ts": 1773864278.08513
+      }
+    ]
+  },
+  "c93581c8f00e7d38ab08d57df1ef7270": {
+    "sport": "soccer",
+    "home_team": "CA Osasuna",
+    "away_team": "Girona",
+    "opening_home": 2.18,
+    "opening_away": 3.46,
+    "opening_draw": 3.51,
+    "last_home": 2.18,
+    "last_away": 3.46,
+    "last_draw": 3.51,
+    "first_seen": 1773806698.0007386,
+    "last_updated": 1773864278.130949,
+    "snapshots": [
+      {
+        "home": 2.18,
+        "away": 3.46,
+        "draw": 3.51,
+        "ts": 1773806698.0007386
+      },
+      {
+        "home": 2.18,
+        "away": 3.46,
+        "draw": 3.51,
+        "ts": 1773850891.3171766
+      },
+      {
+        "home": 2.18,
+        "away": 3.46,
+        "draw": 3.51,
+        "ts": 1773864278.130949
+      }
+    ]
+  },
+  "4eec0660aefd71f457242be8af29857c": {
+    "sport": "soccer",
+    "home_team": "Levante",
+    "away_team": "Oviedo",
+    "opening_home": 2.29,
+    "opening_away": 3.3,
+    "opening_draw": 3.41,
+    "last_home": 2.28,
+    "last_away": 3.31,
+    "last_draw": 3.42,
+    "first_seen": 1773806698.0007386,
+    "last_updated": 1773864278.214884,
+    "snapshots": [
+      {
+        "home": 2.29,
+        "away": 3.3,
+        "draw": 3.41,
+        "ts": 1773806698.0007386
+      },
+      {
+        "home": 2.29,
+        "away": 3.3,
+        "draw": 3.41,
+        "ts": 1773850891.3247366
+      },
+      {
+        "home": 2.28,
+        "away": 3.31,
+        "draw": 3.42,
+        "ts": 1773864278.214884
+      }
+    ]
+  },
+  "18d38c78193436d288a2ceb5781ee9b5": {
+    "sport": "soccer",
+    "home_team": "Sevilla",
+    "away_team": "Valencia",
+    "opening_home": 2.3,
+    "opening_away": 3.52,
+    "opening_draw": 3.17,
+    "last_home": 2.3,
+    "last_away": 3.52,
+    "last_draw": 3.17,
+    "first_seen": 1773806698.0165427,
+    "last_updated": 1773864278.281505,
+    "snapshots": [
+      {
+        "home": 2.3,
+        "away": 3.52,
+        "draw": 3.17,
+        "ts": 1773806698.0165427
+      },
+      {
+        "home": 2.3,
+        "away": 3.52,
+        "draw": 3.17,
+        "ts": 1773850891.3356874
+      },
+      {
+        "home": 2.3,
+        "away": 3.52,
+        "draw": 3.17,
+        "ts": 1773864278.281505
+      }
+    ]
+  },
+  "b8d4230d0027d66519d07bacf5273b38": {
+    "sport": "soccer",
+    "home_team": "Barcelona",
+    "away_team": "Rayo Vallecano",
+    "opening_home": 1.23,
+    "opening_away": 10.72,
+    "opening_draw": 7.14,
+    "last_home": 1.23,
+    "last_away": 10.72,
+    "last_draw": 7.14,
+    "first_seen": 1773806698.0185027,
+    "last_updated": 1773864278.3221955,
+    "snapshots": [
+      {
+        "home": 1.23,
+        "away": 10.72,
+        "draw": 7.14,
+        "ts": 1773806698.0185027
+      },
+      {
+        "home": 1.23,
+        "away": 10.72,
+        "draw": 7.14,
+        "ts": 1773850891.3406725
+      },
+      {
+        "home": 1.23,
+        "away": 10.72,
+        "draw": 7.14,
+        "ts": 1773864278.3221955
+      }
+    ]
+  },
+  "4ce102fccaf8df0dd0f6d3c5135ad344": {
+    "sport": "soccer",
+    "home_team": "Celta Vigo",
+    "away_team": "Alavés",
+    "opening_home": 1.85,
+    "opening_away": 4.97,
+    "opening_draw": 3.39,
+    "last_home": 1.85,
+    "last_away": 4.97,
+    "last_draw": 3.39,
+    "first_seen": 1773806698.0185027,
+    "last_updated": 1773864278.3590076,
+    "snapshots": [
+      {
+        "home": 1.85,
+        "away": 4.97,
+        "draw": 3.39,
+        "ts": 1773806698.0185027
+      },
+      {
+        "home": 1.85,
+        "away": 4.97,
+        "draw": 3.39,
+        "ts": 1773850891.3466153
+      },
+      {
+        "home": 1.85,
+        "away": 4.97,
+        "draw": 3.39,
+        "ts": 1773864278.3590076
+      }
+    ]
+  },
+  "3e70ca35d4b4d33cfaa0a8eac1528b8e": {
+    "sport": "soccer",
+    "home_team": "Athletic Bilbao",
+    "away_team": "Real Betis",
+    "opening_home": 2.27,
+    "opening_away": 3.34,
+    "opening_draw": 3.41,
+    "last_home": 2.2,
+    "last_away": 3.41,
+    "last_draw": 3.49,
+    "first_seen": 1773806698.0322227,
+    "last_updated": 1773864278.3842585,
+    "snapshots": [
+      {
+        "home": 2.27,
+        "away": 3.34,
+        "draw": 3.41,
+        "ts": 1773806698.0322227
+      },
+      {
+        "home": 2.2,
+        "away": 3.41,
+        "draw": 3.49,
+        "ts": 1773850891.3524008
+      },
+      {
+        "home": 2.2,
+        "away": 3.41,
+        "draw": 3.49,
+        "ts": 1773864278.3842585
+      }
+    ]
+  },
+  "fe967658b51c7308f6e0987c8b428c5f": {
+    "sport": "soccer",
+    "home_team": "Real Madrid",
+    "away_team": "Atlético Madrid",
+    "opening_home": 1.93,
+    "opening_away": 3.62,
+    "opening_draw": 4.18,
+    "last_home": 1.93,
+    "last_away": 3.83,
+    "last_draw": 3.93,
+    "first_seen": 1773806698.0368147,
+    "last_updated": 1773864278.4660811,
+    "snapshots": [
+      {
+        "home": 1.93,
+        "away": 3.62,
+        "draw": 4.18,
+        "ts": 1773806698.0368147
+      },
+      {
+        "home": 1.93,
+        "away": 3.83,
+        "draw": 3.93,
+        "ts": 1773850891.368384
+      },
+      {
+        "home": 1.93,
+        "away": 3.83,
+        "draw": 3.93,
+        "ts": 1773864278.4660811
+      }
+    ]
+  },
+  "94c793aedd0e0b35ef9a5f8ae3f310bf": {
+    "sport": "soccer",
+    "home_team": "Rayo Vallecano",
+    "away_team": "Elche CF",
+    "opening_home": 1.82,
+    "opening_away": 4.64,
+    "opening_draw": 3.46,
+    "last_home": 1.82,
+    "last_away": 4.64,
+    "last_draw": 3.46,
+    "first_seen": 1773806698.0408235,
+    "last_updated": 1773864278.5198882,
+    "snapshots": [
+      {
+        "home": 1.82,
+        "away": 4.64,
+        "draw": 3.46,
+        "ts": 1773806698.0408235
+      },
+      {
+        "home": 1.82,
+        "away": 4.64,
+        "draw": 3.46,
+        "ts": 1773850891.3811092
+      },
+      {
+        "home": 1.82,
+        "away": 4.64,
+        "draw": 3.46,
+        "ts": 1773864278.5198882
+      }
+    ]
+  },
+  "a11fdb34323eb45bb26279fa3f3624f9": {
+    "sport": "soccer",
+    "home_team": "Real Sociedad",
+    "away_team": "Levante",
+    "opening_home": 1.53,
+    "opening_away": 5.86,
+    "opening_draw": 4.3,
+    "last_home": 1.53,
+    "last_away": 5.86,
+    "last_draw": 4.3,
+    "first_seen": 1773806698.0468438,
+    "last_updated": 1773864278.5642285,
+    "snapshots": [
+      {
+        "home": 1.53,
+        "away": 5.86,
+        "draw": 4.3,
+        "ts": 1773806698.0468438
+      },
+      {
+        "home": 1.53,
+        "away": 5.86,
+        "draw": 4.3,
+        "ts": 1773850891.39651
+      },
+      {
+        "home": 1.53,
+        "away": 5.86,
+        "draw": 4.3,
+        "ts": 1773864278.5642285
+      }
+    ]
+  },
+  "484623067ed77047e7899444d8dbdbe2": {
+    "sport": "soccer",
+    "home_team": "Mallorca",
+    "away_team": "Real Madrid",
+    "opening_home": 5.17,
+    "opening_away": 1.59,
+    "opening_draw": 4.3,
+    "last_home": 5.17,
+    "last_away": 1.59,
+    "last_draw": 4.3,
+    "first_seen": 1773806698.0489364,
+    "last_updated": 1773864278.6107707,
+    "snapshots": [
+      {
+        "home": 5.17,
+        "away": 1.59,
+        "draw": 4.3,
+        "ts": 1773806698.0489364
+      },
+      {
+        "home": 5.17,
+        "away": 1.59,
+        "draw": 4.3,
+        "ts": 1773850891.4081836
+      },
+      {
+        "home": 5.17,
+        "away": 1.59,
+        "draw": 4.3,
+        "ts": 1773864278.6107707
+      }
+    ]
+  },
+  "45a004f63ce773a84cd9b4f6deafc95e": {
+    "sport": "soccer",
+    "home_team": "Alavés",
+    "away_team": "CA Osasuna",
+    "opening_home": 2.69,
+    "opening_away": 2.94,
+    "opening_draw": 2.97,
+    "last_home": 2.69,
+    "last_away": 2.94,
+    "last_draw": 2.97,
+    "first_seen": 1773806698.0489364,
+    "last_updated": 1773864278.6639464,
+    "snapshots": [
+      {
+        "home": 2.69,
+        "away": 2.94,
+        "draw": 2.97,
+        "ts": 1773806698.0489364
+      },
+      {
+        "home": 2.69,
+        "away": 2.94,
+        "draw": 2.97,
+        "ts": 1773850891.4335127
+      },
+      {
+        "home": 2.69,
+        "away": 2.94,
+        "draw": 2.97,
+        "ts": 1773864278.6639464
+      }
+    ]
+  },
+  "7d959c47ee381295b685da531ba6461b": {
+    "sport": "soccer",
+    "home_team": "Atlético Madrid",
+    "away_team": "Barcelona",
+    "opening_home": 2.61,
+    "opening_away": 2.32,
+    "opening_draw": 4.22,
+    "last_home": 2.67,
+    "last_away": 2.29,
+    "last_draw": 4.19,
+    "first_seen": 1773806698.0489364,
+    "last_updated": 1773864278.7067459,
+    "snapshots": [
+      {
+        "home": 2.61,
+        "away": 2.32,
+        "draw": 4.22,
+        "ts": 1773806698.0489364
+      },
+      {
+        "home": 2.67,
+        "away": 2.29,
+        "draw": 4.19,
+        "ts": 1773850891.4423532
+      },
+      {
+        "home": 2.67,
+        "away": 2.29,
+        "draw": 4.19,
+        "ts": 1773864278.7067459
+      }
+    ]
+  },
+  "6fb17c1ee4b1d9e5b165f7f2129621d6": {
+    "sport": "soccer",
+    "home_team": "Getafe",
+    "away_team": "Athletic Bilbao",
+    "opening_home": 2.99,
+    "opening_away": 2.63,
+    "opening_draw": 3.0,
+    "last_home": 2.8,
+    "last_away": 2.71,
+    "last_draw": 3.1,
+    "first_seen": 1773806698.0642266,
+    "last_updated": 1773864278.7738025,
+    "snapshots": [
+      {
+        "home": 2.99,
+        "away": 2.63,
+        "draw": 3.0,
+        "ts": 1773806698.0642266
+      },
+      {
+        "home": 2.8,
+        "away": 2.71,
+        "draw": 3.1,
+        "ts": 1773850891.4520426
+      },
+      {
+        "home": 2.8,
+        "away": 2.71,
+        "draw": 3.1,
+        "ts": 1773864278.7738025
+      }
+    ]
+  },
+  "f11e0b1d7c006317bb49a968a329abad": {
+    "sport": "soccer",
+    "home_team": "Valencia",
+    "away_team": "Celta Vigo",
+    "opening_home": 2.35,
+    "opening_away": 3.01,
+    "opening_draw": 3.43,
+    "last_home": 2.42,
+    "last_away": 2.87,
+    "last_draw": 3.47,
+    "first_seen": 1773806698.0642266,
+    "last_updated": 1773864278.8538203,
+    "snapshots": [
+      {
+        "home": 2.35,
+        "away": 3.01,
+        "draw": 3.43,
+        "ts": 1773806698.0642266
+      },
+      {
+        "home": 2.42,
+        "away": 2.87,
+        "draw": 3.47,
+        "ts": 1773850891.4701517
+      },
+      {
+        "home": 2.42,
+        "away": 2.87,
+        "draw": 3.47,
+        "ts": 1773864278.8538203
+      }
+    ]
+  },
+  "4bd93caf5225a09ca7c863347e9578a6": {
+    "sport": "soccer",
+    "home_team": "Oviedo",
+    "away_team": "Sevilla",
+    "opening_home": 2.94,
+    "opening_away": 2.46,
+    "opening_draw": 3.31,
+    "last_home": 2.66,
+    "last_away": 2.62,
+    "last_draw": 3.41,
+    "first_seen": 1773806698.0642266,
+    "last_updated": 1773864278.8841422,
+    "snapshots": [
+      {
+        "home": 2.94,
+        "away": 2.46,
+        "draw": 3.31,
+        "ts": 1773806698.0642266
+      },
+      {
+        "home": 2.75,
+        "away": 2.54,
+        "draw": 3.41,
+        "ts": 1773850891.486653
+      },
+      {
+        "home": 2.66,
+        "away": 2.62,
+        "draw": 3.41,
+        "ts": 1773864278.8841422
+      }
+    ]
+  },
+  "c9b74ed8b8436a360355d1c870ce4721": {
+    "sport": "soccer",
+    "home_team": "Real Betis",
+    "away_team": "Espanyol",
+    "opening_home": 1.67,
+    "opening_away": 4.94,
+    "opening_draw": 3.97,
+    "last_home": 1.69,
+    "last_away": 4.61,
+    "last_draw": 4.07,
+    "first_seen": 1773806698.0799923,
+    "last_updated": 1773864278.938533,
+    "snapshots": [
+      {
+        "home": 1.67,
+        "away": 4.94,
+        "draw": 3.97,
+        "ts": 1773806698.0799923
+      },
+      {
+        "home": 1.61,
+        "away": 5.15,
+        "draw": 4.14,
+        "ts": 1773850891.5331862
+      },
+      {
+        "home": 1.69,
+        "away": 4.61,
+        "draw": 4.07,
+        "ts": 1773864278.938533
+      }
+    ]
+  },
+  "be28a5e512211e725fea8524a9a60d42": {
+    "sport": "soccer",
+    "home_team": "Girona",
+    "away_team": "Villarreal",
+    "opening_home": 2.97,
+    "opening_away": 2.29,
+    "opening_draw": 3.61,
+    "last_home": 2.86,
+    "last_away": 2.27,
+    "last_draw": 3.86,
+    "first_seen": 1773806698.0799923,
+    "last_updated": 1773864278.9988708,
+    "snapshots": [
+      {
+        "home": 2.97,
+        "away": 2.29,
+        "draw": 3.61,
+        "ts": 1773806698.0799923
+      },
+      {
+        "home": 3.03,
+        "away": 2.2,
+        "draw": 3.75,
+        "ts": 1773850891.544308
+      },
+      {
+        "home": 2.86,
+        "away": 2.27,
+        "draw": 3.86,
+        "ts": 1773864278.9988708
+      }
+    ]
+  },
+  "9cae45d9cce9b6f474a6ee1b788692b2": {
+    "sport": "soccer",
+    "home_team": "SC Braga",
+    "away_team": "Ferencváros TC",
+    "opening_home": 1.53,
+    "opening_away": 6.1,
+    "opening_draw": 4.58,
+    "last_home": 1.53,
+    "last_away": 6.1,
+    "last_draw": 4.58,
+    "first_seen": 1773806710.3737454,
+    "last_updated": 1773806710.3737454,
+    "snapshots": [
+      {
+        "home": 1.53,
+        "away": 6.1,
+        "draw": 4.58,
+        "ts": 1773806710.3737454
+      }
+    ]
+  },
+  "e18c9ad67a91c1d7f539cf7e7a71bde8": {
+    "sport": "soccer",
+    "home_team": "Lyon",
+    "away_team": "Celta Vigo",
+    "opening_home": 2.09,
+    "opening_away": 3.82,
+    "opening_draw": 3.41,
+    "last_home": 2.07,
+    "last_away": 3.89,
+    "last_draw": 3.41,
+    "first_seen": 1773806710.3737454,
+    "last_updated": 1773864277.745427,
+    "snapshots": [
+      {
+        "home": 2.09,
+        "away": 3.82,
+        "draw": 3.41,
+        "ts": 1773806710.3737454
+      },
+      {
+        "home": 2.09,
+        "away": 3.82,
+        "draw": 3.41,
+        "ts": 1773850633.329224
+      },
+      {
+        "home": 2.07,
+        "away": 3.87,
+        "draw": 3.41,
+        "ts": 1773853186.5303855
+      },
+      {
+        "home": 2.07,
+        "away": 3.89,
+        "draw": 3.41,
+        "ts": 1773864277.745427
+      }
+    ]
+  },
+  "04e7d8a83e6ac221484cdf8b99f50865": {
+    "sport": "soccer",
+    "home_team": "FC Midtjylland",
+    "away_team": "Nottingham Forest",
+    "opening_home": 3.32,
+    "opening_away": 2.19,
+    "opening_draw": 3.61,
+    "last_home": 3.27,
+    "last_away": 2.22,
+    "last_draw": 3.61,
+    "first_seen": 1773806710.3737454,
+    "last_updated": 1773864277.7506206,
+    "snapshots": [
+      {
+        "home": 3.32,
+        "away": 2.19,
+        "draw": 3.61,
+        "ts": 1773806710.3737454
+      },
+      {
+        "home": 3.32,
+        "away": 2.19,
+        "draw": 3.61,
+        "ts": 1773850633.329224
+      },
+      {
+        "home": 3.32,
+        "away": 2.19,
+        "draw": 3.61,
+        "ts": 1773853186.5449333
+      },
+      {
+        "home": 3.27,
+        "away": 2.22,
+        "draw": 3.61,
+        "ts": 1773864277.7506206
+      }
+    ]
+  },
+  "82af7b7671653c405a08aea3100dde14": {
+    "sport": "soccer",
+    "home_team": "SC Freiburg",
+    "away_team": "KRC Genk",
+    "opening_home": 1.59,
+    "opening_away": 5.66,
+    "opening_draw": 4.33,
+    "last_home": 1.58,
+    "last_away": 5.72,
+    "last_draw": 4.34,
+    "first_seen": 1773806710.3893793,
+    "last_updated": 1773864277.753633,
+    "snapshots": [
+      {
+        "home": 1.59,
+        "away": 5.66,
+        "draw": 4.33,
+        "ts": 1773806710.3893793
+      },
+      {
+        "home": 1.58,
+        "away": 5.72,
+        "draw": 4.35,
+        "ts": 1773850633.3370035
+      },
+      {
+        "home": 1.58,
+        "away": 5.72,
+        "draw": 4.35,
+        "ts": 1773853186.5508962
+      },
+      {
+        "home": 1.58,
+        "away": 5.72,
+        "draw": 4.34,
+        "ts": 1773864277.753633
+      }
+    ]
+  },
+  "66da7678d81337550756de7b6ac9279f": {
+    "sport": "soccer",
+    "home_team": "AS Roma",
+    "away_team": "Bologna",
+    "opening_home": 1.84,
+    "opening_away": 4.7,
+    "opening_draw": 3.58,
+    "last_home": 1.85,
+    "last_away": 4.63,
+    "last_draw": 3.56,
+    "first_seen": 1773806710.3893793,
+    "last_updated": 1773864277.753633,
+    "snapshots": [
+      {
+        "home": 1.84,
+        "away": 4.7,
+        "draw": 3.58,
+        "ts": 1773806710.3893793
+      },
+      {
+        "home": 1.85,
+        "away": 4.63,
+        "draw": 3.56,
+        "ts": 1773850633.3370035
+      },
+      {
+        "home": 1.85,
+        "away": 4.63,
+        "draw": 3.56,
+        "ts": 1773853186.559122
+      },
+      {
+        "home": 1.85,
+        "away": 4.63,
+        "draw": 3.56,
+        "ts": 1773864277.753633
+      }
+    ]
+  },
+  "579e7fc7c428d537e1680f053ed3344c": {
+    "sport": "soccer",
+    "home_team": "Aston Villa",
+    "away_team": "Lille",
+    "opening_home": 1.65,
+    "opening_away": 5.27,
+    "opening_draw": 4.18,
+    "last_home": 1.67,
+    "last_away": 5.1,
+    "last_draw": 4.12,
+    "first_seen": 1773806710.3893793,
+    "last_updated": 1773864277.7686272,
+    "snapshots": [
+      {
+        "home": 1.65,
+        "away": 5.27,
+        "draw": 4.18,
+        "ts": 1773806710.3893793
+      },
+      {
+        "home": 1.67,
+        "away": 5.1,
+        "draw": 4.12,
+        "ts": 1773850633.3530717
+      },
+      {
+        "home": 1.67,
+        "away": 5.1,
+        "draw": 4.12,
+        "ts": 1773853186.572088
+      },
+      {
+        "home": 1.67,
+        "away": 5.1,
+        "draw": 4.12,
+        "ts": 1773864277.7686272
+      }
+    ]
+  },
+  "3a1861ce2a31d57a545d716702d8a115": {
+    "sport": "soccer",
+    "home_team": "Real Betis",
+    "away_team": "Panathinaikos FC",
+    "opening_home": 1.41,
+    "opening_away": 7.9,
+    "opening_draw": 4.87,
+    "last_home": 1.4,
+    "last_away": 8.23,
+    "last_draw": 4.94,
+    "first_seen": 1773806710.3893793,
+    "last_updated": 1773864277.77104,
+    "snapshots": [
+      {
+        "home": 1.41,
+        "away": 7.9,
+        "draw": 4.87,
+        "ts": 1773806710.3893793
+      },
+      {
+        "home": 1.42,
+        "away": 7.9,
+        "draw": 4.85,
+        "ts": 1773850633.35624
+      },
+      {
+        "home": 1.41,
+        "away": 8.02,
+        "draw": 4.89,
+        "ts": 1773853186.5857344
+      },
+      {
+        "home": 1.4,
+        "away": 8.23,
+        "draw": 4.94,
+        "ts": 1773864277.77104
+      }
+    ]
+  },
+  "a729b4db6e7d970523efe725e5b90e2c": {
+    "sport": "soccer",
+    "home_team": "Porto",
+    "away_team": "VfB Stuttgart",
+    "opening_home": 2.5,
+    "opening_away": 2.81,
+    "opening_draw": 3.61,
+    "last_home": 2.51,
+    "last_away": 2.83,
+    "last_draw": 3.56,
+    "first_seen": 1773806710.3893793,
+    "last_updated": 1773864277.7848282,
+    "snapshots": [
+      {
+        "home": 2.5,
+        "away": 2.81,
+        "draw": 3.61,
+        "ts": 1773806710.3893793
+      },
+      {
+        "home": 2.5,
+        "away": 2.81,
+        "draw": 3.61,
+        "ts": 1773850633.3635154
+      },
+      {
+        "home": 2.5,
+        "away": 2.81,
+        "draw": 3.61,
+        "ts": 1773853186.595061
+      },
+      {
+        "home": 2.51,
+        "away": 2.83,
+        "draw": 3.56,
+        "ts": 1773864277.7848282
+      }
+    ]
+  },
+  "559e3b7523e4be26e5788e58c1e6067b": {
+    "sport": "basketball",
+    "home_team": "Boston Celtics",
+    "away_team": "Golden State Warriors",
+    "opening_home": 1.16,
+    "opening_away": 5.82,
+    "opening_draw": null,
+    "last_home": 1.17,
+    "last_away": 5.6,
+    "last_draw": null,
+    "first_seen": 1773850786.7089906,
+    "last_updated": 1773864277.8442547,
+    "snapshots": [
+      {
+        "home": 1.16,
+        "away": 5.82,
+        "draw": null,
+        "ts": 1773850786.7089906
+      },
+      {
+        "home": 1.16,
+        "away": 5.82,
+        "draw": null,
+        "ts": 1773853390.228279
+      },
+      {
+        "home": 1.17,
+        "away": 5.6,
+        "draw": null,
+        "ts": 1773864277.8442547
+      }
+    ]
+  },
+  "b8069101e24852c60cabdc606432eee7": {
+    "sport": "basketball",
+    "home_team": "Brooklyn Nets",
+    "away_team": "Oklahoma City Thunder",
+    "opening_home": 14.94,
+    "opening_away": 1.04,
+    "opening_draw": null,
+    "last_home": 14.51,
+    "last_away": 1.04,
+    "last_draw": null,
+    "first_seen": 1773850786.7089906,
+    "last_updated": 1773864277.8687835,
+    "snapshots": [
+      {
+        "home": 14.94,
+        "away": 1.04,
+        "draw": null,
+        "ts": 1773850786.7089906
+      },
+      {
+        "home": 14.94,
+        "away": 1.04,
+        "draw": null,
+        "ts": 1773853390.2332811
+      },
+      {
+        "home": 14.51,
+        "away": 1.04,
+        "draw": null,
+        "ts": 1773864277.8687835
+      }
+    ]
+  },
+  "ad16cbe50231fbc2c6e23cc24db31365": {
+    "sport": "basketball",
+    "home_team": "Indiana Pacers",
+    "away_team": "Portland Trail Blazers",
+    "opening_home": 5.42,
+    "opening_away": 1.18,
+    "opening_draw": null,
+    "last_home": 6.54,
+    "last_away": 1.14,
+    "last_draw": null,
+    "first_seen": 1773850786.7109895,
+    "last_updated": 1773864277.892421,
+    "snapshots": [
+      {
+        "home": 5.42,
+        "away": 1.18,
+        "draw": null,
+        "ts": 1773850786.7109895
+      },
+      {
+        "home": 6.35,
+        "away": 1.13,
+        "draw": null,
+        "ts": 1773853390.241486
+      },
+      {
+        "home": 6.54,
+        "away": 1.14,
+        "draw": null,
+        "ts": 1773864277.892421
+      }
+    ]
+  },
+  "a9e7cf9b2e8337be24987faf71d38562": {
+    "sport": "basketball",
+    "home_team": "Chicago Bulls",
+    "away_team": "Toronto Raptors",
+    "opening_home": 3.46,
+    "opening_away": 1.35,
+    "opening_draw": null,
+    "last_home": 3.46,
+    "last_away": 1.35,
+    "last_draw": null,
+    "first_seen": 1773850786.7162688,
+    "last_updated": 1773864277.9331958,
+    "snapshots": [
+      {
+        "home": 3.46,
+        "away": 1.35,
+        "draw": null,
+        "ts": 1773850786.7162688
+      },
+      {
+        "home": 3.46,
+        "away": 1.35,
+        "draw": null,
+        "ts": 1773853390.2478478
+      },
+      {
+        "home": 3.46,
+        "away": 1.35,
+        "draw": null,
+        "ts": 1773864277.9331958
+      }
+    ]
+  },
+  "17096eee549e2159e71d78bb3849db57": {
+    "sport": "basketball",
+    "home_team": "New Orleans Pelicans",
+    "away_team": "Los Angeles Clippers",
+    "opening_home": 1.81,
+    "opening_away": 2.11,
+    "opening_draw": null,
+    "last_home": 1.88,
+    "last_away": 2.02,
+    "last_draw": null,
+    "first_seen": 1773850786.722305,
+    "last_updated": 1773864277.9717782,
+    "snapshots": [
+      {
+        "home": 1.81,
+        "away": 2.11,
+        "draw": null,
+        "ts": 1773850786.722305
+      },
+      {
+        "home": 1.75,
+        "away": 2.21,
+        "draw": null,
+        "ts": 1773853390.2531207
+      },
+      {
+        "home": 1.88,
+        "away": 2.02,
+        "draw": null,
+        "ts": 1773864277.9717782
+      }
+    ]
+  },
+  "c159c8836e9475f580cc678470d80c1b": {
+    "sport": "basketball",
+    "home_team": "Minnesota Timberwolves",
+    "away_team": "Utah Jazz",
+    "opening_home": 1.13,
+    "opening_away": 6.74,
+    "opening_draw": null,
+    "last_home": 1.13,
+    "last_away": 6.63,
+    "last_draw": null,
+    "first_seen": 1773850786.7301662,
+    "last_updated": 1773864278.0195415,
+    "snapshots": [
+      {
+        "home": 1.13,
+        "away": 6.74,
+        "draw": null,
+        "ts": 1773850786.7301662
+      },
+      {
+        "home": 1.13,
+        "away": 6.76,
+        "draw": null,
+        "ts": 1773853390.2571378
+      },
+      {
+        "home": 1.13,
+        "away": 6.63,
+        "draw": null,
+        "ts": 1773864278.0195415
+      }
+    ]
+  },
+  "d1b7a6b86d3200f31d702d039df933e1": {
+    "sport": "basketball",
+    "home_team": "Dallas Mavericks",
+    "away_team": "Atlanta Hawks",
+    "opening_home": 3.71,
+    "opening_away": 1.32,
+    "opening_draw": null,
+    "last_home": 3.7,
+    "last_away": 1.32,
+    "last_draw": null,
+    "first_seen": 1773850786.7356856,
+    "last_updated": 1773864278.0776165,
+    "snapshots": [
+      {
+        "home": 3.71,
+        "away": 1.32,
+        "draw": null,
+        "ts": 1773850786.7356856
+      },
+      {
+        "home": 3.7,
+        "away": 1.32,
+        "draw": null,
+        "ts": 1773853390.2652874
+      },
+      {
+        "home": 3.7,
+        "away": 1.32,
+        "draw": null,
+        "ts": 1773864278.0776165
+      }
+    ]
+  },
+  "88b9327dddb11904d24fb9f317b5db4f": {
+    "sport": "basketball",
+    "home_team": "Memphis Grizzlies",
+    "away_team": "Denver Nuggets",
+    "opening_home": 6.85,
+    "opening_away": 1.13,
+    "opening_draw": null,
+    "last_home": 6.75,
+    "last_away": 1.13,
+    "last_draw": null,
+    "first_seen": 1773850786.7401311,
+    "last_updated": 1773864278.1463227,
+    "snapshots": [
+      {
+        "home": 6.85,
+        "away": 1.13,
+        "draw": null,
+        "ts": 1773850786.7401311
+      },
+      {
+        "home": 6.82,
+        "away": 1.13,
+        "draw": null,
+        "ts": 1773853390.2727983
+      },
+      {
+        "home": 6.75,
+        "away": 1.13,
+        "draw": null,
+        "ts": 1773864278.1463227
+      }
+    ]
+  },
+  "3646f994ee580be92e086ca3205cec9c": {
+    "sport": "basketball",
+    "home_team": "Houston Rockets",
+    "away_team": "Los Angeles Lakers",
+    "opening_home": 1.76,
+    "opening_away": 2.2,
+    "opening_draw": null,
+    "last_home": 1.83,
+    "last_away": 2.09,
+    "last_draw": null,
+    "first_seen": 1773850786.7429552,
+    "last_updated": 1773864278.2258108,
+    "snapshots": [
+      {
+        "home": 1.76,
+        "away": 2.2,
+        "draw": null,
+        "ts": 1773850786.7429552
+      },
+      {
+        "home": 1.78,
+        "away": 2.17,
+        "draw": null,
+        "ts": 1773853390.2839859
+      },
+      {
+        "home": 1.83,
+        "away": 2.09,
+        "draw": null,
+        "ts": 1773864278.2258108
+      }
+    ]
+  },
+  "040431eff5c90304abb53698f7a32f1a": {
+    "sport": "soccer",
+    "home_team": "Heracles Almelo",
+    "away_team": "Excelsior",
+    "opening_home": 2.66,
+    "opening_away": 2.89,
+    "opening_draw": 3.05,
+    "last_home": 2.66,
+    "last_away": 2.89,
+    "last_draw": 3.05,
+    "first_seen": 1773850891.046258,
+    "last_updated": 1773864277.8202236,
+    "snapshots": [
+      {
+        "home": 2.66,
+        "away": 2.89,
+        "draw": 3.05,
+        "ts": 1773850891.046258
+      },
+      {
+        "home": 2.66,
+        "away": 2.89,
+        "draw": 3.05,
+        "ts": 1773864277.8202236
+      }
+    ]
+  },
+  "539290d2212399f5644ee1f22a8eeff7": {
+    "sport": "soccer",
+    "home_team": "Fortuna Sittard",
+    "away_team": "FC Twente Enschede",
+    "opening_home": 5.14,
+    "opening_away": 1.6,
+    "opening_draw": 4.25,
+    "last_home": 5.14,
+    "last_away": 1.6,
+    "last_draw": 4.25,
+    "first_seen": 1773850891.050036,
+    "last_updated": 1773864277.8291035,
+    "snapshots": [
+      {
+        "home": 5.14,
+        "away": 1.6,
+        "draw": 4.25,
+        "ts": 1773850891.050036
+      },
+      {
+        "home": 5.14,
+        "away": 1.6,
+        "draw": 4.25,
+        "ts": 1773864277.8291035
+      }
+    ]
+  },
+  "84a52f6bed227ab75cacc1e93a7faed5": {
+    "sport": "soccer",
+    "home_team": "Barcelona",
+    "away_team": "Newcastle United",
+    "opening_home": 1.55,
+    "opening_away": 5.43,
+    "opening_draw": 4.82,
+    "last_home": 1.54,
+    "last_away": 5.75,
+    "last_draw": 4.9,
+    "first_seen": 1773850891.0562224,
+    "last_updated": 1773853237.8126204,
+    "snapshots": [
+      {
+        "home": 1.55,
+        "away": 5.43,
+        "draw": 4.82,
+        "ts": 1773850891.0562224
+      },
+      {
+        "home": 1.54,
+        "away": 5.6,
+        "draw": 5.0,
+        "ts": 1773853207.1627939
+      },
+      {
+        "home": 1.54,
+        "away": 5.75,
+        "draw": 4.9,
+        "ts": 1773853237.8126204
+      }
+    ]
+  },
+  "c4a6605093d561e2dc470cef208615b8": {
+    "sport": "soccer",
+    "home_team": "Sparta Rotterdam",
+    "away_team": "FC Volendam",
+    "opening_home": 1.5,
+    "opening_away": 5.68,
+    "opening_draw": 4.65,
+    "last_home": 1.5,
+    "last_away": 5.68,
+    "last_draw": 4.65,
+    "first_seen": 1773850891.0572233,
+    "last_updated": 1773864277.860233,
+    "snapshots": [
+      {
+        "home": 1.5,
+        "away": 5.68,
+        "draw": 4.65,
+        "ts": 1773850891.0572233
+      },
+      {
+        "home": 1.5,
+        "away": 5.68,
+        "draw": 4.65,
+        "ts": 1773864277.860233
+      }
+    ]
+  },
+  "c3ac09fbb8372fd9a48dc5cdb68502f7": {
+    "sport": "soccer",
+    "home_team": "Bayern Munich",
+    "away_team": "Atalanta BC",
+    "opening_home": 1.39,
+    "opening_away": 6.94,
+    "opening_draw": 5.71,
+    "last_home": 1.39,
+    "last_away": 6.84,
+    "last_draw": 5.2,
+    "first_seen": 1773850891.0605166,
+    "last_updated": 1773864277.7020721,
+    "snapshots": [
+      {
+        "home": 1.39,
+        "away": 6.94,
+        "draw": 5.71,
+        "ts": 1773850891.0605166
+      },
+      {
+        "home": 1.38,
+        "away": 7.04,
+        "draw": 5.74,
+        "ts": 1773853207.1692207
+      },
+      {
+        "home": 1.39,
+        "away": 7.02,
+        "draw": 5.74,
+        "ts": 1773853237.8191314
+      },
+      {
+        "home": 1.39,
+        "away": 6.84,
+        "draw": 5.2,
+        "ts": 1773864277.7020721
+      }
+    ]
+  },
+  "1bc794aa1852c001d863744081a69537": {
+    "sport": "basketball",
+    "home_team": "Valencia Basket",
+    "away_team": "FC Barcelona Bàsquet",
+    "opening_home": 1.51,
+    "opening_away": 2.56,
+    "opening_draw": null,
+    "last_home": 1.51,
+    "last_away": 2.67,
+    "last_draw": null,
+    "first_seen": 1773850891.0605166,
+    "last_updated": 1773864277.7864408,
+    "snapshots": [
+      {
+        "home": 1.51,
+        "away": 2.56,
+        "draw": null,
+        "ts": 1773850891.0605166
+      },
+      {
+        "home": 1.51,
+        "away": 2.67,
+        "draw": null,
+        "ts": 1773864277.7864408
+      }
+    ]
+  },
+  "9c1be67fd5265bd55b59a00a8ae09747": {
+    "sport": "soccer",
+    "home_team": "Basaksehir",
+    "away_team": "Antalyaspor",
+    "opening_home": 1.51,
+    "opening_away": 6.34,
+    "opening_draw": 4.58,
+    "last_home": 1.51,
+    "last_away": 6.34,
+    "last_draw": 4.58,
+    "first_seen": 1773850891.064711,
+    "last_updated": 1773850891.064711,
+    "snapshots": [
+      {
+        "home": 1.51,
+        "away": 6.34,
+        "draw": 4.58,
+        "ts": 1773850891.064711
+      }
+    ]
+  },
+  "85814f4e5b56e41b31c3ee6839cef56d": {
+    "sport": "soccer",
+    "home_team": "FC Zwolle",
+    "away_team": "NAC Breda",
+    "opening_home": 2.32,
+    "opening_away": 2.97,
+    "opening_draw": 3.55,
+    "last_home": 2.32,
+    "last_away": 2.97,
+    "last_draw": 3.55,
+    "first_seen": 1773850891.0657108,
+    "last_updated": 1773864277.8763032,
+    "snapshots": [
+      {
+        "home": 2.32,
+        "away": 2.97,
+        "draw": 3.55,
+        "ts": 1773850891.0657108
+      },
+      {
+        "home": 2.32,
+        "away": 2.97,
+        "draw": 3.55,
+        "ts": 1773864277.8763032
+      }
+    ]
+  },
+  "f4e19a3e5cb563921d4f031f9a4e470c": {
+    "sport": "soccer",
+    "home_team": "Tottenham Hotspur",
+    "away_team": "Atlético Madrid",
+    "opening_home": 2.39,
+    "opening_away": 2.8,
+    "opening_draw": 3.88,
+    "last_home": 2.4,
+    "last_away": 2.74,
+    "last_draw": 3.6,
+    "first_seen": 1773850891.0657108,
+    "last_updated": 1773864277.7020721,
+    "snapshots": [
+      {
+        "home": 2.39,
+        "away": 2.8,
+        "draw": 3.88,
+        "ts": 1773850891.0657108
+      },
+      {
+        "home": 2.4,
+        "away": 2.79,
+        "draw": 3.87,
+        "ts": 1773853207.1760855
+      },
+      {
+        "home": 2.4,
+        "away": 2.79,
+        "draw": 3.87,
+        "ts": 1773853237.822524
+      },
+      {
+        "home": 2.4,
+        "away": 2.74,
+        "draw": 3.6,
+        "ts": 1773864277.7020721
+      }
+    ]
+  },
+  "682f620f3a61dab99474e29449965273": {
+    "sport": "basketball",
+    "home_team": "Anadolu Efes",
+    "away_team": "AS Monaco",
+    "opening_home": 1.44,
+    "opening_away": 2.79,
+    "opening_draw": null,
+    "last_home": 1.46,
+    "last_away": 2.84,
+    "last_draw": null,
+    "first_seen": 1773850891.0687099,
+    "last_updated": 1773864277.7864408,
+    "snapshots": [
+      {
+        "home": 1.44,
+        "away": 2.79,
+        "draw": null,
+        "ts": 1773850891.0687099
+      },
+      {
+        "home": 1.46,
+        "away": 2.84,
+        "draw": null,
+        "ts": 1773864277.7864408
+      }
+    ]
+  },
+  "a142e47748a46aa75f8c4f6488850819": {
+    "sport": "soccer",
+    "home_team": "Liverpool",
+    "away_team": "Galatasaray",
+    "opening_home": 1.26,
+    "opening_away": 10.32,
+    "opening_draw": 6.79,
+    "last_home": 1.27,
+    "last_away": 9.15,
+    "last_draw": 6.11,
+    "first_seen": 1773850891.0707114,
+    "last_updated": 1773864277.7076612,
+    "snapshots": [
+      {
+        "home": 1.26,
+        "away": 10.32,
+        "draw": 6.79,
+        "ts": 1773850891.0707114
+      },
+      {
+        "home": 1.27,
+        "away": 9.88,
+        "draw": 6.62,
+        "ts": 1773853207.182745
+      },
+      {
+        "home": 1.27,
+        "away": 9.91,
+        "draw": 6.6,
+        "ts": 1773853237.8272367
+      },
+      {
+        "home": 1.27,
+        "away": 9.15,
+        "draw": 6.11,
+        "ts": 1773864277.7076612
+      }
+    ]
+  },
+  "60af6a7cc6abd3830f4de31465cd5691": {
+    "sport": "soccer",
+    "home_team": "NEC Nijmegen",
+    "away_team": "Heerenveen",
+    "opening_home": 1.7,
+    "opening_away": 4.18,
+    "opening_draw": 4.38,
+    "last_home": 1.7,
+    "last_away": 4.18,
+    "last_draw": 4.38,
+    "first_seen": 1773850891.0732143,
+    "last_updated": 1773864277.9255884,
+    "snapshots": [
+      {
+        "home": 1.7,
+        "away": 4.18,
+        "draw": 4.38,
+        "ts": 1773850891.0732143
+      },
+      {
+        "home": 1.7,
+        "away": 4.18,
+        "draw": 4.38,
+        "ts": 1773864277.9255884
+      }
+    ]
+  },
+  "9dd016e43b658592c27da88f2deba8bd": {
+    "sport": "soccer",
+    "home_team": "Eyüpspor",
+    "away_team": "Trabzonspor",
+    "opening_home": 5.66,
+    "opening_away": 1.6,
+    "opening_draw": 4.26,
+    "last_home": 5.66,
+    "last_away": 1.6,
+    "last_draw": 4.26,
+    "first_seen": 1773850891.0744572,
+    "last_updated": 1773850891.0744572,
+    "snapshots": [
+      {
+        "home": 5.66,
+        "away": 1.6,
+        "draw": 4.26,
+        "ts": 1773850891.0744572
+      }
+    ]
+  },
+  "62c89c847567a5e089d9a560cb531450": {
+    "sport": "basketball",
+    "home_team": "Hapoel Tel Aviv",
+    "away_team": "Virtus Segafredo Bologna",
+    "opening_home": 1.26,
+    "opening_away": 3.87,
+    "opening_draw": null,
+    "last_home": 1.27,
+    "last_away": 3.96,
+    "last_draw": null,
+    "first_seen": 1773850891.0744572,
+    "last_updated": 1773864277.7973619,
+    "snapshots": [
+      {
+        "home": 1.26,
+        "away": 3.87,
+        "draw": null,
+        "ts": 1773850891.0744572
+      },
+      {
+        "home": 1.27,
+        "away": 3.96,
+        "draw": null,
+        "ts": 1773864277.7973619
+      }
+    ]
+  },
+  "3800ace8bbd4ea91179ed9aed1605366": {
+    "sport": "soccer",
+    "home_team": "Feyenoord",
+    "away_team": "Ajax",
+    "opening_home": 2.08,
+    "opening_away": 3.24,
+    "opening_draw": 3.84,
+    "last_home": 2.08,
+    "last_away": 3.24,
+    "last_draw": 3.84,
+    "first_seen": 1773850891.0825005,
+    "last_updated": 1773864277.9717782,
+    "snapshots": [
+      {
+        "home": 2.08,
+        "away": 3.24,
+        "draw": 3.84,
+        "ts": 1773850891.0825005
+      },
+      {
+        "home": 2.08,
+        "away": 3.24,
+        "draw": 3.84,
+        "ts": 1773864277.9717782
+      }
+    ]
+  },
+  "31ab12664a7a1fb8f45df8b6d82a4ae0": {
+    "sport": "soccer",
+    "home_team": "Kayserispor",
+    "away_team": "Fatih Karagümrük",
+    "opening_home": 2.06,
+    "opening_away": 3.75,
+    "opening_draw": 3.48,
+    "last_home": 2.06,
+    "last_away": 3.75,
+    "last_draw": 3.49,
+    "first_seen": 1773850891.0835006,
+    "last_updated": 1773864277.6703227,
+    "snapshots": [
+      {
+        "home": 2.06,
+        "away": 3.75,
+        "draw": 3.48,
+        "ts": 1773850891.0835006
+      },
+      {
+        "home": 2.06,
+        "away": 3.75,
+        "draw": 3.49,
+        "ts": 1773864277.6703227
+      }
+    ]
+  },
+  "814bb18cb164e7de236f86ee54a65f79": {
+    "sport": "soccer",
+    "home_team": "FC Utrecht",
+    "away_team": "Go Ahead Eagles",
+    "opening_home": 1.75,
+    "opening_away": 5.05,
+    "opening_draw": 3.52,
+    "last_home": 1.74,
+    "last_away": 5.12,
+    "last_draw": 3.53,
+    "first_seen": 1773850891.0918767,
+    "last_updated": 1773864278.0041611,
+    "snapshots": [
+      {
+        "home": 1.75,
+        "away": 5.05,
+        "draw": 3.52,
+        "ts": 1773850891.0918767
+      },
+      {
+        "home": 1.74,
+        "away": 5.12,
+        "draw": 3.53,
+        "ts": 1773864278.0041611
+      }
+    ]
+  },
+  "9ca0d9e8fe947b44fbb1676fa71c8a69": {
+    "sport": "soccer",
+    "home_team": "Besiktas JK",
+    "away_team": "Kasimpasa SK",
+    "opening_home": 1.33,
+    "opening_away": 8.92,
+    "opening_draw": 5.24,
+    "last_home": 1.34,
+    "last_away": 9.2,
+    "last_draw": 5.34,
+    "first_seen": 1773850891.0933814,
+    "last_updated": 1773864277.6703227,
+    "snapshots": [
+      {
+        "home": 1.33,
+        "away": 8.92,
+        "draw": 5.24,
+        "ts": 1773850891.0933814
+      },
+      {
+        "home": 1.34,
+        "away": 9.2,
+        "draw": 5.34,
+        "ts": 1773864277.6703227
+      }
+    ]
+  },
+  "037807aef6f8468861d6347889e5fcda": {
+    "sport": "basketball",
+    "home_team": "Olympiacos",
+    "away_team": "Saski Baskonia",
+    "opening_home": 1.1,
+    "opening_away": 7.4,
+    "opening_draw": null,
+    "last_home": 1.1,
+    "last_away": 7.8,
+    "last_draw": null,
+    "first_seen": 1773850891.097753,
+    "last_updated": 1773864277.8159096,
+    "snapshots": [
+      {
+        "home": 1.1,
+        "away": 7.4,
+        "draw": null,
+        "ts": 1773850891.097753
+      },
+      {
+        "home": 1.1,
+        "away": 7.8,
+        "draw": null,
+        "ts": 1773864277.8159096
+      }
+    ]
+  },
+  "8bce05836568e8d16d29a326a1761b37": {
+    "sport": "soccer",
+    "home_team": "Torku Konyaspor",
+    "away_team": "Genclerbirligi SK",
+    "opening_home": 1.8,
+    "opening_away": 4.66,
+    "opening_draw": 3.53,
+    "last_home": 1.81,
+    "last_away": 4.73,
+    "last_draw": 3.57,
+    "first_seen": 1773850891.1061413,
+    "last_updated": 1773864277.6703227,
+    "snapshots": [
+      {
+        "home": 1.8,
+        "away": 4.66,
+        "draw": 3.53,
+        "ts": 1773850891.1061413
+      },
+      {
+        "home": 1.81,
+        "away": 4.73,
+        "draw": 3.57,
+        "ts": 1773864277.6703227
+      }
+    ]
+  },
+  "978f870c26d8ec5f645c151b9e5db4d6": {
+    "sport": "soccer",
+    "home_team": "Groningen",
+    "away_team": "AZ Alkmaar",
+    "opening_home": 2.59,
+    "opening_away": 2.53,
+    "opening_draw": 3.72,
+    "last_home": 2.59,
+    "last_away": 2.53,
+    "last_draw": 3.72,
+    "first_seen": 1773850891.109101,
+    "last_updated": 1773864278.0602567,
+    "snapshots": [
+      {
+        "home": 2.59,
+        "away": 2.53,
+        "draw": 3.72,
+        "ts": 1773850891.109101
+      },
+      {
+        "home": 2.59,
+        "away": 2.53,
+        "draw": 3.72,
+        "ts": 1773864278.0602567
+      }
+    ]
+  },
+  "fcbd9f674cdfedeab7a1f931bb371f23": {
+    "sport": "basketball",
+    "home_team": "FC Bayern München",
+    "away_team": "Dubai Basketball",
+    "opening_home": 1.93,
+    "opening_away": 1.87,
+    "opening_draw": null,
+    "last_home": 1.92,
+    "last_away": 1.93,
+    "last_draw": null,
+    "first_seen": 1773850891.1124594,
+    "last_updated": 1773864277.825096,
+    "snapshots": [
+      {
+        "home": 1.93,
+        "away": 1.87,
+        "draw": null,
+        "ts": 1773850891.1124594
+      },
+      {
+        "home": 1.92,
+        "away": 1.93,
+        "draw": null,
+        "ts": 1773864277.825096
+      }
+    ]
+  },
+  "b8f43fcbe2c3fa99dd0e525d35c4555f": {
+    "sport": "soccer",
+    "home_team": "SC Telstar",
+    "away_team": "PSV Eindhoven",
+    "opening_home": 5.8,
+    "opening_away": 1.42,
+    "opening_draw": 5.48,
+    "last_home": 5.8,
+    "last_away": 1.42,
+    "last_draw": 5.48,
+    "first_seen": 1773850891.119079,
+    "last_updated": 1773864278.1160874,
+    "snapshots": [
+      {
+        "home": 5.8,
+        "away": 1.42,
+        "draw": 5.48,
+        "ts": 1773850891.119079
+      },
+      {
+        "home": 5.8,
+        "away": 1.42,
+        "draw": 5.48,
+        "ts": 1773864278.1160874
+      }
+    ]
+  },
+  "6a9d37a6ea583ad45b1e2bfc53fa27b1": {
+    "sport": "soccer",
+    "home_team": "CF Estrela",
+    "away_team": "Casa Pia",
+    "opening_home": 2.61,
+    "opening_away": 2.95,
+    "opening_draw": 3.05,
+    "last_home": 2.61,
+    "last_away": 2.95,
+    "last_draw": 3.05,
+    "first_seen": 1773850891.1325824,
+    "last_updated": 1773864277.7973619,
+    "snapshots": [
+      {
+        "home": 2.61,
+        "away": 2.95,
+        "draw": 3.05,
+        "ts": 1773850891.1325824
+      },
+      {
+        "home": 2.61,
+        "away": 2.95,
+        "draw": 3.05,
+        "ts": 1773864277.7973619
+      }
+    ]
+  },
+  "3f6ccaa7b0b1811e65065badcf2ff27f": {
+    "sport": "basketball",
+    "home_team": "Paris Basketball",
+    "away_team": "KK Partizan NIS",
+    "opening_home": 1.56,
+    "opening_away": 2.44,
+    "opening_draw": null,
+    "last_home": 1.58,
+    "last_away": 2.45,
+    "last_draw": null,
+    "first_seen": 1773850891.1340864,
+    "last_updated": 1773864277.8442547,
+    "snapshots": [
+      {
+        "home": 1.56,
+        "away": 2.44,
+        "draw": null,
+        "ts": 1773850891.1340864
+      },
+      {
+        "home": 1.58,
+        "away": 2.45,
+        "draw": null,
+        "ts": 1773864277.8442547
+      }
+    ]
+  },
+  "6d75e6fd819d47a8dd3ef0997301aded": {
+    "sport": "soccer",
+    "home_team": "Moreirense FC",
+    "away_team": "Arouca",
+    "opening_home": 2.45,
+    "opening_away": 3.01,
+    "opening_draw": 3.23,
+    "last_home": 2.45,
+    "last_away": 3.01,
+    "last_draw": 3.23,
+    "first_seen": 1773850891.1431787,
+    "last_updated": 1773864277.81713,
+    "snapshots": [
+      {
+        "home": 2.45,
+        "away": 3.01,
+        "draw": 3.23,
+        "ts": 1773850891.1431787
+      },
+      {
+        "home": 2.45,
+        "away": 3.01,
+        "draw": 3.23,
+        "ts": 1773864277.81713
+      }
+    ]
+  },
+  "78d22d704d745332ce66bb6735990ed5": {
+    "sport": "soccer",
+    "home_team": "Famalicão",
+    "away_team": "Nacional",
+    "opening_home": 1.69,
+    "opening_away": 4.77,
+    "opening_draw": 3.96,
+    "last_home": 1.69,
+    "last_away": 4.77,
+    "last_draw": 3.96,
+    "first_seen": 1773850891.1534817,
+    "last_updated": 1773864277.8291035,
+    "snapshots": [
+      {
+        "home": 1.69,
+        "away": 4.77,
+        "draw": 3.96,
+        "ts": 1773850891.1534817
+      },
+      {
+        "home": 1.69,
+        "away": 4.77,
+        "draw": 3.96,
+        "ts": 1773864277.8291035
+      }
+    ]
+  },
+  "cbd558838632b53a685f976377068ef3": {
+    "sport": "soccer",
+    "home_team": "Benfica",
+    "away_team": "Vitória SC",
+    "opening_home": 1.29,
+    "opening_away": 9.78,
+    "opening_draw": 5.65,
+    "last_home": 1.29,
+    "last_away": 9.78,
+    "last_draw": 5.65,
+    "first_seen": 1773850891.1696672,
+    "last_updated": 1773864277.8442547,
+    "snapshots": [
+      {
+        "home": 1.29,
+        "away": 9.78,
+        "draw": 5.65,
+        "ts": 1773850891.1696672
+      },
+      {
+        "home": 1.29,
+        "away": 9.78,
+        "draw": 5.65,
+        "ts": 1773864277.8442547
+      }
+    ]
+  },
+  "826f68603d5ef010f08bf1cd5a2915e6": {
+    "sport": "soccer",
+    "home_team": "Santa Clara",
+    "away_team": "Gil Vicente",
+    "opening_home": 2.8,
+    "opening_away": 2.89,
+    "opening_draw": 2.89,
+    "last_home": 2.8,
+    "last_away": 2.89,
+    "last_draw": 2.89,
+    "first_seen": 1773850891.1765504,
+    "last_updated": 1773864277.8763032,
+    "snapshots": [
+      {
+        "home": 2.8,
+        "away": 2.89,
+        "draw": 2.89,
+        "ts": 1773850891.1765504
+      },
+      {
+        "home": 2.8,
+        "away": 2.89,
+        "draw": 2.89,
+        "ts": 1773864277.8763032
+      }
+    ]
+  },
+  "9cb684b28112303edb1860eacdf0ff3c": {
+    "sport": "soccer",
+    "home_team": "Tondela",
+    "away_team": "AVS Futebol SAD",
+    "opening_home": 1.89,
+    "opening_away": 4.27,
+    "opening_draw": 3.45,
+    "last_home": 1.89,
+    "last_away": 4.27,
+    "last_draw": 3.45,
+    "first_seen": 1773850891.1856658,
+    "last_updated": 1773864277.9082322,
+    "snapshots": [
+      {
+        "home": 1.89,
+        "away": 4.27,
+        "draw": 3.45,
+        "ts": 1773850891.1856658
+      },
+      {
+        "home": 1.89,
+        "away": 4.27,
+        "draw": 3.45,
+        "ts": 1773864277.9082322
+      }
+    ]
+  },
+  "eb466674a005c926031ed01163004cb2": {
+    "sport": "soccer",
+    "home_team": "Estoril",
+    "away_team": "Rio Ave FC",
+    "opening_home": 1.72,
+    "opening_away": 4.49,
+    "opening_draw": 3.96,
+    "last_home": 1.72,
+    "last_away": 4.49,
+    "last_draw": 3.96,
+    "first_seen": 1773850891.1923537,
+    "last_updated": 1773864277.940011,
+    "snapshots": [
+      {
+        "home": 1.72,
+        "away": 4.49,
+        "draw": 3.96,
+        "ts": 1773850891.1923537
+      },
+      {
+        "home": 1.72,
+        "away": 4.49,
+        "draw": 3.96,
+        "ts": 1773864277.940011
+      }
+    ]
+  },
+  "ddcd1a5005b92e2dbc44617193bfa914": {
+    "sport": "soccer",
+    "home_team": "Alverca",
+    "away_team": "Sporting Lisbon",
+    "opening_home": 9.27,
+    "opening_away": 1.3,
+    "opening_draw": 5.59,
+    "last_home": 9.27,
+    "last_away": 1.3,
+    "last_draw": 5.59,
+    "first_seen": 1773850891.20074,
+    "last_updated": 1773864277.9876485,
+    "snapshots": [
+      {
+        "home": 9.27,
+        "away": 1.3,
+        "draw": 5.59,
+        "ts": 1773850891.20074
+      },
+      {
+        "home": 9.27,
+        "away": 1.3,
+        "draw": 5.59,
+        "ts": 1773864277.9876485
+      }
+    ]
+  },
+  "9a41cad8923b4f2f9c3f52adac26f91b": {
+    "sport": "soccer",
+    "home_team": "Braga",
+    "away_team": "FC Porto",
+    "opening_home": 3.5,
+    "opening_away": 2.17,
+    "opening_draw": 3.3,
+    "last_home": 3.5,
+    "last_away": 2.17,
+    "last_draw": 3.3,
+    "first_seen": 1773850891.2052555,
+    "last_updated": 1773864278.037101,
+    "snapshots": [
+      {
+        "home": 3.5,
+        "away": 2.17,
+        "draw": 3.3,
+        "ts": 1773850891.2052555
+      },
+      {
+        "home": 3.5,
+        "away": 2.17,
+        "draw": 3.3,
+        "ts": 1773864278.037101
+      }
+    ]
+  },
+  "cae17bdabcbbb67a29265094fa0e6554": {
+    "sport": "soccer",
+    "home_team": "RB Leipzig",
+    "away_team": "TSG Hoffenheim",
+    "opening_home": 1.93,
+    "opening_away": 3.58,
+    "opening_draw": 4.22,
+    "last_home": 1.93,
+    "last_away": 3.58,
+    "last_draw": 4.22,
+    "first_seen": 1773850891.2308881,
+    "last_updated": 1773864278.0602567,
+    "snapshots": [
+      {
+        "home": 1.93,
+        "away": 3.58,
+        "draw": 4.22,
+        "ts": 1773850891.2308881
+      },
+      {
+        "home": 1.93,
+        "away": 3.58,
+        "draw": 4.22,
+        "ts": 1773864278.0602567
+      }
+    ]
+  },
+  "2c1a49b5906328b977abe07e9c8aebb1": {
+    "sport": "soccer",
+    "home_team": "1. FC Heidenheim",
+    "away_team": "Bayer Leverkusen",
+    "opening_home": 5.29,
+    "opening_away": 1.6,
+    "opening_draw": 4.47,
+    "last_home": 5.29,
+    "last_away": 1.6,
+    "last_draw": 4.47,
+    "first_seen": 1773850891.231887,
+    "last_updated": 1773864278.1063566,
+    "snapshots": [
+      {
+        "home": 5.29,
+        "away": 1.6,
+        "draw": 4.47,
+        "ts": 1773850891.231887
+      },
+      {
+        "home": 5.29,
+        "away": 1.6,
+        "draw": 4.47,
+        "ts": 1773864278.1063566
+      }
+    ]
+  },
+  "5d7743970aa447210c0de6f4cf3ebf27": {
+    "sport": "soccer",
+    "home_team": "1. FC Köln",
+    "away_team": "Borussia Monchengladbach",
+    "opening_home": 2.35,
+    "opening_away": 3.12,
+    "opening_draw": 3.48,
+    "last_home": 2.35,
+    "last_away": 3.12,
+    "last_draw": 3.48,
+    "first_seen": 1773850891.2369127,
+    "last_updated": 1773864278.1637475,
+    "snapshots": [
+      {
+        "home": 2.35,
+        "away": 3.12,
+        "draw": 3.48,
+        "ts": 1773850891.2369127
+      },
+      {
+        "home": 2.35,
+        "away": 3.12,
+        "draw": 3.48,
+        "ts": 1773864278.1637475
+      }
+    ]
+  },
+  "9a8eadf4547bbf5819c311dc86c15c20": {
+    "sport": "soccer",
+    "home_team": "Bayern Munich",
+    "away_team": "Union Berlin",
+    "opening_home": 1.17,
+    "opening_away": 13.11,
+    "opening_draw": 9.06,
+    "last_home": 1.17,
+    "last_away": 13.11,
+    "last_draw": 9.06,
+    "first_seen": 1773850891.2409134,
+    "last_updated": 1773864278.2285376,
+    "snapshots": [
+      {
+        "home": 1.17,
+        "away": 13.11,
+        "draw": 9.06,
+        "ts": 1773850891.2409134
+      },
+      {
+        "home": 1.17,
+        "away": 13.11,
+        "draw": 9.06,
+        "ts": 1773864278.2285376
+      }
+    ]
+  },
+  "a2895efbb8e51812c34d8a6701dc308d": {
+    "sport": "soccer",
+    "home_team": "VfL Wolfsburg",
+    "away_team": "Werder Bremen",
+    "opening_home": 2.48,
+    "opening_away": 2.78,
+    "opening_draw": 3.7,
+    "last_home": 2.48,
+    "last_away": 2.78,
+    "last_draw": 3.7,
+    "first_seen": 1773850891.2473276,
+    "last_updated": 1773864278.3058162,
+    "snapshots": [
+      {
+        "home": 2.48,
+        "away": 2.78,
+        "draw": 3.7,
+        "ts": 1773850891.2473276
+      },
+      {
+        "home": 2.48,
+        "away": 2.78,
+        "draw": 3.7,
+        "ts": 1773864278.3058162
+      }
+    ]
+  },
+  "3cfeaaa222d922bab3e92bd574597a1d": {
+    "sport": "soccer",
+    "home_team": "Borussia Dortmund",
+    "away_team": "Hamburger SV",
+    "opening_home": 1.42,
+    "opening_away": 7.23,
+    "opening_draw": 5.15,
+    "last_home": 1.41,
+    "last_away": 7.27,
+    "last_draw": 5.16,
+    "first_seen": 1773850891.2535255,
+    "last_updated": 1773864278.339988,
+    "snapshots": [
+      {
+        "home": 1.42,
+        "away": 7.23,
+        "draw": 5.15,
+        "ts": 1773850891.2535255
+      },
+      {
+        "home": 1.41,
+        "away": 7.27,
+        "draw": 5.16,
+        "ts": 1773864278.339988
+      }
+    ]
+  },
+  "6a9b287c5519d99149aea0aa07e97457": {
+    "sport": "soccer",
+    "home_team": "FSV Mainz 05",
+    "away_team": "Eintracht Frankfurt",
+    "opening_home": 2.1,
+    "opening_away": 3.48,
+    "opening_draw": 3.71,
+    "last_home": 2.1,
+    "last_away": 3.48,
+    "last_draw": 3.71,
+    "first_seen": 1773850891.2555304,
+    "last_updated": 1773864278.3707812,
+    "snapshots": [
+      {
+        "home": 2.1,
+        "away": 3.48,
+        "draw": 3.71,
+        "ts": 1773850891.2555304
+      },
+      {
+        "home": 2.1,
+        "away": 3.48,
+        "draw": 3.71,
+        "ts": 1773864278.3707812
+      }
+    ]
+  },
+  "ce0eceba4b74a3f07e1cc01da96c68ad": {
+    "sport": "soccer",
+    "home_team": "FC St. Pauli",
+    "away_team": "SC Freiburg",
+    "opening_home": 2.83,
+    "opening_away": 2.85,
+    "opening_draw": 3.04,
+    "last_home": 2.83,
+    "last_away": 2.85,
+    "last_draw": 3.04,
+    "first_seen": 1773850891.2617447,
+    "last_updated": 1773864278.4351802,
+    "snapshots": [
+      {
+        "home": 2.83,
+        "away": 2.85,
+        "draw": 3.04,
+        "ts": 1773850891.2617447
+      },
+      {
+        "home": 2.83,
+        "away": 2.85,
+        "draw": 3.04,
+        "ts": 1773864278.4351802
+      }
+    ]
+  },
+  "da4455c899002999e47291f77d06a5f6": {
+    "sport": "soccer",
+    "home_team": "Augsburg",
+    "away_team": "VfB Stuttgart",
+    "opening_home": 3.45,
+    "opening_away": 2.04,
+    "opening_draw": 3.92,
+    "last_home": 3.45,
+    "last_away": 2.04,
+    "last_draw": 3.92,
+    "first_seen": 1773850891.2673953,
+    "last_updated": 1773864278.4994113,
+    "snapshots": [
+      {
+        "home": 3.45,
+        "away": 2.04,
+        "draw": 3.92,
+        "ts": 1773850891.2673953
+      },
+      {
+        "home": 3.45,
+        "away": 2.04,
+        "draw": 3.92,
+        "ts": 1773864278.4994113
+      }
+    ]
+  },
+  "4a06993eaaca2737b8d8767a96350ad5": {
+    "sport": "soccer",
+    "home_team": "Borussia Monchengladbach",
+    "away_team": "1. FC Heidenheim",
+    "opening_home": 1.56,
+    "opening_away": 5.35,
+    "opening_draw": 4.39,
+    "last_home": 1.56,
+    "last_away": 5.35,
+    "last_draw": 4.39,
+    "first_seen": 1773850891.2775521,
+    "last_updated": 1773864278.5290904,
+    "snapshots": [
+      {
+        "home": 1.56,
+        "away": 5.35,
+        "draw": 4.39,
+        "ts": 1773850891.2775521
+      },
+      {
+        "home": 1.56,
+        "away": 5.35,
+        "draw": 4.39,
+        "ts": 1773864278.5290904
+      }
+    ]
+  },
+  "f8a6cd95ad50bc1feaf12cb33ac954a2": {
+    "sport": "soccer",
+    "home_team": "Hamburger SV",
+    "away_team": "Augsburg",
+    "opening_home": 2.3,
+    "opening_away": 3.15,
+    "opening_draw": 3.36,
+    "last_home": 2.3,
+    "last_away": 3.15,
+    "last_draw": 3.36,
+    "first_seen": 1773850891.2852893,
+    "last_updated": 1773864278.5821002,
+    "snapshots": [
+      {
+        "home": 2.3,
+        "away": 3.15,
+        "draw": 3.36,
+        "ts": 1773850891.2852893
+      },
+      {
+        "home": 2.3,
+        "away": 3.15,
+        "draw": 3.36,
+        "ts": 1773864278.5821002
+      }
+    ]
+  },
+  "2eb636f91544c94cedd3ae508413ace0": {
+    "sport": "soccer",
+    "home_team": "Bayer Leverkusen",
+    "away_team": "VfL Wolfsburg",
+    "opening_home": 1.4,
+    "opening_away": 6.85,
+    "opening_draw": 5.09,
+    "last_home": 1.4,
+    "last_away": 6.85,
+    "last_draw": 5.09,
+    "first_seen": 1773850891.299437,
+    "last_updated": 1773864278.6534202,
+    "snapshots": [
+      {
+        "home": 1.4,
+        "away": 6.85,
+        "draw": 5.09,
+        "ts": 1773850891.299437
+      },
+      {
+        "home": 1.4,
+        "away": 6.85,
+        "draw": 5.09,
+        "ts": 1773864278.6534202
+      }
+    ]
+  },
+  "c1f65614c6b768a59d14f9cac40bb461": {
+    "sport": "soccer",
+    "home_team": "SC Freiburg",
+    "away_team": "Bayern Munich",
+    "opening_home": 7.05,
+    "opening_away": 1.36,
+    "opening_draw": 5.59,
+    "last_home": 7.05,
+    "last_away": 1.36,
+    "last_draw": 5.59,
+    "first_seen": 1773850891.3085604,
+    "last_updated": 1773864278.6992433,
+    "snapshots": [
+      {
+        "home": 7.05,
+        "away": 1.36,
+        "draw": 5.59,
+        "ts": 1773850891.3085604
+      },
+      {
+        "home": 7.05,
+        "away": 1.36,
+        "draw": 5.59,
+        "ts": 1773864278.6992433
+      }
+    ]
+  },
+  "59b457d3219b0e64e226f819c2f974d5": {
+    "sport": "soccer",
+    "home_team": "RC Lens",
+    "away_team": "Angers",
+    "opening_home": 1.32,
+    "opening_away": 9.8,
+    "opening_draw": 5.58,
+    "last_home": 1.32,
+    "last_away": 9.8,
+    "last_draw": 5.58,
+    "first_seen": 1773850891.3085604,
+    "last_updated": 1773864278.0602567,
+    "snapshots": [
+      {
+        "home": 1.32,
+        "away": 9.8,
+        "draw": 5.58,
+        "ts": 1773850891.3085604
+      },
+      {
+        "home": 1.32,
+        "away": 9.8,
+        "draw": 5.58,
+        "ts": 1773864278.0602567
+      }
+    ]
+  },
+  "5e9cd598bfdce2c8fc9ddab9b4f2b1a2": {
+    "sport": "soccer",
+    "home_team": "Toulouse",
+    "away_team": "Lorient",
+    "opening_home": 2.03,
+    "opening_away": 4.65,
+    "opening_draw": 3.06,
+    "last_home": 2.02,
+    "last_away": 4.72,
+    "last_draw": 3.06,
+    "first_seen": 1773850891.3171766,
+    "last_updated": 1773864278.1027105,
+    "snapshots": [
+      {
+        "home": 2.03,
+        "away": 4.65,
+        "draw": 3.06,
+        "ts": 1773850891.3171766
+      },
+      {
+        "home": 2.02,
+        "away": 4.72,
+        "draw": 3.06,
+        "ts": 1773864278.1027105
+      }
+    ]
+  },
+  "2263af8695c4807e1bdb09074b2b0572": {
+    "sport": "soccer",
+    "home_team": "TSG Hoffenheim",
+    "away_team": "FSV Mainz 05",
+    "opening_home": 1.79,
+    "opening_away": 3.98,
+    "opening_draw": 4.08,
+    "last_home": 1.79,
+    "last_away": 3.98,
+    "last_draw": 4.08,
+    "first_seen": 1773850891.3202906,
+    "last_updated": 1773864278.753574,
+    "snapshots": [
+      {
+        "home": 1.79,
+        "away": 3.98,
+        "draw": 4.08,
+        "ts": 1773850891.3202906
+      },
+      {
+        "home": 1.79,
+        "away": 3.98,
+        "draw": 4.08,
+        "ts": 1773864278.753574
+      }
+    ]
+  },
+  "67cbe7fb3e36126d6b3d0e6c09e08c61": {
+    "sport": "soccer",
+    "home_team": "Werder Bremen",
+    "away_team": "RB Leipzig",
+    "opening_home": 3.29,
+    "opening_away": 2.05,
+    "opening_draw": 3.85,
+    "last_home": 3.29,
+    "last_away": 2.05,
+    "last_draw": 3.85,
+    "first_seen": 1773850891.3336453,
+    "last_updated": 1773864278.824949,
+    "snapshots": [
+      {
+        "home": 3.29,
+        "away": 2.05,
+        "draw": 3.85,
+        "ts": 1773850891.3336453
+      },
+      {
+        "home": 3.29,
+        "away": 2.05,
+        "draw": 3.85,
+        "ts": 1773864278.824949
+      }
+    ]
+  },
+  "a4706fa91e96cb778acd67f3af0472ad": {
+    "sport": "soccer",
+    "home_team": "VfB Stuttgart",
+    "away_team": "Borussia Dortmund",
+    "opening_home": 2.36,
+    "opening_away": 2.67,
+    "opening_draw": 3.96,
+    "last_home": 2.36,
+    "last_away": 2.67,
+    "last_draw": 3.96,
+    "first_seen": 1773850891.3376725,
+    "last_updated": 1773864278.8646126,
+    "snapshots": [
+      {
+        "home": 2.36,
+        "away": 2.67,
+        "draw": 3.96,
+        "ts": 1773850891.3376725
+      },
+      {
+        "home": 2.36,
+        "away": 2.67,
+        "draw": 3.96,
+        "ts": 1773864278.8646126
+      }
+    ]
+  },
+  "d6d8beada392ffa902307a4b2d11cd0f": {
+    "sport": "soccer",
+    "home_team": "Auxerre",
+    "away_team": "Brest",
+    "opening_home": 2.38,
+    "opening_away": 3.24,
+    "opening_draw": 3.28,
+    "last_home": 2.38,
+    "last_away": 3.24,
+    "last_draw": 3.28,
+    "first_seen": 1773850891.3376725,
+    "last_updated": 1773864278.153247,
+    "snapshots": [
+      {
+        "home": 2.38,
+        "away": 3.24,
+        "draw": 3.28,
+        "ts": 1773850891.3376725
+      },
+      {
+        "home": 2.38,
+        "away": 3.24,
+        "draw": 3.28,
+        "ts": 1773864278.153247
+      }
+    ]
+  },
+  "0df0181e5d8b6e4b9358b75b2a883618": {
+    "sport": "soccer",
+    "home_team": "Union Berlin",
+    "away_team": "FC St. Pauli",
+    "opening_home": 2.12,
+    "opening_away": 3.55,
+    "opening_draw": 3.37,
+    "last_home": 2.12,
+    "last_away": 3.55,
+    "last_draw": 3.37,
+    "first_seen": 1773850891.3441827,
+    "last_updated": 1773864278.9114327,
+    "snapshots": [
+      {
+        "home": 2.12,
+        "away": 3.55,
+        "draw": 3.37,
+        "ts": 1773850891.3441827
+      },
+      {
+        "home": 2.12,
+        "away": 3.55,
+        "draw": 3.37,
+        "ts": 1773864278.9114327
+      }
+    ]
+  },
+  "473d85db04b2140fe0d438eaea0dc048": {
+    "sport": "soccer",
+    "home_team": "Nice",
+    "away_team": "Paris Saint Germain",
+    "opening_home": 7.51,
+    "opening_away": 1.37,
+    "opening_draw": 5.71,
+    "last_home": 7.51,
+    "last_away": 1.37,
+    "last_draw": 5.71,
+    "first_seen": 1773850891.3502774,
+    "last_updated": 1773864278.2285376,
+    "snapshots": [
+      {
+        "home": 7.51,
+        "away": 1.37,
+        "draw": 5.71,
+        "ts": 1773850891.3502774
+      },
+      {
+        "home": 7.51,
+        "away": 1.37,
+        "draw": 5.71,
+        "ts": 1773864278.2285376
+      }
+    ]
+  },
+  "70ba98d2f3acde5f5f222d1686cd7f5f": {
+    "sport": "soccer",
+    "home_team": "Eintracht Frankfurt",
+    "away_team": "1. FC Köln",
+    "opening_home": 2.05,
+    "opening_away": 3.47,
+    "opening_draw": 3.64,
+    "last_home": 2.05,
+    "last_away": 3.47,
+    "last_draw": 3.64,
+    "first_seen": 1773850891.3546116,
+    "last_updated": 1773864278.9591093,
+    "snapshots": [
+      {
+        "home": 2.05,
+        "away": 3.47,
+        "draw": 3.64,
+        "ts": 1773850891.3546116
+      },
+      {
+        "home": 2.05,
+        "away": 3.47,
+        "draw": 3.64,
+        "ts": 1773864278.9591093
+      }
+    ]
+  },
+  "89aae2e9877ef0ac5ee8a2d58f2062dc": {
+    "sport": "soccer",
+    "home_team": "Lyon",
+    "away_team": "AS Monaco",
+    "opening_home": 2.8,
+    "opening_away": 2.5,
+    "opening_draw": 3.62,
+    "last_home": 2.8,
+    "last_away": 2.5,
+    "last_draw": 3.62,
+    "first_seen": 1773850891.3599768,
+    "last_updated": 1773864278.2931259,
+    "snapshots": [
+      {
+        "home": 2.8,
+        "away": 2.5,
+        "draw": 3.62,
+        "ts": 1773850891.3599768
+      },
+      {
+        "home": 2.8,
+        "away": 2.5,
+        "draw": 3.62,
+        "ts": 1773864278.2931259
+      }
+    ]
+  },
+  "a0ad7b61df4cabfb66f4656d633508a0": {
+    "sport": "soccer",
+    "home_team": "Paris FC",
+    "away_team": "Le Havre",
+    "opening_home": 2.07,
+    "opening_away": 4.42,
+    "opening_draw": 3.07,
+    "last_home": 2.07,
+    "last_away": 4.42,
+    "last_draw": 3.07,
+    "first_seen": 1773850891.3887765,
+    "last_updated": 1773864278.339281,
+    "snapshots": [
+      {
+        "home": 2.07,
+        "away": 4.42,
+        "draw": 3.07,
+        "ts": 1773850891.3887765
+      },
+      {
+        "home": 2.07,
+        "away": 4.42,
+        "draw": 3.07,
+        "ts": 1773864278.339281
+      }
+    ]
+  },
+  "c499f45a4e6b0780fbdfc15081ce9da6": {
+    "sport": "soccer",
+    "home_team": "Marseille",
+    "away_team": "Lille",
+    "opening_home": 1.95,
+    "opening_away": 3.91,
+    "opening_draw": 3.75,
+    "last_home": 1.95,
+    "last_away": 3.91,
+    "last_draw": 3.75,
+    "first_seen": 1773850891.3985755,
+    "last_updated": 1773864278.3590076,
+    "snapshots": [
+      {
+        "home": 1.95,
+        "away": 3.91,
+        "draw": 3.75,
+        "ts": 1773850891.3985755
+      },
+      {
+        "home": 1.95,
+        "away": 3.91,
+        "draw": 3.75,
+        "ts": 1773864278.3590076
+      }
+    ]
+  },
+  "4d9f555881f265ef408467336bdff375": {
+    "sport": "soccer",
+    "home_team": "Rennes",
+    "away_team": "Metz",
+    "opening_home": 1.37,
+    "opening_away": 8.4,
+    "opening_draw": 5.34,
+    "last_home": 1.37,
+    "last_away": 8.4,
+    "last_draw": 5.34,
+    "first_seen": 1773850891.4105103,
+    "last_updated": 1773864278.4015641,
+    "snapshots": [
+      {
+        "home": 1.37,
+        "away": 8.4,
+        "draw": 5.34,
+        "ts": 1773850891.4105103
+      },
+      {
+        "home": 1.37,
+        "away": 8.4,
+        "draw": 5.34,
+        "ts": 1773864278.4015641
+      }
+    ]
+  },
+  "a33cd7d00d0fbeb3e76c19cca2910674": {
+    "sport": "soccer",
+    "home_team": "Nantes",
+    "away_team": "Strasbourg",
+    "opening_home": 3.55,
+    "opening_away": 2.08,
+    "opening_draw": 3.67,
+    "last_home": 3.55,
+    "last_away": 2.08,
+    "last_draw": 3.67,
+    "first_seen": 1773850891.4325128,
+    "last_updated": 1773864278.4846668,
+    "snapshots": [
+      {
+        "home": 3.55,
+        "away": 2.08,
+        "draw": 3.67,
+        "ts": 1773850891.4325128
+      },
+      {
+        "home": 3.55,
+        "away": 2.08,
+        "draw": 3.67,
+        "ts": 1773864278.4846668
+      }
+    ]
+  },
+  "e7567f1b35dff2942700c64fd9514cb3": {
+    "sport": "soccer",
+    "home_team": "Paris Saint Germain",
+    "away_team": "Toulouse",
+    "opening_home": 1.28,
+    "opening_away": 9.85,
+    "opening_draw": 5.67,
+    "last_home": 1.28,
+    "last_away": 9.85,
+    "last_draw": 5.67,
+    "first_seen": 1773850891.4423532,
+    "last_updated": 1773864278.5290904,
+    "snapshots": [
+      {
+        "home": 1.28,
+        "away": 9.85,
+        "draw": 5.67,
+        "ts": 1773850891.4423532
+      },
+      {
+        "home": 1.28,
+        "away": 9.85,
+        "draw": 5.67,
+        "ts": 1773864278.5290904
+      }
+    ]
+  },
+  "c6b303dea1551810acb0eb3bbc238ab2": {
+    "sport": "soccer",
+    "home_team": "Strasbourg",
+    "away_team": "Nice",
+    "opening_home": 1.84,
+    "opening_away": 4.38,
+    "opening_draw": 3.56,
+    "last_home": 1.84,
+    "last_away": 4.38,
+    "last_draw": 3.56,
+    "first_seen": 1773850891.4520426,
+    "last_updated": 1773864278.5682676,
+    "snapshots": [
+      {
+        "home": 1.84,
+        "away": 4.38,
+        "draw": 3.56,
+        "ts": 1773850891.4520426
+      },
+      {
+        "home": 1.84,
+        "away": 4.38,
+        "draw": 3.56,
+        "ts": 1773864278.5682676
+      }
+    ]
+  },
+  "ea83c2e347a7f55f8265fe49489708f2": {
+    "sport": "soccer",
+    "home_team": "Brest",
+    "away_team": "Rennes",
+    "opening_home": 3.13,
+    "opening_away": 2.19,
+    "opening_draw": 3.64,
+    "last_home": 3.13,
+    "last_away": 2.19,
+    "last_draw": 3.64,
+    "first_seen": 1773850891.4701517,
+    "last_updated": 1773864278.6107707,
+    "snapshots": [
+      {
+        "home": 3.13,
+        "away": 2.19,
+        "draw": 3.64,
+        "ts": 1773850891.4701517
+      },
+      {
+        "home": 3.13,
+        "away": 2.19,
+        "draw": 3.64,
+        "ts": 1773864278.6107707
+      }
+    ]
+  },
+  "4dc4098b179fbfdbf44efac87bc64917": {
+    "sport": "soccer",
+    "home_team": "Lille",
+    "away_team": "RC Lens",
+    "opening_home": 2.62,
+    "opening_away": 2.83,
+    "opening_draw": 3.18,
+    "last_home": 2.62,
+    "last_away": 2.83,
+    "last_draw": 3.18,
+    "first_seen": 1773850891.4852443,
+    "last_updated": 1773864278.7067459,
+    "snapshots": [
+      {
+        "home": 2.62,
+        "away": 2.83,
+        "draw": 3.18,
+        "ts": 1773850891.4852443
+      },
+      {
+        "home": 2.62,
+        "away": 2.83,
+        "draw": 3.18,
+        "ts": 1773864278.7067459
+      }
+    ]
+  },
+  "9834da029f6f9df59c317bc2d7ca8eb5": {
+    "sport": "soccer",
+    "home_team": "Angers",
+    "away_team": "Lyon",
+    "opening_home": 4.73,
+    "opening_away": 1.8,
+    "opening_draw": 3.48,
+    "last_home": 4.73,
+    "last_away": 1.8,
+    "last_draw": 3.48,
+    "first_seen": 1773850891.4987197,
+    "last_updated": 1773864278.768214,
+    "snapshots": [
+      {
+        "home": 4.73,
+        "away": 1.8,
+        "draw": 3.48,
+        "ts": 1773850891.4987197
+      },
+      {
+        "home": 4.73,
+        "away": 1.8,
+        "draw": 3.48,
+        "ts": 1773864278.768214
+      }
+    ]
+  },
+  "a1e4f38c15f9eec3731b96923b93d736": {
+    "sport": "soccer",
+    "home_team": "Cagliari",
+    "away_team": "Napoli",
+    "opening_home": 6.13,
+    "opening_away": 1.62,
+    "opening_draw": 3.86,
+    "last_home": 6.13,
+    "last_away": 1.62,
+    "last_draw": 3.86,
+    "first_seen": 1773850891.5274713,
+    "last_updated": 1773864277.9191046,
+    "snapshots": [
+      {
+        "home": 6.13,
+        "away": 1.62,
+        "draw": 3.86,
+        "ts": 1773850891.5274713
+      },
+      {
+        "home": 6.13,
+        "away": 1.62,
+        "draw": 3.86,
+        "ts": 1773864277.9191046
+      }
+    ]
+  },
+  "273a71fd48f3acd95fc90d3984769f18": {
+    "sport": "soccer",
+    "home_team": "Le Havre",
+    "away_team": "Auxerre",
+    "opening_home": 2.49,
+    "opening_away": 3.06,
+    "opening_draw": 3.11,
+    "last_home": 2.49,
+    "last_away": 3.06,
+    "last_draw": 3.11,
+    "first_seen": 1773850891.5336914,
+    "last_updated": 1773864278.833924,
+    "snapshots": [
+      {
+        "home": 2.49,
+        "away": 3.06,
+        "draw": 3.11,
+        "ts": 1773850891.5336914
+      },
+      {
+        "home": 2.49,
+        "away": 3.06,
+        "draw": 3.11,
+        "ts": 1773864278.833924
+      }
+    ]
+  },
+  "5056aab4e896208d92943d5a556da229": {
+    "sport": "soccer",
+    "home_team": "Genoa",
+    "away_team": "Udinese",
+    "opening_home": 2.2,
+    "opening_away": 3.78,
+    "opening_draw": 3.17,
+    "last_home": 2.2,
+    "last_away": 3.78,
+    "last_draw": 3.17,
+    "first_seen": 1773850891.5397956,
+    "last_updated": 1773864277.9576204,
+    "snapshots": [
+      {
+        "home": 2.2,
+        "away": 3.78,
+        "draw": 3.17,
+        "ts": 1773850891.5397956
+      },
+      {
+        "home": 2.2,
+        "away": 3.78,
+        "draw": 3.17,
+        "ts": 1773864277.9576204
+      }
+    ]
+  },
+  "c8484cd6cf5211a276f65fcabc0a657a": {
+    "sport": "soccer",
+    "home_team": "Lorient",
+    "away_team": "Paris FC",
+    "opening_home": 2.37,
+    "opening_away": 3.21,
+    "opening_draw": 3.16,
+    "last_home": 2.37,
+    "last_away": 3.21,
+    "last_draw": 3.16,
+    "first_seen": 1773850891.546386,
+    "last_updated": 1773864278.8841422,
+    "snapshots": [
+      {
+        "home": 2.37,
+        "away": 3.21,
+        "draw": 3.16,
+        "ts": 1773850891.546386
+      },
+      {
+        "home": 2.37,
+        "away": 3.21,
+        "draw": 3.16,
+        "ts": 1773864278.8841422
+      }
+    ]
+  },
+  "0840c5a6565facfcc3a277183563b457": {
+    "sport": "soccer",
+    "home_team": "Parma",
+    "away_team": "Cremonese",
+    "opening_home": 2.11,
+    "opening_away": 4.44,
+    "opening_draw": 2.97,
+    "last_home": 2.09,
+    "last_away": 4.45,
+    "last_draw": 3.02,
+    "first_seen": 1773850891.5555189,
+    "last_updated": 1773864278.0041611,
+    "snapshots": [
+      {
+        "home": 2.11,
+        "away": 4.44,
+        "draw": 2.97,
+        "ts": 1773850891.5555189
+      },
+      {
+        "home": 2.09,
+        "away": 4.45,
+        "draw": 3.02,
+        "ts": 1773864278.0041611
+      }
+    ]
+  },
+  "9ab57447db837d4f2e655655a8a2369d": {
+    "sport": "soccer",
+    "home_team": "Metz",
+    "away_team": "Nantes",
+    "opening_home": 2.81,
+    "opening_away": 2.57,
+    "opening_draw": 3.3,
+    "last_home": 2.81,
+    "last_away": 2.57,
+    "last_draw": 3.3,
+    "first_seen": 1773850891.5555189,
+    "last_updated": 1773864278.9272652,
+    "snapshots": [
+      {
+        "home": 2.81,
+        "away": 2.57,
+        "draw": 3.3,
+        "ts": 1773850891.5555189
+      },
+      {
+        "home": 2.81,
+        "away": 2.57,
+        "draw": 3.3,
+        "ts": 1773864278.9272652
+      }
+    ]
+  },
+  "1c05f8f6741555318b7438e75c56fed1": {
+    "sport": "soccer",
+    "home_team": "AC Milan",
+    "away_team": "Torino",
+    "opening_home": 1.37,
+    "opening_away": 8.43,
+    "opening_draw": 5.22,
+    "last_home": 1.37,
+    "last_away": 8.42,
+    "last_draw": 5.22,
+    "first_seen": 1773850891.5691059,
+    "last_updated": 1773864278.0602567,
+    "snapshots": [
+      {
+        "home": 1.37,
+        "away": 8.43,
+        "draw": 5.22,
+        "ts": 1773850891.5691059
+      },
+      {
+        "home": 1.37,
+        "away": 8.42,
+        "draw": 5.22,
+        "ts": 1773864278.0602567
+      }
+    ]
+  },
+  "6711a91275c7b1630162aba2511e6559": {
+    "sport": "soccer",
+    "home_team": "AS Monaco",
+    "away_team": "Marseille",
+    "opening_home": 2.48,
+    "opening_away": 2.78,
+    "opening_draw": 3.5,
+    "last_home": 2.48,
+    "last_away": 2.78,
+    "last_draw": 3.5,
+    "first_seen": 1773850891.5691059,
+    "last_updated": 1773864278.9988708,
+    "snapshots": [
+      {
+        "home": 2.48,
+        "away": 2.78,
+        "draw": 3.5,
+        "ts": 1773850891.5691059
+      },
+      {
+        "home": 2.48,
+        "away": 2.78,
+        "draw": 3.5,
+        "ts": 1773864278.9988708
+      }
+    ]
+  },
+  "0522ae9277f528011e5c72202d6e70b4": {
+    "sport": "soccer",
+    "home_team": "Juventus",
+    "away_team": "Sassuolo",
+    "opening_home": 1.35,
+    "opening_away": 9.07,
+    "opening_draw": 5.4,
+    "last_home": 1.35,
+    "last_away": 9.07,
+    "last_draw": 5.4,
+    "first_seen": 1773850891.6072552,
+    "last_updated": 1773864278.1160874,
+    "snapshots": [
+      {
+        "home": 1.35,
+        "away": 9.07,
+        "draw": 5.4,
+        "ts": 1773850891.6072552
+      },
+      {
+        "home": 1.35,
+        "away": 9.07,
+        "draw": 5.4,
+        "ts": 1773864278.1160874
+      }
+    ]
+  },
+  "48cd4a39c0810a3056ff749a952c9487": {
+    "sport": "soccer",
+    "home_team": "Como",
+    "away_team": "Pisa",
+    "opening_home": 1.27,
+    "opening_away": 10.59,
+    "opening_draw": 6.06,
+    "last_home": 1.27,
+    "last_away": 10.59,
+    "last_draw": 6.06,
+    "first_seen": 1773850891.6120718,
+    "last_updated": 1773864278.1637475,
+    "snapshots": [
+      {
+        "home": 1.27,
+        "away": 10.59,
+        "draw": 6.06,
+        "ts": 1773850891.6120718
+      },
+      {
+        "home": 1.27,
+        "away": 10.59,
+        "draw": 6.06,
+        "ts": 1773864278.1637475
+      }
+    ]
+  },
+  "3bc9cbb26c4be23f3fc825473a812cd6": {
+    "sport": "soccer",
+    "home_team": "Atalanta BC",
+    "away_team": "Hellas Verona",
+    "opening_home": 1.4,
+    "opening_away": 8.52,
+    "opening_draw": 4.88,
+    "last_home": 1.4,
+    "last_away": 8.52,
+    "last_draw": 4.88,
+    "first_seen": 1773850891.636827,
+    "last_updated": 1773864278.2414844,
+    "snapshots": [
+      {
+        "home": 1.4,
+        "away": 8.52,
+        "draw": 4.88,
+        "ts": 1773850891.636827
+      },
+      {
+        "home": 1.4,
+        "away": 8.52,
+        "draw": 4.88,
+        "ts": 1773864278.2414844
+      }
+    ]
+  },
+  "bb09769af11fbcbd90d7551bdf373852": {
+    "sport": "soccer",
+    "home_team": "Bologna",
+    "away_team": "Lazio",
+    "opening_home": 2.32,
+    "opening_away": 3.61,
+    "opening_draw": 3.08,
+    "last_home": 2.32,
+    "last_away": 3.61,
+    "last_draw": 3.08,
+    "first_seen": 1773850891.6622634,
+    "last_updated": 1773864278.3058162,
+    "snapshots": [
+      {
+        "home": 2.32,
+        "away": 3.61,
+        "draw": 3.08,
+        "ts": 1773850891.6622634
+      },
+      {
+        "home": 2.32,
+        "away": 3.61,
+        "draw": 3.08,
+        "ts": 1773864278.3058162
+      }
+    ]
+  },
+  "0a8bec48d5dc3a811d6ccd82ff02523d": {
+    "sport": "soccer",
+    "home_team": "AS Roma",
+    "away_team": "Lecce",
+    "opening_home": 1.43,
+    "opening_away": 8.44,
+    "opening_draw": 4.48,
+    "last_home": 1.43,
+    "last_away": 8.51,
+    "last_draw": 4.52,
+    "first_seen": 1773850891.6778822,
+    "last_updated": 1773864278.3531203,
+    "snapshots": [
+      {
+        "home": 1.43,
+        "away": 8.44,
+        "draw": 4.48,
+        "ts": 1773850891.6778822
+      },
+      {
+        "home": 1.43,
+        "away": 8.51,
+        "draw": 4.52,
+        "ts": 1773864278.3531203
+      }
+    ]
+  },
+  "6b8f3db7b6971a49c1b32412e54060c2": {
+    "sport": "soccer",
+    "home_team": "Fiorentina",
+    "away_team": "Inter Milan",
+    "opening_home": 4.94,
+    "opening_away": 1.63,
+    "opening_draw": 4.5,
+    "last_home": 4.98,
+    "last_away": 1.62,
+    "last_draw": 4.53,
+    "first_seen": 1773850891.6884685,
+    "last_updated": 1773864278.3707812,
+    "snapshots": [
+      {
+        "home": 4.94,
+        "away": 1.63,
+        "draw": 4.5,
+        "ts": 1773850891.6884685
+      },
+      {
+        "home": 4.98,
+        "away": 1.62,
+        "draw": 4.53,
+        "ts": 1773864278.3707812
+      }
+    ]
+  },
+  "569ed13ab71be05079d09666732d78b7": {
+    "sport": "soccer",
+    "home_team": "Lecce",
+    "away_team": "Atalanta BC",
+    "opening_home": 4.62,
+    "opening_away": 1.75,
+    "opening_draw": 3.74,
+    "last_home": 4.62,
+    "last_away": 1.75,
+    "last_draw": 3.74,
+    "first_seen": 1773850891.6980882,
+    "last_updated": 1773864278.4422603,
+    "snapshots": [
+      {
+        "home": 4.62,
+        "away": 1.75,
+        "draw": 3.74,
+        "ts": 1773850891.6980882
+      },
+      {
+        "home": 4.62,
+        "away": 1.75,
+        "draw": 3.74,
+        "ts": 1773864278.4422603
+      }
+    ]
+  },
+  "700c4db228b5ab42ddbf452d9c49eed0": {
+    "sport": "soccer",
+    "home_team": "Sassuolo",
+    "away_team": "Cagliari",
+    "opening_home": 1.97,
+    "opening_away": 4.83,
+    "opening_draw": 2.96,
+    "last_home": 1.97,
+    "last_away": 4.83,
+    "last_draw": 2.96,
+    "first_seen": 1773850891.708117,
+    "last_updated": 1773864278.5198882,
+    "snapshots": [
+      {
+        "home": 1.97,
+        "away": 4.83,
+        "draw": 2.96,
+        "ts": 1773850891.708117
+      },
+      {
+        "home": 1.97,
+        "away": 4.83,
+        "draw": 2.96,
+        "ts": 1773864278.5198882
+      }
+    ]
+  },
+  "4c82fb0d076253015c44b7f2c9316267": {
+    "sport": "soccer",
+    "home_team": "Hellas Verona",
+    "away_team": "Fiorentina",
+    "opening_home": 4.07,
+    "opening_away": 1.94,
+    "opening_draw": 3.43,
+    "last_home": 4.07,
+    "last_away": 1.94,
+    "last_draw": 3.43,
+    "first_seen": 1773850891.7187736,
+    "last_updated": 1773864278.5505884,
+    "snapshots": [
+      {
+        "home": 4.07,
+        "away": 1.94,
+        "draw": 3.43,
+        "ts": 1773850891.7187736
+      },
+      {
+        "home": 4.07,
+        "away": 1.94,
+        "draw": 3.43,
+        "ts": 1773864278.5505884
+      }
+    ]
+  },
+  "4026d1ba245b980683a63170645bcb00": {
+    "sport": "soccer",
+    "home_team": "Lazio",
+    "away_team": "Parma",
+    "opening_home": 1.81,
+    "opening_away": 4.87,
+    "opening_draw": 3.37,
+    "last_home": 1.81,
+    "last_away": 4.87,
+    "last_draw": 3.37,
+    "first_seen": 1773850891.7305992,
+    "last_updated": 1773864278.5934067,
+    "snapshots": [
+      {
+        "home": 1.81,
+        "away": 4.87,
+        "draw": 3.37,
+        "ts": 1773850891.7305992
+      },
+      {
+        "home": 1.81,
+        "away": 4.87,
+        "draw": 3.37,
+        "ts": 1773864278.5934067
+      }
+    ]
+  },
+  "5293817b7f4a4732e56eb630a3c6c560": {
+    "sport": "soccer",
+    "home_team": "Cremonese",
+    "away_team": "Bologna",
+    "opening_home": 4.04,
+    "opening_away": 1.91,
+    "opening_draw": 3.57,
+    "last_home": 4.04,
+    "last_away": 1.91,
+    "last_draw": 3.57,
+    "first_seen": 1773850891.7460496,
+    "last_updated": 1773864278.66588,
+    "snapshots": [
+      {
+        "home": 4.04,
+        "away": 1.91,
+        "draw": 3.57,
+        "ts": 1773850891.7460496
+      },
+      {
+        "home": 4.04,
+        "away": 1.91,
+        "draw": 3.57,
+        "ts": 1773864278.66588
+      }
+    ]
+  },
+  "70882d892b579af091e4cfdcf4174b47": {
+    "sport": "soccer",
+    "home_team": "Pisa",
+    "away_team": "Torino",
+    "opening_home": 2.76,
+    "opening_away": 2.68,
+    "opening_draw": 3.19,
+    "last_home": 2.76,
+    "last_away": 2.68,
+    "last_draw": 3.19,
+    "first_seen": 1773850891.7569964,
+    "last_updated": 1773864278.736525,
+    "snapshots": [
+      {
+        "home": 2.76,
+        "away": 2.68,
+        "draw": 3.19,
+        "ts": 1773850891.7569964
+      },
+      {
+        "home": 2.76,
+        "away": 2.68,
+        "draw": 3.19,
+        "ts": 1773864278.736525
+      }
+    ]
+  },
+  "4c19e0d00239c155b45365c7a59f54c4": {
+    "sport": "soccer",
+    "home_team": "Udinese",
+    "away_team": "Como",
+    "opening_home": 4.55,
+    "opening_away": 1.81,
+    "opening_draw": 3.56,
+    "last_home": 4.55,
+    "last_away": 1.81,
+    "last_draw": 3.56,
+    "first_seen": 1773850891.7715566,
+    "last_updated": 1773864278.79331,
+    "snapshots": [
+      {
+        "home": 4.55,
+        "away": 1.81,
+        "draw": 3.56,
+        "ts": 1773850891.7715566
+      },
+      {
+        "home": 4.55,
+        "away": 1.81,
+        "draw": 3.56,
+        "ts": 1773864278.79331
+      }
+    ]
+  },
+  "d425218c011ce000fc19d915cee8b96a": {
+    "sport": "soccer",
+    "home_team": "Juventus",
+    "away_team": "Genoa",
+    "opening_home": 1.37,
+    "opening_away": 8.72,
+    "opening_draw": 4.73,
+    "last_home": 1.37,
+    "last_away": 8.72,
+    "last_draw": 4.73,
+    "first_seen": 1773850891.7906232,
+    "last_updated": 1773864278.8538203,
+    "snapshots": [
+      {
+        "home": 1.37,
+        "away": 8.72,
+        "draw": 4.73,
+        "ts": 1773850891.7906232
+      },
+      {
+        "home": 1.37,
+        "away": 8.72,
+        "draw": 4.73,
+        "ts": 1773864278.8538203
+      }
+    ]
+  },
+  "6b90b14f2287e029cdcfbf64f12af661": {
+    "sport": "soccer",
+    "home_team": "Napoli",
+    "away_team": "AC Milan",
+    "opening_home": 2.55,
+    "opening_away": 3.11,
+    "opening_draw": 2.96,
+    "last_home": 2.55,
+    "last_away": 3.11,
+    "last_draw": 2.96,
+    "first_seen": 1773850891.8003187,
+    "last_updated": 1773864278.8977163,
+    "snapshots": [
+      {
+        "home": 2.55,
+        "away": 3.11,
+        "draw": 2.96,
+        "ts": 1773850891.8003187
+      },
+      {
+        "home": 2.55,
+        "away": 3.11,
+        "draw": 2.96,
+        "ts": 1773864278.8977163
+      }
+    ]
+  },
+  "01206db03008a61c53f64421c7e0cd67": {
+    "sport": "soccer",
+    "home_team": "Inter Milan",
+    "away_team": "AS Roma",
+    "opening_home": 1.62,
+    "opening_away": 5.1,
+    "opening_draw": 3.91,
+    "last_home": 1.62,
+    "last_away": 5.1,
+    "last_draw": 3.91,
+    "first_seen": 1773850891.8094208,
+    "last_updated": 1773864278.938533,
+    "snapshots": [
+      {
+        "home": 1.62,
+        "away": 5.1,
+        "draw": 3.91,
+        "ts": 1773850891.8094208
+      },
+      {
+        "home": 1.62,
+        "away": 5.1,
+        "draw": 3.91,
+        "ts": 1773864278.938533
+      }
+    ]
+  },
+  "b2b832b2fcc9a9fdd3753dcf2ff90af4": {
+    "sport": "tennis",
+    "home_team": "Marcos Giron",
+    "away_team": "Martin Landaluce",
+    "opening_home": 1.55,
+    "opening_away": 2.58,
+    "opening_draw": null,
+    "last_home": 1.54,
+    "last_away": 2.6,
+    "last_draw": null,
+    "first_seen": 1773850893.8156078,
+    "last_updated": 1773871955.1271734,
+    "snapshots": [
+      {
+        "home": 1.55,
+        "away": 2.58,
+        "draw": null,
+        "ts": 1773850893.8156078
+      },
+      {
+        "home": 1.55,
+        "away": 2.62,
+        "draw": null,
+        "ts": 1773864057.5460439
+      },
+      {
+        "home": 1.54,
+        "away": 2.6,
+        "draw": null,
+        "ts": 1773871955.1271734
+      }
+    ]
+  },
+  "d35731904308c2aec2d758bcaaa8eaae": {
+    "sport": "tennis",
+    "home_team": "Rafael Jodar",
+    "away_team": "Yannick Hanfmann",
+    "opening_home": 1.62,
+    "opening_away": 2.39,
+    "opening_draw": null,
+    "last_home": 1.62,
+    "last_away": 2.41,
+    "last_draw": null,
+    "first_seen": 1773850893.8196075,
+    "last_updated": 1773871955.1271734,
+    "snapshots": [
+      {
+        "home": 1.62,
+        "away": 2.39,
+        "draw": null,
+        "ts": 1773850893.8196075
+      },
+      {
+        "home": 1.62,
+        "away": 2.42,
+        "draw": null,
+        "ts": 1773864057.5536382
+      },
+      {
+        "home": 1.62,
+        "away": 2.41,
+        "draw": null,
+        "ts": 1773871955.1271734
+      }
+    ]
+  },
+  "dad56f6b3a1cb3a2e032e06a7f8c470b": {
+    "sport": "tennis",
+    "home_team": "Nikoloz Basilashvili",
+    "away_team": "Mariano Navone",
+    "opening_home": 1.96,
+    "opening_away": 1.91,
+    "opening_draw": null,
+    "last_home": 2.01,
+    "last_away": 1.86,
+    "last_draw": null,
+    "first_seen": 1773850893.8333373,
+    "last_updated": 1773871955.3005135,
+    "snapshots": [
+      {
+        "home": 1.96,
+        "away": 1.91,
+        "draw": null,
+        "ts": 1773850893.8333373
+      },
+      {
+        "home": 1.96,
+        "away": 1.93,
+        "draw": null,
+        "ts": 1773864057.506135
+      },
+      {
+        "home": 2.01,
+        "away": 1.86,
+        "draw": null,
+        "ts": 1773871955.3005135
+      }
+    ]
+  },
+  "99e350ac00039a061dcd37d0aad5dd6d": {
+    "sport": "tennis",
+    "home_team": "Stefanos Tsitsipas",
+    "away_team": "Arthur Fery",
+    "opening_home": 1.36,
+    "opening_away": 3.31,
+    "opening_draw": null,
+    "last_home": 1.37,
+    "last_away": 3.28,
+    "last_draw": null,
+    "first_seen": 1773850893.8572981,
+    "last_updated": 1773871955.1271734,
+    "snapshots": [
+      {
+        "home": 1.36,
+        "away": 3.31,
+        "draw": null,
+        "ts": 1773850893.8572981
+      },
+      {
+        "home": 1.38,
+        "away": 3.31,
+        "draw": null,
+        "ts": 1773864057.5617042
+      },
+      {
+        "home": 1.37,
+        "away": 3.28,
+        "draw": null,
+        "ts": 1773871955.1271734
+      }
+    ]
+  },
+  "18c381a34e13cf338895d24e9895aa87": {
+    "sport": "tennis",
+    "home_team": "Adam Walton",
+    "away_team": "Sebastian Baez",
+    "opening_home": 2.28,
+    "opening_away": 1.68,
+    "opening_draw": null,
+    "last_home": 2.15,
+    "last_away": 1.76,
+    "last_draw": null,
+    "first_seen": 1773850893.8715289,
+    "last_updated": 1773871955.1407022,
+    "snapshots": [
+      {
+        "home": 2.28,
+        "away": 1.68,
+        "draw": null,
+        "ts": 1773850893.8715289
+      },
+      {
+        "home": 2.27,
+        "away": 1.69,
+        "draw": null,
+        "ts": 1773864057.5726213
+      },
+      {
+        "home": 2.15,
+        "away": 1.76,
+        "draw": null,
+        "ts": 1773871955.1407022
+      }
+    ]
+  },
+  "46ce550d32373874435e60e2db687a75": {
+    "sport": "tennis",
+    "home_team": "Alex Michelsen",
+    "away_team": "Mattia Bellucci",
+    "opening_home": 1.46,
+    "opening_away": 2.88,
+    "opening_draw": null,
+    "last_home": 1.46,
+    "last_away": 2.88,
+    "last_draw": null,
+    "first_seen": 1773850893.9015284,
+    "last_updated": 1773871955.1729984,
+    "snapshots": [
+      {
+        "home": 1.46,
+        "away": 2.88,
+        "draw": null,
+        "ts": 1773850893.9015284
+      },
+      {
+        "home": 1.46,
+        "away": 2.88,
+        "draw": null,
+        "ts": 1773864057.6080668
+      },
+      {
+        "home": 1.46,
+        "away": 2.88,
+        "draw": null,
+        "ts": 1773871955.1729984
+      }
+    ]
+  },
+  "c0357c13b32a048ed2ed26da6d8d508a": {
+    "sport": "tennis",
+    "home_team": "Arthur Cazaux",
+    "away_team": "Marcelo Tomas Barrios Vera",
+    "opening_home": 1.53,
+    "opening_away": 2.61,
+    "opening_draw": null,
+    "last_home": 1.54,
+    "last_away": 2.6,
+    "last_draw": null,
+    "first_seen": 1773850893.9324195,
+    "last_updated": 1773871955.2046094,
+    "snapshots": [
+      {
+        "home": 1.53,
+        "away": 2.61,
+        "draw": null,
+        "ts": 1773850893.9324195
+      },
+      {
+        "home": 1.54,
+        "away": 2.6,
+        "draw": null,
+        "ts": 1773864057.6328888
+      },
+      {
+        "home": 1.54,
+        "away": 2.6,
+        "draw": null,
+        "ts": 1773871955.2046094
+      }
+    ]
+  },
+  "dd52083601053d4606655a0a86b168cc": {
+    "sport": "tennis",
+    "home_team": "Christopher O'Connell",
+    "away_team": "Marton Fucsovics",
+    "opening_home": 2.73,
+    "opening_away": 1.5,
+    "opening_draw": null,
+    "last_home": 2.6,
+    "last_away": 1.54,
+    "last_draw": null,
+    "first_seen": 1773850893.9406185,
+    "last_updated": 1773871955.2134228,
+    "snapshots": [
+      {
+        "home": 2.73,
+        "away": 1.5,
+        "draw": null,
+        "ts": 1773850893.9406185
+      },
+      {
+        "home": 2.6,
+        "away": 1.54,
+        "draw": null,
+        "ts": 1773864057.6515822
+      },
+      {
+        "home": 2.6,
+        "away": 1.54,
+        "draw": null,
+        "ts": 1773871955.2134228
+      }
+    ]
+  },
+  "36b0c0b2899c896a7f9465221e48b943": {
+    "sport": "tennis",
+    "home_team": "Ignacio Buse",
+    "away_team": "Damir Dzumhur",
+    "opening_home": 1.52,
+    "opening_away": 2.67,
+    "opening_draw": null,
+    "last_home": 1.56,
+    "last_away": 2.56,
+    "last_draw": null,
+    "first_seen": 1773850893.9426193,
+    "last_updated": 1773871955.2134228,
+    "snapshots": [
+      {
+        "home": 1.52,
+        "away": 2.67,
+        "draw": null,
+        "ts": 1773850893.9426193
+      },
+      {
+        "home": 1.56,
+        "away": 2.56,
+        "draw": null,
+        "ts": 1773864057.658581
+      },
+      {
+        "home": 1.56,
+        "away": 2.56,
+        "draw": null,
+        "ts": 1773871955.2134228
+      }
+    ]
+  },
+  "80775d329ead196404b02bf2b4dc1c0d": {
+    "sport": "tennis",
+    "home_team": "Quentin Halys",
+    "away_team": "Liam Draxl",
+    "opening_home": 1.5,
+    "opening_away": 2.72,
+    "opening_draw": null,
+    "last_home": 1.5,
+    "last_away": 2.72,
+    "last_draw": null,
+    "first_seen": 1773850893.9792619,
+    "last_updated": 1773871955.2929437,
+    "snapshots": [
+      {
+        "home": 1.5,
+        "away": 2.72,
+        "draw": null,
+        "ts": 1773850893.9792619
+      },
+      {
+        "home": 1.5,
+        "away": 2.72,
+        "draw": null,
+        "ts": 1773864057.726022
+      },
+      {
+        "home": 1.5,
+        "away": 2.72,
+        "draw": null,
+        "ts": 1773871955.2929437
+      }
+    ]
+  },
+  "40a21b8c02e6b74e04f71a0029a473e2": {
+    "sport": "tennis",
+    "home_team": "Moise Kouame",
+    "away_team": "Zachary Svajda",
+    "opening_home": 4.54,
+    "opening_away": 1.23,
+    "opening_draw": null,
+    "last_home": 4.65,
+    "last_away": 1.22,
+    "last_draw": null,
+    "first_seen": 1773850893.9905753,
+    "last_updated": 1773871955.3060582,
+    "snapshots": [
+      {
+        "home": 4.54,
+        "away": 1.23,
+        "draw": null,
+        "ts": 1773850893.9905753
+      },
+      {
+        "home": 4.65,
+        "away": 1.22,
+        "draw": null,
+        "ts": 1773864057.7474012
+      },
+      {
+        "home": 4.65,
+        "away": 1.22,
+        "draw": null,
+        "ts": 1773871955.3060582
+      }
+    ]
+  },
+  "b708b438fa05836e29c4523144294cbf": {
+    "sport": "tennis",
+    "home_team": "Valentin Royer",
+    "away_team": "Thiago Agustin Tirante",
+    "opening_home": 1.82,
+    "opening_away": 2.06,
+    "opening_draw": null,
+    "last_home": 1.82,
+    "last_away": 2.06,
+    "last_draw": null,
+    "first_seen": 1773850894.0094886,
+    "last_updated": 1773871955.321739,
+    "snapshots": [
+      {
+        "home": 1.82,
+        "away": 2.06,
+        "draw": null,
+        "ts": 1773850894.0094886
+      },
+      {
+        "home": 1.82,
+        "away": 2.06,
+        "draw": null,
+        "ts": 1773864057.7535815
+      },
+      {
+        "home": 1.82,
+        "away": 2.06,
+        "draw": null,
+        "ts": 1773871955.321739
+      }
+    ]
+  },
+  "ab8c36dd4919d8a108758d01bfad96cc": {
+    "sport": "tennis",
+    "home_team": "Tereza Valentova",
+    "away_team": "Katie Volynets",
+    "opening_home": 1.63,
+    "opening_away": 2.41,
+    "opening_draw": null,
+    "last_home": 1.6,
+    "last_away": 2.47,
+    "last_draw": null,
+    "first_seen": 1773850894.9767926,
+    "last_updated": 1773871956.1097314,
+    "snapshots": [
+      {
+        "home": 1.63,
+        "away": 2.41,
+        "draw": null,
+        "ts": 1773850894.9767926
+      },
+      {
+        "home": 1.6,
+        "away": 2.47,
+        "draw": null,
+        "ts": 1773864060.1143305
+      },
+      {
+        "home": 1.6,
+        "away": 2.47,
+        "draw": null,
+        "ts": 1773871956.1097314
+      }
+    ]
+  },
+  "327be26e70a6f3f94ba5ac3ea75e8cbf": {
+    "sport": "tennis",
+    "home_team": "Alycia Parks",
+    "away_team": "Sinja Kraus",
+    "opening_home": 1.72,
+    "opening_away": 2.2,
+    "opening_draw": null,
+    "last_home": 1.73,
+    "last_away": 2.21,
+    "last_draw": null,
+    "first_seen": 1773850894.9777915,
+    "last_updated": 1773871956.1097314,
+    "snapshots": [
+      {
+        "home": 1.72,
+        "away": 2.2,
+        "draw": null,
+        "ts": 1773850894.9777915
+      },
+      {
+        "home": 1.73,
+        "away": 2.21,
+        "draw": null,
+        "ts": 1773864060.1455424
+      },
+      {
+        "home": 1.73,
+        "away": 2.21,
+        "draw": null,
+        "ts": 1773871956.1097314
+      }
+    ]
+  },
+  "8657f22f7c35d33a143c98c001d9954a": {
+    "sport": "tennis",
+    "home_team": "Anastasia Zakharova",
+    "away_team": "Anna Bondár",
+    "opening_home": 1.5,
+    "opening_away": 2.73,
+    "opening_draw": null,
+    "last_home": 1.48,
+    "last_away": 2.84,
+    "last_draw": null,
+    "first_seen": 1773850894.9777915,
+    "last_updated": 1773871956.2328577,
+    "snapshots": [
+      {
+        "home": 1.5,
+        "away": 2.73,
+        "draw": null,
+        "ts": 1773850894.9777915
+      },
+      {
+        "home": 1.48,
+        "away": 2.82,
+        "draw": null,
+        "ts": 1773864060.0806968
+      },
+      {
+        "home": 1.48,
+        "away": 2.84,
+        "draw": null,
+        "ts": 1773871956.2328577
+      }
+    ]
+  },
+  "ca7dad0abb7f8e9241a288b19ad7ee4a": {
+    "sport": "tennis",
+    "home_team": "Dalma Galfi",
+    "away_team": "Elvina Kalieva",
+    "opening_home": 1.7,
+    "opening_away": 2.24,
+    "opening_draw": null,
+    "last_home": 1.71,
+    "last_away": 2.25,
+    "last_draw": null,
+    "first_seen": 1773850894.9777915,
+    "last_updated": 1773871956.2701263,
+    "snapshots": [
+      {
+        "home": 1.7,
+        "away": 2.24,
+        "draw": null,
+        "ts": 1773850894.9777915
+      },
+      {
+        "home": 1.71,
+        "away": 2.25,
+        "draw": null,
+        "ts": 1773864060.1668203
+      },
+      {
+        "home": 1.71,
+        "away": 2.25,
+        "draw": null,
+        "ts": 1773871956.2701263
+      }
+    ]
+  },
+  "f607a36c8ec68ebfaa372106317efc0f": {
+    "sport": "tennis",
+    "home_team": "Darja Semenistaja",
+    "away_team": "Elisabetta Cocciaretto",
+    "opening_home": 3.31,
+    "opening_away": 1.37,
+    "opening_draw": null,
+    "last_home": 3.3,
+    "last_away": 1.38,
+    "last_draw": null,
+    "first_seen": 1773850894.9787385,
+    "last_updated": 1773871956.115807,
+    "snapshots": [
+      {
+        "home": 3.31,
+        "away": 1.37,
+        "draw": null,
+        "ts": 1773850894.9787385
+      },
+      {
+        "home": 3.3,
+        "away": 1.38,
+        "draw": null,
+        "ts": 1773864060.181039
+      },
+      {
+        "home": 3.3,
+        "away": 1.38,
+        "draw": null,
+        "ts": 1773871956.115807
+      }
+    ]
+  },
+  "a49f54145eeec97e93ec8858aac7e563": {
+    "sport": "tennis",
+    "home_team": "Ann Li",
+    "away_team": "Kimberly Birrell",
+    "opening_home": 2.13,
+    "opening_away": 1.78,
+    "opening_draw": null,
+    "last_home": 2.11,
+    "last_away": 1.79,
+    "last_draw": null,
+    "first_seen": 1773850894.9791622,
+    "last_updated": 1773871956.3116574,
+    "snapshots": [
+      {
+        "home": 2.13,
+        "away": 1.78,
+        "draw": null,
+        "ts": 1773850894.9791622
+      },
+      {
+        "home": 2.12,
+        "away": 1.79,
+        "draw": null,
+        "ts": 1773864060.1335216
+      },
+      {
+        "home": 2.11,
+        "away": 1.79,
+        "draw": null,
+        "ts": 1773871956.3116574
+      }
+    ]
+  },
+  "0a816028d917c5195877870998e3f129": {
+    "sport": "tennis",
+    "home_team": "Emerson Jones",
+    "away_team": "Linda Fruhvirtova",
+    "opening_home": 1.89,
+    "opening_away": 1.97,
+    "opening_draw": null,
+    "last_home": 1.93,
+    "last_away": 1.93,
+    "last_draw": null,
+    "first_seen": 1773850894.9791622,
+    "last_updated": 1773871956.2010524,
+    "snapshots": [
+      {
+        "home": 1.89,
+        "away": 1.97,
+        "draw": null,
+        "ts": 1773850894.9791622
+      },
+      {
+        "home": 1.93,
+        "away": 1.95,
+        "draw": null,
+        "ts": 1773864060.1985517
+      },
+      {
+        "home": 1.93,
+        "away": 1.93,
+        "draw": null,
+        "ts": 1773871956.2010524
+      }
+    ]
+  },
+  "38cd09b9251addb2c7c1118a0b38f527": {
+    "sport": "tennis",
+    "home_team": "Eva Lys",
+    "away_team": "Yuliia Starodubtseva",
+    "opening_home": 1.7,
+    "opening_away": 2.24,
+    "opening_draw": null,
+    "last_home": 1.7,
+    "last_away": 2.25,
+    "last_draw": null,
+    "first_seen": 1773850894.9791622,
+    "last_updated": 1773871956.1097314,
+    "snapshots": [
+      {
+        "home": 1.7,
+        "away": 2.24,
+        "draw": null,
+        "ts": 1773850894.9791622
+      },
+      {
+        "home": 1.7,
+        "away": 2.25,
+        "draw": null,
+        "ts": 1773864060.1248493
+      },
+      {
+        "home": 1.7,
+        "away": 2.25,
+        "draw": null,
+        "ts": 1773871956.1097314
+      }
+    ]
+  },
+  "fb347b5ddda5b4eb9a7ed4127e720588": {
+    "sport": "tennis",
+    "home_team": "Solana Sierra",
+    "away_team": "Kamilla Rakhimova",
+    "opening_home": 3.01,
+    "opening_away": 1.43,
+    "opening_draw": null,
+    "last_home": 3.01,
+    "last_away": 1.43,
+    "last_draw": null,
+    "first_seen": 1773850894.9802003,
+    "last_updated": 1773871956.21686,
+    "snapshots": [
+      {
+        "home": 3.01,
+        "away": 1.43,
+        "draw": null,
+        "ts": 1773850894.9802003
+      },
+      {
+        "home": 3.03,
+        "away": 1.43,
+        "draw": null,
+        "ts": 1773864060.2089508
+      },
+      {
+        "home": 3.01,
+        "away": 1.43,
+        "draw": null,
+        "ts": 1773871956.21686
+      }
+    ]
+  },
+  "bd5daef3a9ee536130454cfd140505e5": {
+    "sport": "tennis",
+    "home_team": "Paula Badosa",
+    "away_team": "Aliaksandra Sasnovich",
+    "opening_home": 1.5,
+    "opening_away": 2.71,
+    "opening_draw": null,
+    "last_home": 1.5,
+    "last_away": 2.74,
+    "last_draw": null,
+    "first_seen": 1773850894.9802003,
+    "last_updated": 1773871956.2328577,
+    "snapshots": [
+      {
+        "home": 1.5,
+        "away": 2.71,
+        "draw": null,
+        "ts": 1773850894.9802003
+      },
+      {
+        "home": 1.5,
+        "away": 2.76,
+        "draw": null,
+        "ts": 1773864060.1935518
+      },
+      {
+        "home": 1.5,
+        "away": 2.74,
+        "draw": null,
+        "ts": 1773871956.2328577
+      }
+    ]
+  },
+  "91d5ec79f7210a3f7e85ae25e95f0f18": {
+    "sport": "tennis",
+    "home_team": "Caty McNally",
+    "away_team": "Rebeka Masarova",
+    "opening_home": 1.87,
+    "opening_away": 2.0,
+    "opening_draw": null,
+    "last_home": 1.83,
+    "last_away": 2.06,
+    "last_draw": null,
+    "first_seen": 1773850894.9802003,
+    "last_updated": 1773871956.3149028,
+    "snapshots": [
+      {
+        "home": 1.87,
+        "away": 2.0,
+        "draw": null,
+        "ts": 1773850894.9802003
+      },
+      {
+        "home": 1.83,
+        "away": 2.08,
+        "draw": null,
+        "ts": 1773864060.2291424
+      },
+      {
+        "home": 1.83,
+        "away": 2.06,
+        "draw": null,
+        "ts": 1773871956.3149028
+      }
+    ]
+  },
+  "860cff1c7a9ef83a542775975c28d239": {
+    "sport": "tennis",
+    "home_team": "Lulu Sun",
+    "away_team": "Taylor Townsend",
+    "opening_home": 2.36,
+    "opening_away": 1.64,
+    "opening_draw": null,
+    "last_home": 2.38,
+    "last_away": 1.63,
+    "last_draw": null,
+    "first_seen": 1773850894.9821985,
+    "last_updated": 1773871956.3276508,
+    "snapshots": [
+      {
+        "home": 2.36,
+        "away": 1.64,
+        "draw": null,
+        "ts": 1773850894.9821985
+      },
+      {
+        "home": 2.39,
+        "away": 1.64,
+        "draw": null,
+        "ts": 1773864060.2378464
+      },
+      {
+        "home": 2.38,
+        "away": 1.63,
+        "draw": null,
+        "ts": 1773871956.3276508
+      }
+    ]
+  },
+  "db08cdfe67daa80b9c4d2f71d7d93722": {
+    "sport": "tennis",
+    "home_team": "Lilli Tagger",
+    "away_team": "Ella Seidel",
+    "opening_home": 1.76,
+    "opening_away": 2.15,
+    "opening_draw": null,
+    "last_home": 1.71,
+    "last_away": 2.24,
+    "last_draw": null,
+    "first_seen": 1773850895.008747,
+    "last_updated": 1773871956.115807,
+    "snapshots": [
+      {
+        "home": 1.76,
+        "away": 2.15,
+        "draw": null,
+        "ts": 1773850895.008747
+      },
+      {
+        "home": 1.71,
+        "away": 2.24,
+        "draw": null,
+        "ts": 1773864060.388664
+      },
+      {
+        "home": 1.71,
+        "away": 2.24,
+        "draw": null,
+        "ts": 1773871956.115807
+      }
+    ]
+  },
+  "d898f76b51bd3c849fff8d19939813b9": {
+    "sport": "tennis",
+    "home_team": "Sara Bejlek",
+    "away_team": "Talia Gibson",
+    "opening_home": 1.94,
+    "opening_away": 1.93,
+    "opening_draw": null,
+    "last_home": 1.94,
+    "last_away": 1.93,
+    "last_draw": null,
+    "first_seen": 1773850895.0372505,
+    "last_updated": 1773871956.343359,
+    "snapshots": [
+      {
+        "home": 1.94,
+        "away": 1.93,
+        "draw": null,
+        "ts": 1773850895.0372505
+      },
+      {
+        "home": 1.95,
+        "away": 1.93,
+        "draw": null,
+        "ts": 1773864060.2463543
+      },
+      {
+        "home": 1.94,
+        "away": 1.93,
+        "draw": null,
+        "ts": 1773871956.343359
+      }
+    ]
+  },
+  "5fd71efe9f9da38f3678e764bea2f9d0": {
+    "sport": "tennis",
+    "home_team": "Viktorija Golubic",
+    "away_team": "Peyton Stearns",
+    "opening_home": 3.33,
+    "opening_away": 1.36,
+    "opening_draw": null,
+    "last_home": 3.36,
+    "last_away": 1.37,
+    "last_draw": null,
+    "first_seen": 1773850895.0726328,
+    "last_updated": 1773871956.2959864,
+    "snapshots": [
+      {
+        "home": 3.33,
+        "away": 1.36,
+        "draw": null,
+        "ts": 1773850895.0726328
+      },
+      {
+        "home": 3.36,
+        "away": 1.37,
+        "draw": null,
+        "ts": 1773864060.4118023
+      },
+      {
+        "home": 3.36,
+        "away": 1.37,
+        "draw": null,
+        "ts": 1773871956.2959864
+      }
+    ]
+  },
+  "a245b86e6e60d2e7632b187344765458": {
+    "sport": "tennis",
+    "home_team": "Francesca Jones",
+    "away_team": "Venus Williams",
+    "opening_home": 1.52,
+    "opening_away": 2.71,
+    "opening_draw": null,
+    "last_home": 1.52,
+    "last_away": 2.71,
+    "last_draw": null,
+    "first_seen": 1773850895.0921414,
+    "last_updated": 1773871956.1097314,
+    "snapshots": [
+      {
+        "home": 1.52,
+        "away": 2.71,
+        "draw": null,
+        "ts": 1773850895.0921414
+      },
+      {
+        "home": 1.52,
+        "away": 2.71,
+        "draw": null,
+        "ts": 1773864060.4042912
+      },
+      {
+        "home": 1.52,
+        "away": 2.71,
+        "draw": null,
+        "ts": 1773871956.1097314
+      }
+    ]
+  },
+  "7a93ab979255a82952b5b25ce133e92b": {
+    "sport": "tennis",
+    "home_team": "Amanda Anisimova",
+    "away_team": "Ajla Tomljanovic",
+    "opening_home": 1.17,
+    "opening_away": 5.59,
+    "opening_draw": null,
+    "last_home": 1.17,
+    "last_away": 5.68,
+    "last_draw": null,
+    "first_seen": 1773850895.1158726,
+    "last_updated": 1773871956.1222978,
+    "snapshots": [
+      {
+        "home": 1.17,
+        "away": 5.59,
+        "draw": null,
+        "ts": 1773850895.1158726
+      },
+      {
+        "home": 1.17,
+        "away": 5.68,
+        "draw": null,
+        "ts": 1773864060.266923
+      },
+      {
+        "home": 1.17,
+        "away": 5.68,
+        "draw": null,
+        "ts": 1773871956.1222978
+      }
+    ]
+  },
+  "e3097721bd3b84155784160cf3e83874": {
+    "sport": "tennis",
+    "home_team": "Elsa Jacquemot",
+    "away_team": "Marie Bouzkova",
+    "opening_home": 3.5,
+    "opening_away": 1.34,
+    "opening_draw": null,
+    "last_home": 3.56,
+    "last_away": 1.33,
+    "last_draw": null,
+    "first_seen": 1773850895.1270316,
+    "last_updated": 1773871956.1694586,
+    "snapshots": [
+      {
+        "home": 3.5,
+        "away": 1.34,
+        "draw": null,
+        "ts": 1773850895.1270316
+      },
+      {
+        "home": 3.56,
+        "away": 1.33,
+        "draw": null,
+        "ts": 1773864060.3204815
+      },
+      {
+        "home": 3.56,
+        "away": 1.33,
+        "draw": null,
+        "ts": 1773871956.1694586
+      }
+    ]
+  },
+  "620b34dc459859cd185d7beff1fd6165": {
+    "sport": "tennis",
+    "home_team": "Magda Linette",
+    "away_team": "Iga Swiatek",
+    "opening_home": 15.31,
+    "opening_away": 1.04,
+    "opening_draw": null,
+    "last_home": 15.55,
+    "last_away": 1.04,
+    "last_draw": null,
+    "first_seen": 1773850895.1422813,
+    "last_updated": 1773871956.1694586,
+    "snapshots": [
+      {
+        "home": 15.31,
+        "away": 1.04,
+        "draw": null,
+        "ts": 1773850895.1422813
+      },
+      {
+        "home": 15.55,
+        "away": 1.04,
+        "draw": null,
+        "ts": 1773864060.3305795
+      },
+      {
+        "home": 15.55,
+        "away": 1.04,
+        "draw": null,
+        "ts": 1773871956.1694586
+      }
+    ]
+  },
+  "da9ca39bc3abf8e10ef7d0372f9e3aca": {
+    "sport": "tennis",
+    "home_team": "Alexandra Eala",
+    "away_team": "Laura Siegemund",
+    "opening_home": 1.58,
+    "opening_away": 2.5,
+    "opening_draw": null,
+    "last_home": 1.57,
+    "last_away": 2.51,
+    "last_draw": null,
+    "first_seen": 1773864060.272437,
+    "last_updated": 1773871956.1318467,
+    "snapshots": [
+      {
+        "home": 1.58,
+        "away": 2.5,
+        "draw": null,
+        "ts": 1773864060.272437
+      },
+      {
+        "home": 1.57,
+        "away": 2.51,
+        "draw": null,
+        "ts": 1773871956.1318467
+      }
+    ]
+  },
+  "71a5fe7953ca4eb6e08e8976959b51a7": {
+    "sport": "tennis",
+    "home_team": "Anna Blinkova",
+    "away_team": "Victoria Mboko",
+    "opening_home": 10.5,
+    "opening_away": 1.07,
+    "opening_draw": null,
+    "last_home": 10.5,
+    "last_away": 1.07,
+    "last_draw": null,
+    "first_seen": 1773864060.2864883,
+    "last_updated": 1773871956.1388218,
+    "snapshots": [
+      {
+        "home": 10.5,
+        "away": 1.07,
+        "draw": null,
+        "ts": 1773864060.2864883
+      },
+      {
+        "home": 10.5,
+        "away": 1.07,
+        "draw": null,
+        "ts": 1773871956.1388218
+      }
+    ]
+  },
+  "6681912dbac32c3df6e313bbb7a23931": {
+    "sport": "tennis",
+    "home_team": "Zeynep Sonmez",
+    "away_team": "Belinda Bencic",
+    "opening_home": 4.04,
+    "opening_away": 1.27,
+    "opening_draw": null,
+    "last_home": 4.04,
+    "last_away": 1.27,
+    "last_draw": null,
+    "first_seen": 1773864060.30133,
+    "last_updated": 1773871956.1535265,
+    "snapshots": [
+      {
+        "home": 4.04,
+        "away": 1.27,
+        "draw": null,
+        "ts": 1773864060.30133
+      },
+      {
+        "home": 4.04,
+        "away": 1.27,
+        "draw": null,
+        "ts": 1773871956.1535265
+      }
+    ]
+  },
+  "3380451196ff3e6954f6548936e39e9c": {
+    "sport": "tennis",
+    "home_team": "Katie Boulter",
+    "away_team": "Clara Tauson",
+    "opening_home": 2.72,
+    "opening_away": 1.5,
+    "opening_draw": null,
+    "last_home": 2.72,
+    "last_away": 1.5,
+    "last_draw": null,
+    "first_seen": 1773864060.3111303,
+    "last_updated": 1773871956.1535265,
+    "snapshots": [
+      {
+        "home": 2.72,
+        "away": 1.5,
+        "draw": null,
+        "ts": 1773864060.3111303
+      },
+      {
+        "home": 2.72,
+        "away": 1.5,
+        "draw": null,
+        "ts": 1773871956.1535265
+      }
+    ]
+  },
+  "d49dcd3e2075eb4433e8f799957f8740": {
+    "sport": "tennis",
+    "home_team": "Karolina Muchova",
+    "away_team": "Maria Camila Osorio Serrano",
+    "opening_home": 1.3,
+    "opening_away": 3.77,
+    "opening_draw": null,
+    "last_home": 1.3,
+    "last_away": 3.77,
+    "last_draw": null,
+    "first_seen": 1773864060.3512676,
+    "last_updated": 1773871956.1694586,
+    "snapshots": [
+      {
+        "home": 1.3,
+        "away": 3.77,
+        "draw": null,
+        "ts": 1773864060.3512676
+      },
+      {
+        "home": 1.3,
+        "away": 3.77,
+        "draw": null,
+        "ts": 1773871956.1694586
+      }
+    ]
+  },
+  "9501769228aca441c0e64f12cdb9ad21": {
+    "sport": "tennis",
+    "home_team": "Linda Noskova",
+    "away_team": "Sorana Cirstea",
+    "opening_home": 1.75,
+    "opening_away": 2.17,
+    "opening_draw": null,
+    "last_home": 1.75,
+    "last_away": 2.17,
+    "last_draw": null,
+    "first_seen": 1773864060.365663,
+    "last_updated": 1773871956.1853113,
+    "snapshots": [
+      {
+        "home": 1.75,
+        "away": 2.17,
+        "draw": null,
+        "ts": 1773864060.365663
+      },
+      {
+        "home": 1.75,
+        "away": 2.17,
+        "draw": null,
+        "ts": 1773871956.1853113
+      }
+    ]
+  },
+  "b0a7b450309b9980f34d53de6c22be2b": {
+    "sport": "tennis",
+    "home_team": "Mirra Andreeva",
+    "away_team": "McCartney Kessler",
+    "opening_home": 1.22,
+    "opening_away": 4.6,
+    "opening_draw": null,
+    "last_home": 1.22,
+    "last_away": 4.6,
+    "last_draw": null,
+    "first_seen": 1773864060.377453,
+    "last_updated": 1773871956.1853113,
+    "snapshots": [
+      {
+        "home": 1.22,
+        "away": 4.6,
+        "draw": null,
+        "ts": 1773864060.377453
+      },
+      {
+        "home": 1.22,
+        "away": 4.6,
+        "draw": null,
+        "ts": 1773871956.1853113
+      }
+    ]
+  },
+  "59588b6ac97dcdf15b4de0652d9aebca": {
+    "sport": "soccer",
+    "home_team": "Sporting Lisbon",
+    "away_team": "Arsenal",
+    "opening_home": 4.81,
+    "opening_away": 1.69,
+    "opening_draw": 3.94,
+    "last_home": 4.81,
+    "last_away": 1.69,
+    "last_draw": 3.94,
+    "first_seen": 1773864277.7167265,
+    "last_updated": 1773864277.7167265,
+    "snapshots": [
+      {
+        "home": 4.81,
+        "away": 1.69,
+        "draw": 3.94,
+        "ts": 1773864277.7167265
+      }
+    ]
+  },
+  "ceb2c8d48e93c8f23d6d33429a99fa6b": {
+    "sport": "tennis",
+    "home_team": "Zizou Bergs",
+    "away_team": "Jenson Brooksby",
+    "opening_home": 2.49,
+    "opening_away": 1.6,
+    "opening_draw": null,
+    "last_home": 2.49,
+    "last_away": 1.6,
+    "last_draw": null,
+    "first_seen": 1773871955.1271734,
+    "last_updated": 1773871955.1271734,
+    "snapshots": [
+      {
+        "home": 2.49,
+        "away": 1.6,
+        "draw": null,
+        "ts": 1773871955.1271734
+      }
+    ]
+  }
+}

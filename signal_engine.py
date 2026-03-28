@@ -190,10 +190,10 @@ def check_football_signal(
         if odds <= 1.0 or prob <= 0:
             continue
 
-        # Если наша вероятность расходится с рынком > 18% — это ложный сигнал
-        # Данные: все крупные расхождения (>15%) кончались убытком
+        # Если наша вероятность расходится с рынком > 12% — это ложный сигнал
+        # Данные: расхождения >12% с острым рынком (Pinnacle) дают ~15% точность
         market_implied = 1.0 / odds if odds > 1.01 else 0.5
-        if prob - market_implied > 0.18:
+        if prob - market_implied > 0.12:
             continue
 
         # Гости: повышенный порог — away_win статистически реже, наша модель их переоценивает
@@ -287,6 +287,94 @@ def check_football_signal(
             signals.append(sig)
 
     return signals
+
+
+# ─── Draw Radar ──────────────────────────────────────────────────────────────
+
+def draw_radar(
+    home_prob: float,
+    away_prob: float,
+    draw_prob: float,
+    bookmaker_odds: dict,
+    home_form: str = "",
+    away_form: str = "",
+    elo_home: float = 0,
+    elo_away: float = 0,
+    poisson_probs: Optional[dict] = None,
+) -> dict:
+    """
+    Draw Radar — определяет риск ничьей по 7 индикаторам.
+    Если score >= 4 → рекомендуем НЕ СТАВИТЬ на П1/П2.
+
+    Возвращает: {"score": int, "max": 7, "active": bool, "indicators": list[str]}
+    """
+    score = 0
+    indicators = []
+
+    # 1. Ансамблевая вероятность ничьей высокая
+    if draw_prob >= 0.26:
+        score += 1
+        indicators.append(f"Модель: ничья {round(draw_prob*100)}% ⚠️")
+    else:
+        indicators.append(f"Модель: ничья {round(draw_prob*100)}% ✅")
+
+    # 2. Пуассон тоже говорит ничья
+    pois_draw = (poisson_probs or {}).get("draw", 0)
+    if pois_draw >= 0.26:
+        score += 1
+        indicators.append(f"Пуассон: ничья {round(pois_draw*100)}% ⚠️")
+    else:
+        indicators.append(f"Пуассон: ничья {round(pois_draw*100)}% ✅")
+
+    # 3. Команды очень близки по ELO (< 30 пунктов)
+    if elo_home > 0 and elo_away > 0 and abs(elo_home - elo_away) < 30:
+        score += 1
+        indicators.append(f"ELO разница {abs(elo_home - elo_away)} (<30) ⚠️")
+    elif elo_home > 0 and elo_away > 0:
+        indicators.append(f"ELO разница {abs(elo_home - elo_away)} ✅")
+    else:
+        indicators.append("ELO: нет данных ⚪")
+
+    # 4. Обе команды слабая форма (≤ 2 побед из 5)
+    h_wins = _count_wins(home_form[-5:]) if home_form else 3
+    a_wins = _count_wins(away_form[-5:]) if away_form else 3
+    if h_wins <= 2 and a_wins <= 2:
+        score += 1
+        indicators.append(f"Форма: оба слабые ({h_wins}/5, {a_wins}/5) ⚠️")
+    else:
+        indicators.append(f"Форма: ({h_wins}/5, {a_wins}/5) ✅")
+
+    # 5. Букмекер ставит короткие котировки на ничью (рынок видит ничью)
+    draw_odds = bookmaker_odds.get("draw", 0) or 0
+    if 0 < draw_odds <= 3.4:
+        score += 1
+        indicators.append(f"Кэф на Х={draw_odds} (короткий, рынок видит ничью) ⚠️")
+    elif draw_odds > 0:
+        indicators.append(f"Кэф на Х={draw_odds} ✅")
+    else:
+        indicators.append("Кэф на Х: нет данных ⚪")
+
+    # 6. Разница вероятностей очень маленькая (< 12%) — матч равный
+    if abs(home_prob - away_prob) < 0.12:
+        score += 1
+        indicators.append(f"Разница П1-П2 = {round(abs(home_prob-away_prob)*100)}% (<12%) ⚠️")
+    else:
+        indicators.append(f"Разница П1-П2 = {round(abs(home_prob-away_prob)*100)}% ✅")
+
+    # 7. Мало голов ожидается — ничьи чаще в низких счётах (over_2.5 < 45%)
+    pois_over = (poisson_probs or {}).get("over_25", 1.0)
+    if pois_over < 0.45:
+        score += 1
+        indicators.append(f"Пуассон тоталы: over2.5 = {round(pois_over*100)}% (мало голов) ⚠️")
+    else:
+        indicators.append(f"Пуассон тоталы: over2.5 = {round(pois_over*100)}% ✅")
+
+    return {
+        "score": score,
+        "max": 7,
+        "active": score >= 4,
+        "indicators": indicators,
+    }
 
 
 def check_draw_signal(

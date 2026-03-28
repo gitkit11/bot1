@@ -143,7 +143,7 @@ def check_and_update_hockey_results() -> int:
             try:
                 roi = round((float(rec_odds) - 1) if is_correct else -1.0, 3)
             except Exception:
-                roi = -1.0 if not is_correct else 0.0
+                roi = -1.0 if not is_correct else None
 
             update_result(
                 sport="hockey",

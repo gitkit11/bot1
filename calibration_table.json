@@ -1,0 +1,117 @@
+{
+  "built_at": "2026-03-21T04:03:58.057594+00:00",
+  "sample_size": 66247,
+  "source": "historical_csv_poisson",
+  "leagues": [
+    "D1",
+    "E0",
+    "SP1",
+    "I1",
+    "F1",
+    "and_more"
+  ],
+  "table": {
+    "0.05": {
+      "predicted": 0.05,
+      "actual_rate": 0.155,
+      "correction": 3.1004,
+      "sample_size": 458
+    },
+    "0.1": {
+      "predicted": 0.1,
+      "actual_rate": 0.2059,
+      "correction": 2.0588,
+      "sample_size": 2720
+    },
+    "0.15": {
+      "predicted": 0.15,
+      "actual_rate": 0.2409,
+      "correction": 1.606,
+      "sample_size": 7916
+    },
+    "0.2": {
+      "predicted": 0.2,
+      "actual_rate": 0.2639,
+      "correction": 1.3196,
+      "sample_size": 23033
+    },
+    "0.25": {
+      "predicted": 0.25,
+      "actual_rate": 0.2788,
+      "correction": 1.1152,
+      "sample_size": 46636
+    },
+    "0.3": {
+      "predicted": 0.3,
+      "actual_rate": 0.3101,
+      "correction": 1.0337,
+      "sample_size": 33690
+    },
+    "0.35": {
+      "predicted": 0.35,
+      "actual_rate": 0.3346,
+      "correction": 0.956,
+      "sample_size": 21292
+    },
+    "0.4": {
+      "predicted": 0.4,
+      "actual_rate": 0.3759,
+      "correction": 0.9398,
+      "sample_size": 18482
+    },
+    "0.45": {
+      "predicted": 0.45,
+      "actual_rate": 0.4024,
+      "correction": 0.8942,
+      "sample_size": 14633
+    },
+    "0.5": {
+      "predicted": 0.5,
+      "actual_rate": 0.4351,
+      "correction": 0.8702,
+      "sample_size": 11060
+    },
+    "0.55": {
+      "predicted": 0.55,
+      "actual_rate": 0.461,
+      "correction": 0.8383,
+      "sample_size": 7841
+    },
+    "0.6": {
+      "predicted": 0.6,
+      "actual_rate": 0.4927,
+      "correction": 0.8212,
+      "sample_size": 5354
+    },
+    "0.65": {
+      "predicted": 0.65,
+      "actual_rate": 0.5213,
+      "correction": 0.802,
+      "sample_size": 3073
+    },
+    "0.7": {
+      "predicted": 0.7,
+      "actual_rate": 0.5821,
+      "correction": 0.8316,
+      "sample_size": 1565
+    },
+    "0.75": {
+      "predicted": 0.75,
+      "actual_rate": 0.6299,
+      "correction": 0.8399,
+      "sample_size": 689
+    },
+    "0.8": {
+      "predicted": 0.8,
+      "actual_rate": 0.6861,
+      "correction": 0.8576,
+      "sample_size": 223
+    },
+    "0.85": {
+      "predicted": 0.85,
+      "actual_rate": 0.7636,
+      "correction": 0.8984,
+      "sample_size": 55
+    }
+  }
+}

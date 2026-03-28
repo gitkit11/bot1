@@ -151,13 +151,17 @@ def check_and_update_tennis_results() -> int:
         recommended = pred.get("recommended_outcome", "")
         is_correct  = 1 if recommended == actual_outcome else 0
 
-        # ROI
-        if is_correct:
-            odds_key = "bookmaker_odds_home" if actual_outcome == "home_win" else "bookmaker_odds_away"
-            odds = float(pred.get(odds_key) or 1.85)
-            roi  = round(odds - 1, 3)
+        # ROI — считаем только если была рекомендована ставка
+        _bet_sig = pred.get("bet_signal", "")
+        if "СТАВИТЬ" in _bet_sig:
+            if is_correct:
+                odds_key = "bookmaker_odds_home" if actual_outcome == "home_win" else "bookmaker_odds_away"
+                odds = float(pred.get(odds_key) or 1.85)
+                roi  = round(odds - 1, 3)
+            else:
+                roi = -1.0
         else:
-            roi = -1.0
+            roi = None
 
         try:
             update_result(

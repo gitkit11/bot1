@@ -119,7 +119,12 @@ def get_movement(match_key: str, current_odds: dict) -> dict:
     if best_drop_key and abs(best_drop_pct) >= SHARP_THRESHOLD_PCT:
         result["sharp_outcome"] = best_drop_key
         result["sharp_pct"] = round(best_drop_pct, 1)
-        result["sharp_strength"] = "STRONG" if abs(best_drop_pct) >= 15.0 else "MODERATE"
+        if abs(best_drop_pct) >= 20.0:
+            result["sharp_strength"] = "VERY_STRONG"   # синдикаты / крупные профи
+        elif abs(best_drop_pct) >= 15.0:
+            result["sharp_strength"] = "STRONG"
+        else:
+            result["sharp_strength"] = "MODERATE"
     else:
         result["sharp_outcome"] = None
         result["sharp_strength"] = None
@@ -133,8 +138,8 @@ def get_movement_score(movement: dict, predicted_key: str) -> float:
     Бонус/штраф к CHIMERA Score на основе движения линии.
     predicted_key: "home_win" / "draw" / "away_win"
 
-    Совпадает с прогнозом:   STRONG=+15, MODERATE=+8
-    Против прогноза:         STRONG=-10, MODERATE=-5
+    Совпадает с прогнозом:   VERY_STRONG=+20, STRONG=+15, MODERATE=+8
+    Против прогноза:         VERY_STRONG=-20, STRONG=-12, MODERATE=-5
     Нет данных/нет сигнала:  0
     """
     if not movement:
@@ -145,9 +150,9 @@ def get_movement_score(movement: dict, predicted_key: str) -> float:
         return 0.0
 
     if sharp == predicted_key:
-        return 15.0 if strength == "STRONG" else 8.0
+        return {"VERY_STRONG": 20.0, "STRONG": 15.0, "MODERATE": 8.0}.get(strength, 8.0)
     else:
-        return -10.0 if strength == "STRONG" else -5.0
+        return {"VERY_STRONG": -20.0, "STRONG": -12.0, "MODERATE": -5.0}.get(strength, -5.0)
 
 
 def format_movement_block(movement: dict) -> str:
@@ -167,7 +172,8 @@ def format_movement_block(movement: dict) -> str:
 
     sharp = movement.get("sharp_outcome")
     if sharp:
-        icon = "🔴" if movement["sharp_strength"] == "STRONG" else "🟡"
+        _str = movement.get("sharp_strength", "")
+        icon = "🚨" if _str == "VERY_STRONG" else ("🔴" if _str == "STRONG" else "🟡")
         lbl = labels.get(sharp, sharp)
         lines.append(
             f"\n{icon} *Sharp money:* {lbl} "

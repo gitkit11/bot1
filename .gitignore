@@ -3,22 +3,52 @@ __pycache__/
 *.pyo
 *.pyd
 .DS_Store
+.claude/
 
-# Игнорируем большие файлы данных и моделей
-featured_football_data.csv
+# ── Секреты — НИКОГДА не пушить ──────────────────────────────
+.env
+*.env
+
+# ── База данных пользователей — не пушить (приватные данные) ──
+chimera_predictions.db
+
+# ── Логи — генерируются на сервере ───────────────────────────
+logs/
+*.log
+bot_run.log
+bot_run_ascii.txt
+check_stats_temp.py
+
+# ── Рантайм кеши — большие, меняются каждый час ───────────────
+odds_cache.json
+injuries_cache.json
+tennis_form_cache.json
+hltv_cache.json
+
+# ── Node.js ───────────────────────────────────────────────────
+node_modules/
+scripts/node_modules/
+
+# ── ML модели (большие бинарные файлы) ────────────────────────
 prophet_model.keras
 oracle_result.json
 maestro_result.json
+featured_football_data.csv
+ml/models/*.pkl
+ml/models/*.joblib
 
-# Игнорируем локальные конфигурации
-.env
-scripts/node_modules/
-chimera_predictions.db
-node_modules/
-logs/
-.claude/
-odds_snapshots.json
-elo_ratings.json
-elo_basketball.json
-elo_cs2.json
-team_form.json
+# ── Временные файлы Python ────────────────────────────────────
+*.pyd
+
+# ── Всё что ПУШИМ на VPS (нужно для работы бота) ─────────────
+# elo_ratings.json       → ELO футбол (накопленные данные)
+# elo_basketball.json    → ELO баскетбол
+# elo_cs2.json           → ELO CS2
+# elo_hockey.json        → ELO хоккей
+# elo_tennis.json        → ELO теннис
+# team_form.json         → форма команд
+# calibration_table.json → калибровка вероятностей
+# team_encoder.json      → энкодер Prophet
+# odds_snapshots.json    → история движения линий
+# opening_lines.json     → стартовые линии
+# historical_odds_cache.json → исторические кэфы

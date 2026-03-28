@@ -29,43 +29,43 @@ HOCKEY_LEAGUES = [
     ("icehockey_sweden_allsvenskan",     "🇸🇪 Allsvenskan"),
 ]
 
-# ── ELO рейтинги NHL (сезон 2024-25, обновлено март 2025) ─────────────────────
-# Источник: реальные standings NHL + playoff history
+# ── ELO рейтинги NHL (сезон 2025-26, обновлено март 2026) ─────────────────────
+# Источник: NHL standings + playoff history 2024-25
 NHL_ELO = {
     # Восточная конференция
-    "Washington Capitals":        1645,   # Лидер Востока, 1-е место
-    "Florida Panthers":           1640,   # Защищающийся чемпион Кубка Стэнли
-    "Toronto Maple Leafs":        1625,
+    "Washington Capitals":        1650,   # Стабильный топ Востока
+    "Florida Panthers":           1645,   # Чемпионы Кубка Стэнли 2024
+    "Toronto Maple Leafs":        1630,
     "Tampa Bay Lightning":        1620,
     "Boston Bruins":              1615,
     "Carolina Hurricanes":        1610,
-    "New Jersey Devils":          1605,
-    "Ottawa Senators":            1590,   # Сильный сезон
-    "New York Rangers":           1585,
+    "New Jersey Devils":          1600,
+    "Ottawa Senators":            1590,
+    "New York Rangers":           1580,
     "Detroit Red Wings":          1565,
     "Buffalo Sabres":             1555,
-    "New York Islanders":         1550,
-    "Pittsburgh Penguins":        1540,
+    "New York Islanders":         1545,
+    "Pittsburgh Penguins":        1535,
     "Philadelphia Flyers":        1530,
     "Montreal Canadiens":         1520,
     # Западная конференция
-    "Winnipeg Jets":              1655,   # Лидер Запада по очкам
+    "Winnipeg Jets":              1660,   # Лучший старт в Западной конференции
     "Vegas Golden Knights":       1645,
     "Colorado Avalanche":         1640,
-    "Dallas Stars":               1630,
-    "Minnesota Wild":             1620,
-    "Los Angeles Kings":          1615,
-    "Edmonton Oilers":            1610,   # Финалисты Кубка 2024
+    "Dallas Stars":               1635,
+    "Edmonton Oilers":            1625,   # Финалисты Кубка 2024, сильный состав
+    "Minnesota Wild":             1615,
+    "Los Angeles Kings":          1610,
     "Calgary Flames":             1580,
     "St. Louis Blues":            1570,
     "Nashville Predators":        1560,
-    "Vancouver Canucks":          1555,
-    "Seattle Kraken":             1545,
-    "Utah Hockey Club":           1520,   # Arizona Coyotes relocated 2024
+    "Vancouver Canucks":          1550,
+    "Seattle Kraken":             1540,
+    "Utah Hockey Club":           1525,
     "Columbus Blue Jackets":      1515,
     "Anaheim Ducks":              1505,
     "Chicago Blackhawks":         1495,
-    "San Jose Sharks":            1480,   # Отстройка команды
+    "San Jose Sharks":            1475,   # Отстройка команды
 }
 
 # ── ELO рейтинги SHL (Швеция) ─────────────────────────────────────────────────
@@ -509,14 +509,31 @@ def calculate_hockey_win_prob(
     _no_elo_data = (_h_elo_val == DEFAULT_ELO and _a_elo_val == DEFAULT_ELO)
 
     try:
-        from signal_engine import get_bet_tier as _get_tier
-        bet_signal = _get_tier(best_prob, best_ev * 100, "hockey") if both_odds_present else "НЕ СТАВИТЬ"
+        from signal_engine import get_bet_tier as _get_tier, HOCKEY_CFG as _HCFG
+        _min_hk_odds = _HCFG.get("min_odds", 1.55)
+        _max_hk_odds = _HCFG.get("max_odds", 2.4)
+        if not both_odds_present or best_odds < _min_hk_odds or best_odds > _max_hk_odds:
+            bet_signal = "НЕ СТАВИТЬ"
+        else:
+            bet_signal = _get_tier(best_prob, best_ev * 100, "hockey")
     except Exception:
         bet_signal = "СТАВИТЬ 🔥" if (best_ev > 0.08 and best_prob >= 0.52 and both_odds_present) else "НЕ СТАВИТЬ"
 
     # Блокируем ставки для команд без реального ELO (AHL / неизвестные лиги)
     if _no_elo_data and best_odds > 2.3:
         bet_signal = "НЕ СТАВИТЬ"
+
+    # Market divergence фильтр: если наша модель расходится с рынком > 12pp → блок
+    # Sharps (Pinnacle) видят больше — не стоит ставить против них при большом разрыве
+    if bet_signal != "НЕ СТАВИТЬ" and nv_h > 0.01 and nv_a > 0.01:
+        nv_best = nv_h if best_pick == home else nv_a
+        _divergence = abs(best_prob - nv_best)
+        if _divergence > 0.12:
+            bet_signal = "НЕ СТАВИТЬ"
+            no_bet_reason = (
+                f"⚠️ Дивергенция {_divergence*100:.0f}pp — модель расходится с рынком "
+                f"(наша {round(best_prob*100)}% vs бук {round(nv_best*100)}%)"
+            )
 
     # Андердог-ценность для хоккея
     underdog_value = None

@@ -195,6 +195,42 @@ async def bball_analyze_match(call: types.CallbackQuery):
             names = ", ".join(away_inj.get("injured", []) + away_inj.get("doubts", []))
             inj_block += f"🤕 {away} травмы/сомн: {names}\n"
 
+        # ── Oracle AI: новости + Reddit (параллельно с AI запросами) ──────────
+        _bb_news_block = ""
+        _bb_expert_block = ""
+        try:
+            import asyncio as _aio_bb
+            import concurrent.futures as _cf_bb
+            _bb_loop = _aio_bb.get_event_loop()
+            def _fetch_bb_oracle():
+                try:
+                    from oracle_ai import oracle_analyze as _oa
+                    res = _oa(home, away)
+                    lines = []
+                    for team, data in res.items():
+                        sent = data.get("sentiment", 0)
+                        cnt  = data.get("news_count", 0)
+                        icon = "📈" if sent > 0.05 else ("📉" if sent < -0.05 else "➡️")
+                        if cnt > 0:
+                            lines.append(f"{team} {icon}({cnt} новостей)")
+                    return "Новости: " + " | ".join(lines) + "\n" if lines else ""
+                except Exception:
+                    return ""
+            def _fetch_bb_expert():
+                try:
+                    from expert_oracle import get_expert_consensus, format_expert_block
+                    exp = get_expert_consensus(home, away, "basketball")
+                    return format_expert_block(exp, home, away) or ""
+                except Exception:
+                    return ""
+            with _cf_bb.ThreadPoolExecutor(max_workers=2) as _pool_bb:
+                _fut_oracle = _pool_bb.submit(_fetch_bb_oracle)
+                _fut_expert = _pool_bb.submit(_fetch_bb_expert)
+                _bb_news_block   = _fut_oracle.result(timeout=10)
+                _bb_expert_block = _fut_expert.result(timeout=12)
+        except Exception as _bb_oe:
+            logger.debug(f"[BB Oracle] {_bb_oe}")
+
         def _run_gpt_basketball():
             try:
                 _elo_gap = analysis.get("elo_gap", 0)
@@ -207,7 +243,8 @@ async def bball_analyze_match(call: types.CallbackQuery):
                     f"Букмекер no-vig: {home}={round(_nv_h*100,1)}% | {away}={round(_nv_a*100,1)}%\n"
                     f"Кэфы: {home}={odds.get('home_win','?')} | {away}={odds.get('away_win','?')}\n"
                     f"EV: {home}={round(h_ev*100,1)}% | {away}={round(a_ev*100,1)}%\n"
-                    f"{form_block}{b2b_block}{inj_block}{spread_block}\n{total_block}\n\n"
+                    f"{form_block}{b2b_block}{inj_block}{spread_block}\n{total_block}\n"
+                    f"{_bb_news_block}"
                     f"Напиши аналитический summary из 2-3 предложений:\n"
                     f"1) Главное математическое преимущество фаворита — ELO разрыв, серия побед/поражений, усталость B2B, травмы.\n"
                     f"2) Что говорит расхождение нашей модели с линией букмекера — где рынок ошибся?\n"
@@ -343,6 +380,10 @@ async def bball_analyze_match(call: types.CallbackQuery):
         except Exception as _ce:
             logger.debug(f"[CHIMERA Basketball] {_ce}")
 
+        # Expert Oracle (Reddit/СМИ) блок
+        if _bb_expert_block:
+            report_text += f"\n\n{_bb_expert_block}"
+
         from database import save_prediction
         pred_id = save_prediction(
             sport="basketball", match_id=m.get("id", f"{home}_{away}"),
@@ -381,3 +422,85 @@ async def bball_analyze_match(call: types.CallbackQuery):
     except Exception as e:
         logger.error(f"[Баскетбол анализ] {e}", exc_info=True)
         await call.message.edit_text("😔 Произошёл сбой. Напиши нам в поддержку.")
+
+
+@router.callback_query(lambda c: c.data and c.data.startswith("bball_mkt_"))
+async def bball_market(call: types.CallbackQuery):
+    import asyncio as _aio
+    from aiogram.utils.keyboard import InlineKeyboardBuilder as _IKB
+    parts = call.data.split("_")
+    mkt_type  = parts[2]           # winner, total, spread
+    match_idx = int(parts[-1])
+    league_key = "_".join(parts[3:-1])
+
+    _loop = _aio.get_running_loop()
+    from sports.basketball import get_basketball_matches as _get_bball
+    matches = await _loop.run_in_executor(None, _get_bball, league_key)
+    if not matches or match_idx >= len(matches):
+        await call.answer("Матч не найден", show_alert=True)
+        return
+    m = matches[match_idx]
+    home = m.get("home_team", m.get("home", "Команда A"))
+    away = m.get("away_team", m.get("away", "Команда B"))
+
+    from sports.basketball.core import get_basketball_odds as _bball_odds
+    odds = _bball_odds(m)
+    h_odds     = float(odds.get("home_win") or 1.9)
+    a_odds     = float(odds.get("away_win") or 1.9)
+    h_pct      = round(100 / h_odds, 1)
+    a_pct      = round(100 / a_odds, 1)
+    total_data = odds.get("total_analysis", {}) or {}
+    total_line = total_data.get("line") or odds.get("total_over_line") or 220.5
+    over_odds  = odds.get("total_over_odds") or 1.9
+    under_odds = odds.get("total_under_odds") or 1.9
+    spread_h   = odds.get("spread_home") or -3.5
+    spread_a   = -spread_h
+
+    if mkt_type == "winner":
+        text = (
+            f"🏀 <b>Победитель матча</b>\n"
+            f"━━━━━━━━━━━━━━━━━━━━━\n"
+            f"<b>{home} vs {away}</b>\n\n"
+            f"{'✅' if h_pct > a_pct else '▫️'} <b>{home}</b>\n"
+            f"   Кэф: <b>{h_odds}</b> | Вероятность: <b>{h_pct}%</b>\n\n"
+            f"{'✅' if a_pct > h_pct else '▫️'} <b>{away}</b>\n"
+            f"   Кэф: <b>{a_odds}</b> | Вероятность: <b>{a_pct}%</b>\n\n"
+            f"<i>💡 Рекомендация: {'<b>' + home + '</b>' if h_pct > a_pct else '<b>' + away + '</b>'}</i>"
+        )
+    elif mkt_type == "total":
+        text = (
+            f"📊 <b>Тотал очков</b>\n"
+            f"━━━━━━━━━━━━━━━━━━━━━\n"
+            f"<b>{home} vs {away}</b>\n\n"
+            f"📏 Линия: <b>{total_line}</b> очков\n\n"
+            f"📈 <b>Больше {total_line}</b>  Кэф: <b>{over_odds}</b>\n"
+            f"📉 <b>Меньше {total_line}</b>  Кэф: <b>{under_odds}</b>\n\n"
+            f"<i>💡 Равные команды → больше очков. Защитный стиль → меньше.</i>"
+        )
+    elif mkt_type == "spread":
+        text = (
+            f"⚖️ <b>Фора (Гандикап)</b>\n"
+            f"━━━━━━━━━━━━━━━━━━━━━\n"
+            f"<b>{home} vs {away}</b>\n\n"
+            f"🏠 <b>{home}</b> фора: <b>{spread_h:+.1f}</b>\n"
+            f"✈️ <b>{away}</b> фора: <b>{spread_a:+.1f}</b>\n\n"
+            f"<i>💡 {'Хозяева фавориты — фора выравнивает шансы' if spread_h < 0 else 'Гости фавориты — дерзкая ставка на хозяев с форой'}</i>"
+        )
+    else:
+        text = "⚠️ Неизвестный рынок"
+
+    back_kb = _IKB()
+    back_kb.button(
+        text="🏀 Победитель" if mkt_type != "winner" else "📊 Тотал",
+        callback_data=f"bball_mkt_{'winner' if mkt_type != 'winner' else 'total'}_{league_key}_{match_idx}"
+    )
+    back_kb.button(
+        text="⚖️ Фора" if mkt_type != "spread" else "📊 Тотал",
+        callback_data=f"bball_mkt_{'spread' if mkt_type != 'spread' else 'total'}_{league_key}_{match_idx}"
+    )
+    back_kb.button(text="⬅️ Назад к матчу", callback_data=f"bball_match_{league_key}_{match_idx}")
+    back_kb.button(text="↩️ К анализу",      callback_data=f"back_to_report_bball_{league_key}_{match_idx}")
+    back_kb.button(text="🏠 Меню",            callback_data="back_to_main")
+    back_kb.adjust(2)
+    await call.answer()
+    await call.message.edit_text(text, parse_mode="HTML", reply_markup=back_kb.as_markup())

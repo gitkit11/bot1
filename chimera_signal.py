@@ -155,6 +155,78 @@ def _implied_prob(odds: float) -> float:
     return 1.0 / odds if odds > 1.02 else 0.0
 
 
+_kelly_cache: dict = {}
+_kelly_cache_ts: float = 0
+
+
+def _get_sport_kelly_multiplier(league: str) -> float:
+    """
+    Динамический Kelly-множитель на основе реальной точности из БД.
+    Чем выше точность ставок по спорту — тем больше Kelly.
+
+    Базовые значения (пока нет данных):
+      tennis=0.65, basketball=0.55, football=0.40, hockey=0.35, cs2=0.25
+    Обновляются автоматически каждые 2 часа из chimera_predictions.db.
+    """
+    import time as _t
+    global _kelly_cache, _kelly_cache_ts
+    if _t.time() - _kelly_cache_ts < 7200 and _kelly_cache:
+        pass  # используем кеш
+    else:
+        # Базовые значения — используются пока данных мало
+        defaults = {
+            "tennis":     0.65,
+            "basketball": 0.55,
+            "football":   0.40,
+            "hockey":     0.35,
+            "cs2":        0.25,
+        }
+        try:
+            import sqlite3, os as _os
+            db = "chimera_predictions.db"
+            if _os.path.exists(db):
+                with sqlite3.connect(db) as _conn:
+                    for sport, table in [
+                        ("football",   "football_predictions"),
+                        ("basketball", "basketball_predictions"),
+                        ("tennis",     "tennis_predictions"),
+                        ("hockey",     "hockey_predictions"),
+                        ("cs2",        "cs2_predictions"),
+                    ]:
+                        try:
+                            row = _conn.execute(f"""
+                                SELECT COUNT(*), SUM(is_correct)
+                                FROM {table}
+                                WHERE bet_signal NOT LIKE '%НЕ%'
+                                  AND bet_signal LIKE '%СТАВИТЬ%'
+                                  AND is_correct IS NOT NULL
+                                  AND real_outcome NOT IN ('expired','')
+                            """).fetchone()
+                            total, wins = row[0] or 0, row[1] or 0
+                            if total >= 15:
+                                acc = wins / total
+                                # Формула: multiplier = acc * 0.8, диапазон 0.20..0.75
+                                defaults[sport] = round(max(0.20, min(0.75, acc * 0.8)), 2)
+                        except Exception:
+                            pass
+        except Exception:
+            pass
+        _kelly_cache = defaults
+        _kelly_cache_ts = _t.time()
+
+    # Определяем спорт по league-строке
+    ll = (league or "").lower()
+    if any(k in ll for k in ["nba", "nhl", "basket", "euro", "bball", "eur"]):
+        return _kelly_cache.get("basketball", 0.55)
+    if any(k in ll for k in ["hockey", "icehockey", "shl", "ahl", "liiga"]):
+        return _kelly_cache.get("hockey", 0.35)
+    if any(k in ll for k in ["tennis", "atp", "wta", "itf"]):
+        return _kelly_cache.get("tennis", 0.65)
+    if any(k in ll for k in ["cs2", "csgo", "esport"]):
+        return _kelly_cache.get("cs2", 0.25)
+    return _kelly_cache.get("football", 0.40)
+
+
 def compute_chimera_score(
     home_team: str,
     away_team: str,
@@ -196,7 +268,7 @@ def compute_chimera_score(
 
         # Для футбола: проверяем расхождение ДО калибровки (используем сырую вероятность модели)
         # Данные: крупные расхождения с рынком (>18pp) дают ~15-20% точность (хуже случайного)
-        if apply_calibration and outcome_key in ("П1", "П2") and (prob - implied) > 0.18:
+        if apply_calibration and outcome_key in ("П1", "П2") and (prob - implied) > 0.12:
             continue
 
         # Применяем исторический калибратор (только для футбола) — после проверки дивергенции
@@ -256,7 +328,9 @@ def compute_chimera_score(
 
         ev = round((prob * odds - 1) * 100, 1)
         kelly_raw = max(0, (prob * odds - 1) / (odds - 1)) * 100 if odds > 1 else 0
-        kelly = round(min(kelly_raw * 0.5, 10.0), 1)  # половина Келли, максимум 10% банка
+        # Smart Kelly: множитель зависит от реальной точности спорта по БД
+        _sport_kelly_mult = _get_sport_kelly_multiplier(league)
+        kelly = round(min(kelly_raw * _sport_kelly_mult, 10.0), 1)
 
         candidates.append({
             "sport":         "football",

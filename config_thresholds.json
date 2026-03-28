@@ -1,14 +1,14 @@
 {
   "FOOTBALL_CFG": {
-    "min_prob": 0.58,
+    "min_prob": 0.55,
     "min_ev": 0.25,
     "min_odds": 1.5,
     "max_odds": 2.5,
     "min_form_wins": 3,
     "min_elo_gap": 50,
-    "min_score": 5,
+    "min_score": 4,
     "no_draw": true,
-    "max_draw_prob": 0.24
+    "max_draw_prob": 0.28
   },
   "CS2_CFG": {
     "min_prob": 0.6,
@@ -26,7 +26,7 @@
   "BASKETBALL_CFG": {
     "min_prob": 0.62,
     "min_ev": 0.08,
-    "min_odds": 1.55,
+    "min_odds": 1.3,
     "max_odds": 2.2,
     "min_elo_gap": 100,
     "min_score": 4,
@@ -38,7 +38,7 @@
   "HOCKEY_CFG": {
     "min_prob": 0.58,
     "min_ev": 0.08,
-    "min_odds": 1.55,
+    "min_odds": 1.3,
     "max_odds": 2.4,
     "min_elo_gap": 60,
     "min_score": 3,

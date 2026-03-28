@@ -155,13 +155,14 @@ async def check_results_task(bot: Bot):
             pending_cs2      = get_pending_predictions("cs2")
             pending_tennis   = get_pending_predictions("tennis")
             pending_bball    = get_pending_predictions("basketball")
-            pending_any      = pending_football or pending_cs2 or pending_tennis or pending_bball
+            pending_hockey   = get_pending_predictions("hockey")
+            pending_any      = pending_football or pending_cs2 or pending_tennis or pending_bball or pending_hockey
 
             if not pending_any:
                 await asyncio.sleep(3600)
                 continue
 
-            print(f"[Результаты] Всего ожидает: ⚽{len(pending_football)} 🎮{len(pending_cs2)} 🎾{len(pending_tennis)} 🏀{len(pending_bball)}")
+            print(f"[Результаты] Всего ожидает: ⚽{len(pending_football)} 🎮{len(pending_cs2)} 🎾{len(pending_tennis)} 🏀{len(pending_bball)} 🏒{len(pending_hockey)}")
 
             # ── CS2: отдельный трекер через PandaScore / Esports API ──────
             try:
@@ -190,6 +191,15 @@ async def check_results_task(bot: Bot):
             except Exception as bball_track_err:
                 print(f"[Результаты Basketball] Ошибка трекера: {bball_track_err}")
 
+            # ── Хоккей: трекер через The Odds API /scores/ ───────────────
+            try:
+                from sports.hockey.results_tracker import check_and_update_hockey_results
+                hockey_updated = check_and_update_hockey_results()
+                if hockey_updated:
+                    print(f"[Результаты Hockey] Обновлено прогнозов: {hockey_updated}")
+            except Exception as hockey_track_err:
+                print(f"[Результаты Hockey] Ошибка трекера: {hockey_track_err}")
+
             # ── Футбол: отдельный трекер ─────────────────────────────────
             if pending_football:
                 try:
@@ -217,7 +227,7 @@ async def check_results_task(bot: Bot):
                 _force_ml = _streak <= -5
                 if _force_ml:
                     print(f"[MetaLearner] Серия {abs(_streak)} поражений — форсирую обновление порогов")
-                for _sport in ["football", "cs2", "tennis", "basketball"]:
+                for _sport in ["football", "cs2", "tennis", "basketball", "hockey"]:
                     _perf = _ml.analyze_performance(_sport)
                     if _perf.get("total", 0) >= 10 or _force_ml:
                         _updates = _ml.suggest_updates(_sport, _perf)
@@ -230,6 +240,10 @@ async def check_results_task(bot: Bot):
                 if _bb_weights:
                     _ml.apply_updates("basketball", _bb_weights)
                     print(f"[MetaLearner] Basketball веса обновлены: {_bb_weights}")
+                _hk_weights = _ml.analyze_hockey_weights()
+                if _hk_weights:
+                    _ml.apply_updates("hockey", _hk_weights)
+                    print(f"[MetaLearner] Hockey веса обновлены: {_hk_weights}")
             except Exception as _ml_e:
                 print(f"[MetaLearner] Ошибка: {_ml_e}")
 
@@ -408,10 +422,16 @@ async def auto_elo_recalibration_task():
             # Сохраняем
             ec.save_calibrated_elo(new_ratings, new_form)
 
-            # Обновляем глобальные переменные в памяти (через main)
+            # Обновляем глобальные переменные в памяти (через main и handlers.common)
             import main as _main
             _main._elo_ratings = new_ratings
             _main._team_form = new_form
+            try:
+                import handlers.common as _hc
+                _hc._elo_ratings = new_ratings
+                _hc._team_form = new_form
+            except Exception:
+                pass
             print(f"[ELO-Авто] ✅ Перекалибровка завершена: {len(new_ratings)} команд, {len(all_matches)} матчей")
         except Exception as e:
             print(f"[ELO-Авто] Ошибка перекалибровки: {e}")

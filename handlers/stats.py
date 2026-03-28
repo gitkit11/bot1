@@ -7,7 +7,10 @@ from aiogram import Router, types
 from aiogram.filters import Command
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
-from database import get_statistics, get_chimera_signal_history, get_stavit_bets, get_all_tier_stats
+from database import (
+    get_statistics, get_chimera_signal_history, get_stavit_bets, get_all_tier_stats,
+    invalidate_stats_cache,
+)
 from meta_learner import MetaLearner
 
 logger = logging.getLogger(__name__)
@@ -397,3 +400,80 @@ async def cmd_results(message: types.Message):
         await message.answer("📋 Пока нет проверенных матчей.", reply_markup=back_kb.as_markup())
         return
     await message.answer(text, parse_mode="Markdown", reply_markup=back_kb.as_markup())
+
+
+@router.callback_query(lambda c: c.data == "stats_refresh")
+async def stats_refresh_callback(call: types.CallbackQuery):
+    await call.answer("🔄 Обновляю...", show_alert=False)
+    invalidate_stats_cache()
+
+    _loop_sr = asyncio.get_running_loop()
+    _fresh_stats   = await _loop_sr.run_in_executor(None, get_statistics)
+    _fresh_chimera = get_chimera_signal_history(limit=10)
+
+    _main_sports_r = ("football", "tennis", "basketball", "hockey")
+    all_total   = sum(_fresh_stats.get(k, {}).get("total", 0)         for k in _main_sports_r)
+    all_checked = sum(_fresh_stats.get(k, {}).get("total_checked", 0) for k in _main_sports_r)
+    all_correct = sum(_fresh_stats.get(k, {}).get("correct", 0)       for k in _main_sports_r)
+    all_acc     = round(all_correct / all_checked * 100, 1) if all_checked > 0 else 0
+
+    txt = "📊 *Статистика Chimera AI*\n━━━━━━━━━━━━━━━━━━━━━━━━━\n\n"
+    if all_checked > 0:
+        txt += (
+            f"🎯 *Общий бот (без CS2):* *{all_correct} из {all_checked}*\n"
+            f"`{_acc_bar(all_acc)}` *{all_acc}%*\n"
+            f"📋 Всего: *{all_total}* | Ожидают: *{all_total - all_checked}*\n"
+        )
+    txt += "━━━━━━━━━━━━━━━━━━━━━━━━━\n\n"
+
+    _sl = [
+        ("football", "⚽ Футбол"), ("cs2", "🎮 CS2 _(бета)_"),
+        ("tennis", "🎾 Теннис"), ("basketball", "🏀 Баскетбол"), ("hockey", "🏒 Хоккей"),
+    ]
+    _sl.sort(key=lambda x: _fresh_stats.get(x[0], {}).get("accuracy", 0), reverse=True)
+    for sport_key, sport_label in _sl:
+        s = _fresh_stats.get(sport_key, {})
+        if not s.get("total"):
+            continue
+        checked = s.get("total_checked", 0)
+        correct = s.get("correct", 0)
+        acc     = s.get("accuracy", 0)
+        pending = s.get("total", 0) - checked
+        recent_icons = [
+            "✅" if r.get("is_correct") == 1 else "❌"
+            for r in s.get("recent", []) if r.get("is_correct") in (0, 1)
+        ][:5]
+        txt += f"*{sport_label}*\n"
+        if checked > 0:
+            txt += f"`{_acc_bar(acc)}` *{acc:.0f}%* — *{correct}/{checked}*"
+            if pending:
+                txt += f"  ⏳ *{pending}*"
+            txt += "\n"
+        else:
+            txt += f"⏳ Ожидают результата: *{s.get('total', 0)}*\n"
+        if recent_icons:
+            txt += f"Последние: {''.join(recent_icons)}\n"
+        txt += "\n"
+
+    if _fresh_chimera:
+        ch_checked = [r for r in _fresh_chimera if r["is_correct"] is not None]
+        ch_wins    = sum(1 for r in ch_checked if r["is_correct"] == 1)
+        ch_acc     = round(ch_wins / len(ch_checked) * 100) if ch_checked else 0
+        txt += "━━━━━━━━━━━━━━━━━━━━━━━━━\n*🎯 Сигналы дня*\n"
+        if ch_checked:
+            txt += f"`{_acc_bar(ch_acc)}` *{ch_acc}%* — *{ch_wins}/{len(ch_checked)}*\n"
+        done_icons = [
+            "✅" if r["is_correct"] == 1 else "❌"
+            for r in _fresh_chimera if r["is_correct"] in (0, 1)
+        ][:5]
+        if done_icons:
+            txt += f"Последние: {''.join(done_icons)}\n"
+
+    _ref_kb = InlineKeyboardBuilder()
+    _ref_kb.button(text="🔄 Обновить", callback_data="stats_refresh")
+    _ref_kb.button(text="🏠 Меню",     callback_data="back_to_main")
+    _ref_kb.adjust(2)
+    try:
+        await call.message.edit_text(txt, parse_mode="Markdown", reply_markup=_ref_kb.as_markup())
+    except Exception as _e:
+        logger.debug(f"[stats_refresh] {_e}")

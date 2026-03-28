@@ -557,8 +557,9 @@ def calculate_basketball_win_prob(home: str, away: str,
         best_odds  = odds["away_win"] if odds else 0
     try:
         from signal_engine import get_bet_tier as _get_tier, BASKETBALL_CFG as _BCFG
+        _min_bball_odds = _BCFG.get("min_odds", 1.55)
         _max_bball_odds = _BCFG.get("max_odds", 2.2)
-        if best_odds > _max_bball_odds:
+        if best_odds > _max_bball_odds or best_odds < _min_bball_odds:
             bet_signal = "НЕ СТАВИТЬ"
         else:
             bet_signal = _get_tier(best_prob, best_ev, "basketball") if both_odds_present else "НЕ СТАВИТЬ"

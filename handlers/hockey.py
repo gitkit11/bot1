@@ -208,6 +208,54 @@ async def hockey_analyze_match(call: types.CallbackQuery):
                 f"(Б {total_data['over_odds']} / М {total_data['under_odds']})."
             )
 
+        # Новости и травмы — параллельно, перед AI запросами
+        news_block = ""
+        injuries_block = ""
+        try:
+            from oracle_ai import oracle_analyze as _oracle
+            import asyncio as _aio
+            _loop = _aio.get_event_loop()
+            _oracle_fut = _loop.run_in_executor(None, _oracle, home, away)
+            try:
+                from injuries import get_match_injuries_async as _inj_async
+                _h_inj, _a_inj, injuries_block = await _aio.wait_for(
+                    _inj_async(home, away), timeout=8.0
+                )
+            except Exception:
+                pass
+            _oracle_res = await _aio.wait_for(_oracle_fut, timeout=10.0)
+            _h_news = _oracle_res.get(home, {})
+            _a_news = _oracle_res.get(away, {})
+            _h_cnt  = _h_news.get("news_count", 0)
+            _a_cnt  = _a_news.get("news_count", 0)
+            _h_sent = _h_news.get("sentiment", 0)
+            _a_sent = _a_news.get("sentiment", 0)
+            def _sent_icon(s):
+                return "📈" if s > 0.05 else ("📉" if s < -0.05 else "➡️")
+            if _h_cnt > 0 or _a_cnt > 0:
+                news_block = (
+                    f"Новости: {home} {_sent_icon(_h_sent)}({_h_cnt}) | "
+                    f"{away} {_sent_icon(_a_sent)}({_a_cnt})\n"
+                )
+        except Exception:
+            pass
+
+        # Expert Oracle: Reddit + СМИ для хоккея
+        _hk_expert_block = ""
+        try:
+            import concurrent.futures as _cf_hk
+            def _fetch_hk_expert():
+                try:
+                    from expert_oracle import get_expert_consensus, format_expert_block
+                    exp = get_expert_consensus(home, away, "hockey")
+                    return format_expert_block(exp, home, away) or ""
+                except Exception:
+                    return ""
+            with _cf_hk.ThreadPoolExecutor(max_workers=1) as _pool_hk:
+                _hk_expert_block = _pool_hk.submit(_fetch_hk_expert).result(timeout=12)
+        except Exception as _hk_oe:
+            logger.debug(f"[HK Expert] {_hk_oe}")
+
         def _run_gpt_hockey():
             try:
                 import json as _json
@@ -221,11 +269,14 @@ async def hockey_analyze_match(call: types.CallbackQuery):
                     f"Букмекер no-vig: {home}={round(_nv_h*100,1)}% | {away}={round(_nv_a*100,1)}%\n"
                     f"Кэфы: {home}={odds.get('home_win','?')} | {away}={odds.get('away_win','?')}\n"
                     f"EV: {home}={round(h_ev*100,1)}% | {away}={round(a_ev*100,1)}%\n"
-                    f"{form_block}{b2b_block}{goals_block}{total_block}\n\n"
+                    f"{form_block}{b2b_block}{goals_block}{total_block}"
+                    f"{news_block}{injuries_block}"
+                    f"{('Reddit/СМИ: ' + _hk_expert_block[:200] + chr(10)) if _hk_expert_block else ''}\n\n"
                     f"Напиши аналитический summary из 2-3 предложений:\n"
                     f"1) Главное преимущество фаворита — ELO разрыв, форма, домашний лёд, усталость B2B.\n"
                     f"2) Что говорит расхождение нашей модели с линией букмекера — где рынок недооценил?\n"
-                    f"3) Уверенный вывод по тоталу — быстрый или позиционный хоккей?\n"
+                    f"3) Уверенный вывод по тоталу — быстрый или позиционный хоккей.\n"
+                    f"Если есть новости или травмы — учти их в анализе.\n"
                     f"Пиши как эксперт-беттор. Только факты и цифры, никакой воды.\n"
                     f"Формат ответа: {{'verdict': 'home_win'/'away_win', 'confidence': 0-100, 'summary': '...'}}"
                 )
@@ -266,9 +317,9 @@ async def hockey_analyze_match(call: types.CallbackQuery):
                     f"Model: {home}={round(h_prob*100)}% | {away}={round(a_prob*100)}%\n"
                     f"Odds: {home}={odds.get('home_win','?')} | {away}={odds.get('away_win','?')}\n"
                     f"EV: {home}={round(h_ev*100,1)}% | {away}={round(a_ev*100,1)}%\n"
-                    f"{form_block}{b2b_block}{goals_block}"
+                    f"{form_block}{b2b_block}{goals_block}{news_block}{injuries_block}"
                     f"Write an independent 2-sentence sharp take:\n"
-                    f"1) The key factor the model might miss (fatigue, home ice advantage, recent momentum, goalie form).\n"
+                    f"1) The key factor the model might miss (fatigue, home ice advantage, recent momentum, injuries).\n"
                     f"2) Your confident verdict with one specific reason — no hedging.\n"
                     f"JSON: {{'verdict': 'home_win'/'away_win', 'confidence': 0-100, 'summary': '...'}}"
                 )
@@ -324,6 +375,10 @@ async def hockey_analyze_match(call: types.CallbackQuery):
             match_time=ct, league_name=league_name,
         )
 
+        # Травмы/дисквалификации — если есть, добавляем блок
+        if injuries_block:
+            report_text += f"\n\n{injuries_block.strip()}"
+
         # CHIMERA Score блок
         try:
             from chimera_signal import compute_chimera_score, score_label as _score_label
@@ -353,6 +408,8 @@ async def hockey_analyze_match(call: types.CallbackQuery):
         except Exception as _ce:
             logger.debug(f"[CHIMERA Hockey] {_ce}")
 
+        if _hk_expert_block:
+            report_text += f"\n\n{_hk_expert_block}"
 
         from database import save_prediction
         pred_id = save_prediction(

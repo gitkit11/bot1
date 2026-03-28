@@ -28,6 +28,7 @@ _SPORT_SUBREDDITS = {
     "cs2":        ["GlobalOffensive", "csgo", "sportsbetting"],
     "tennis":     ["tennis", "sportsbetting"],
     "basketball": ["nba", "euroleague", "sportsbetting"],
+    "hockey":     ["hockey", "nhl", "sportsbetting"],
 }
 
 
