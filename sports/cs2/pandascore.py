@@ -282,7 +282,7 @@ def parse_pandascore_item(item, status_label):
             # Конвертируем в МСК (UTC+3)
             dt_msk = dt + datetime.timedelta(hours=3)
             time_str = dt_msk.strftime("%d.%m %H:%M")
-        except:
+        except Exception:
             pass
 
     # Формируем статус: если LIVE, то зеленый кружок

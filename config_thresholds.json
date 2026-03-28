@@ -30,8 +30,8 @@
     "max_odds": 2.2,
     "min_elo_gap": 100,
     "min_score": 4,
-    "weight_elo": 0.27,
-    "weight_odds": 0.43,
+    "weight_elo": 0.26,
+    "weight_odds": 0.44,
     "weight_home": 0.0,
     "weight_form": 0.15
   },

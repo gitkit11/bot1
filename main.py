@@ -15,7 +15,7 @@ import requests
 
 logger = logging.getLogger(__name__)
 import os
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from aiogram import Bot, Dispatcher, types
 from aiogram.filters import Command
 from aiogram.utils.keyboard import InlineKeyboardBuilder
@@ -147,7 +147,7 @@ class _ErrorLogHandler(logging.Handler):
                 return
             try:
                 _error_log.append({
-                    "ts": datetime.utcnow().strftime("%H:%M"),
+                    "ts": datetime.now(timezone.utc).strftime("%H:%M"),
                     "level": record.levelname,
                     "msg": msg[:200],
                 })
@@ -2915,123 +2915,7 @@ async def check_results_task(bot: Bot):
             except Exception as _ml_e:
                 print(f"[MetaLearner] Ошибка: {_ml_e}")
 
-            # ── Уведомления пользователям о результатах ставок ────────────
-            try:
-                _unnotified = get_unnotified_bets()
-
-                # GPT-объяснения генерируем один раз на матч (кэш по ключу)
-                _explanation_cache: dict = {}
-
-                def _get_ai_explanation(sport, home, away, rec_outcome, real_outcome, prob):
-                    """Один GPT вызов на матч — результат переиспользуется для всех пользователей."""
-                    _key = f"{home}_{away}_{rec_outcome}_{real_outcome}"
-                    if _key in _explanation_cache:
-                        return _explanation_cache[_key]
-
-                    # Если прогноз сыграл — объяснение не нужно
-                    if rec_outcome == real_outcome:
-                        _explanation_cache[_key] = ""
-                        return ""
-
-                    try:
-                        from agents import client as _cl
-                        _predicted = home if rec_outcome == "home_win" else away
-                        _winner    = home if real_outcome == "home_win" else (away if real_outcome == "away_win" else "ничья")
-                        _sport_name = {"football":"футбол","cs2":"CS2","tennis":"теннис","basketball":"баскетбол"}.get(sport, sport)
-                        _prob_str = f" (наша уверенность была {round(prob*100)}%)" if prob > 0.05 else ""
-                        _prompt = (
-                            f"Ты опытный беттор-аналитик. Прогноз не зашёл.\n"
-                            f"Матч: {home} vs {away} ({_sport_name}). "
-                            f"Ждали победу {_predicted}{_prob_str}, но выиграл {_winner}.\n"
-                            f"Напиши ОДНО короткое предложение (максимум 12 слов) в духе 'это спорт' — "
-                            f"не про ошибку модели, а про то что так бывает: неожиданный поворот, "
-                            f"день не тот, класс не помог, андердог выстрелил. "
-                            f"Звучи как человек который видел сотни таких матчей. Без пафоса, без утешений."
-                        )
-                        _resp = _cl.chat.completions.create(
-                            model="gpt-4.1-mini",
-                            messages=[{"role": "user", "content": _prompt}],
-                            max_tokens=60, temperature=0.5,
-                        )
-                        _text = _resp.choices[0].message.content.strip().strip('"')
-                        _explanation_cache[_key] = _text
-                        return _text
-                    except Exception:
-                        # Fallback на шаблон если GPT недоступен
-                        _fallback = _make_loss_explanation(rec_outcome, real_outcome, home, away)
-                        _explanation_cache[_key] = _fallback
-                        return _fallback
-
-                for _nb in _unnotified:
-                    try:
-                        _uid      = _nb["user_id"]
-                        _sport    = _nb["sport"]
-                        _home     = _nb["home"]
-                        _away     = _nb["away"]
-                        _rec      = _nb["rec_outcome"]
-                        _real     = _nb["real_outcome"]
-                        _odds     = float(_nb["odds"] or 0)
-                        _units    = int(_nb["units"] or 1)
-                        _is_win   = (_rec == _real)
-
-                        if _odds < 1.02:
-                            _odds = float(_nb["odds_home"] if _rec == "home_win" else _nb["odds_away"] or 0) or 1.80
-
-                        # Считаем профит
-                        _profit_pct = round(_units * (_odds - 1), 1) if _is_win else -float(_units)
-
-                        # Иконки
-                        _s_icon = {"football":"⚽","cs2":"🎮","tennis":"🎾","basketball":"🏀","hockey":"🏒"}.get(_sport,"🎯")
-                        _team = _home if _rec == "home_win" else (_away if _rec == "away_win" else "Ничья")
-
-                        # Вероятность которую давал бот
-                        _ens_h = float(_nb.get("ensemble_home") or 0)
-                        _ens_a = float(_nb.get("ensemble_away") or 0)
-                        _pred_prob = _ens_h if _rec == "home_win" else _ens_a
-                        _prob_str = f"📊 Наша уверенность была: <b>{round(_pred_prob*100)}%</b>\n" if _pred_prob > 0.05 else ""
-
-                        # Вариант B: строка закрытия рынка (Pinnacle closing line)
-                        _closing_str = ""
-                        try:
-                            from line_tracker import get_closing_line_str as _get_cl
-                            _entry_odds = float(_nb.get("odds_home") or 0) if _rec == "home_win" else float(_nb.get("odds_away") or 0)
-                            _cl = _get_cl(str(_nb.get("match_id", "")), _rec, _entry_odds)
-                            if _cl:
-                                _closing_str = f"\n{_cl}"
-                        except Exception as _e:
-                            logger.debug(f"[ignore] {_e}")
-
-                        _closing_line = f"{_closing_str}\n" if _closing_str else ""
-                        if _is_win:
-                            _p_str = f"+{_profit_pct}%"
-                            _msg = (
-                                f"✅ <b>Прогноз сыграл!</b>\n\n"
-                                f"{_s_icon} {_home} vs {_away}\n"
-                                f"📌 {_team} победит @ {_odds}\n"
-                                f"{_prob_str}"
-                                f"{_closing_line}"
-                                f"💰 {_units}u → <b>{_p_str} от банка</b>"
-                            )
-                        else:
-                            _ai_exp = _get_ai_explanation(_sport, _home, _away, _rec, _real, _pred_prob)
-                            _exp_line = f"\n\n<i>🐉 Мнение Chimera: {_ai_exp}</i>" if _ai_exp else ""
-                            _msg = (
-                                f"❌ <b>Прогноз не сыграл</b>\n\n"
-                                f"{_s_icon} {_home} vs {_away}\n"
-                                f"📌 {_team} победит @ {_odds}\n"
-                                f"{_prob_str}"
-                                f"{_closing_line}"
-                                f"📉 {_units}u → <b>{_profit_pct}% от банка</b>"
-                                f"{_exp_line}"
-                            )
-
-                        await bot.send_message(_uid, _msg, parse_mode="HTML")
-                        mark_bet_notified(_nb["bet_id"])
-                    except Exception as _ne:
-                        print(f"[Notify] Ошибка отправки user {_nb.get('user_id')}: {_ne}")
-                        mark_bet_notified(_nb["bet_id"])  # не спамим если ошибка
-            except Exception as _notify_err:
-                print(f"[Notify] Ошибка: {_notify_err}")
+            # ── Уведомления пользователям — перенесены в background_tasks.py ──
 
         except Exception as e:
             print(f"[Результаты] Общая ошибка: {e}")

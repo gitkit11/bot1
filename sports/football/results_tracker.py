@@ -15,7 +15,7 @@ import os
 import re
 import csv
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 
 logger = logging.getLogger(__name__)
 
@@ -54,7 +54,7 @@ def record_match_for_training(pred: dict, home_score: int, away_score: int, outc
     """Записывает сыгранный матч в live_matches.csv. Дубликаты пропускаются."""
     date_str = (pred.get("match_date") or "")[:10]
     if not date_str:
-        date_str = datetime.utcnow().strftime("%d/%m/%Y")
+        date_str = datetime.now(timezone.utc).strftime("%d/%m/%Y")
     else:
         try:
             date_str = datetime.strptime(date_str, "%Y-%m-%d").strftime("%d/%m/%Y")

@@ -193,7 +193,7 @@ def get_hltv_odds(team1: str, team2: str):
                     
                     if t1_odds_str and t2_odds_str:
                         return {"home_win": float(t1_odds_str), "away_win": float(t2_odds_str)}
-                except:
+                except Exception:
                     pass
                 
             return None

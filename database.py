@@ -1431,7 +1431,7 @@ def get_pl_stats(days: int = 30) -> dict:
     Только сигналы где bet_signal='СТАВИТЬ' и есть real_outcome.
     Возвращает: total, wins, losses, roi, profit_units, best_streak, current_streak
     """
-    cutoff = (datetime.utcnow() - timedelta(days=days)).isoformat()
+    cutoff = (datetime.now(timezone.utc) - timedelta(days=days)).isoformat()
     tables = ["football_predictions", "cs2_predictions", "tennis_predictions", "basketball_predictions", "hockey_predictions"]
 
     all_bets = []
@@ -1742,7 +1742,7 @@ def get_user_pl_stats(user_id: int, days: int = 30) -> dict:
     1u = 1% банка, 2u = 2%, 3u = 3%.
     Выигрыш = units% * (odds-1), Проигрыш = -units%
     """
-    cutoff = (datetime.utcnow() - timedelta(days=days)).isoformat()
+    cutoff = (datetime.now(timezone.utc) - timedelta(days=days)).isoformat()
     sport_tables = {
         "football": "football_predictions",
         "cs2": "cs2_predictions",
